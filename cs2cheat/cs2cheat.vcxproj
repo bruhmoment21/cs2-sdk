@@ -118,6 +118,7 @@
     <ClInclude Include="src\console\console.hpp" />
     <ClInclude Include="src\defines.hpp" />
     <ClInclude Include="src\hooks\hooks.hpp" />
+    <ClInclude Include="src\sdk\game_defines.hpp" />
     <ClInclude Include="src\sdk\interfaces\interfaces.hpp" />
     <ClInclude Include="src\sdk\memory\memory.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\cgameentitysystem.hpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="src\sdk\source-sdk\classes\cschemasystem.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\csource2client.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\cbaseplayercontroller.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\ccollisionproperty.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\ccsplayercontroller.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\centityidentity.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\centityinstance.hpp" />
@@ -133,9 +135,10 @@
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_baseentity.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_csplayerpawn.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interface.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\math\vector.hpp" />
+    <ClInclude Include="src\sdk\math\vector.hpp" />
     <ClInclude Include="src\sdk\source-sdk\netvars\netvars.hpp" />
     <ClInclude Include="src\sdk\virtual.hpp" />
+    <ClInclude Include="src\utils\utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dependencies\funchook\src\decoder.c" />
@@ -157,6 +160,7 @@
     <ClCompile Include="dependencies\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\api\unload\unload.cpp" />
     <ClCompile Include="src\console\console.cpp" />
     <ClCompile Include="src\entry\cs2cheat.cpp" />
     <ClCompile Include="src\entry\main.cpp" />
@@ -167,7 +171,9 @@
     <ClCompile Include="src\sdk\interfaces\interfaces.cpp" />
     <ClCompile Include="src\sdk\memory\memory.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\chandle.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\entity\c_baseentity.cpp" />
     <ClCompile Include="src\sdk\source-sdk\netvars\netvars.cpp" />
+    <ClCompile Include="src\utils\utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <fnv1a/hash_fnv1a_constexpr.h>
 
 #define NETVAR_OFFSET(varName, datatable, propName, extra_offset, type)        \

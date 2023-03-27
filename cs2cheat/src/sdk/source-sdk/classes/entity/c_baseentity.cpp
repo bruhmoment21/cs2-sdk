@@ -1,0 +1,52 @@
+#include "c_baseentity.hpp"
+
+#include "../../../interfaces/interfaces.hpp"
+#include "../../../memory/memory.hpp"
+
+#include <imgui/imgui_internal.h>
+
+bool C_BaseEntity::IsPlayerController() {
+    CEntityIdentity* pIdentity = m_pEntity();
+    if (!pIdentity) return false;
+
+    const char* designerName = pIdentity->m_designerName();
+    if (!designerName) return false;
+
+    // CS2TODO: Maybe use hashes?
+    return strcmp(designerName, "cs_player_controller") == 0;
+}
+
+bool C_BaseEntity::GetBoundingBox(BBox_t& out) {
+    if (!ImGui::GetCurrentContext()) return false;
+    const ImVec2& screenSize = ImGui::GetIO().DisplaySize;
+
+    CCollisionProperty* pCollision = m_pCollision();
+    if (!pCollision) return false;
+
+    CGameSceneNode* pGameSceneNode = m_pGameSceneNode();
+    if (!pGameSceneNode) return false;
+
+    const Vector& origin = pGameSceneNode->m_vecAbsOrigin();
+    const Vector min = pCollision->m_vecMins() + origin;
+    const Vector max = pCollision->m_vecMaxs() + origin;
+
+    out.x = out.y = std::numeric_limits<float>::max();
+    out.w = out.h = -std::numeric_limits<float>::max();
+
+    for (size_t i = 0; i < 8; ++i) {
+        const Vector points{i & 1 ? max.x : min.x, i & 2 ? max.y : min.y,
+                            i & 4 ? max.z : min.z};
+        Vector screen;
+        if (memory::fnScreenTransform(points, screen)) return false;
+
+        screen.x = ((screen.x + 1.f) * 0.5f) * screenSize.x;
+        screen.y = screenSize.y - (((screen.y + 1.f) * 0.5f) * screenSize.y);
+
+        out.x = IM_FLOOR(std::min(out.x, screen.x));
+        out.y = IM_FLOOR(std::min(out.y, screen.y));
+        out.w = IM_FLOOR(std::max(out.w, screen.x));
+        out.h = IM_FLOOR(std::max(out.h, screen.y));
+    }
+
+    return true;
+}

@@ -20,6 +20,10 @@ void memory::Initialize() {
         schemasystem.FindPattern(PRINT_SCHEMA_DETAILED_CLASS_LAYOUT)
             .GetAs<decltype(schema_detailed_class_layout)>();
     LOG_RESULT(schema_detailed_class_layout);
+    fnScreenTransform = client.FindPattern(SCREEN_TRANSFORM)
+                            .ToAbsolute(1, 0)
+                            .GetAs<decltype(fnScreenTransform)>();
+    LOG_RESULT(fnScreenTransform);
 }
 
 void memory::Shutdown() {}

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "sdk/game_defines.hpp"
+
 // Helper
 #define SIGNATURE(sig) \
     stb::simple_conversion::build<stb::fixed_string{sig}>::value
@@ -23,3 +25,5 @@
 
 #define PRINT_SCHEMA_DETAILED_CLASS_LAYOUT \
     SIGNATURE("48 89 5C 24 ? 48 89 6C 24 ? 48 89 4C 24 ?")
+
+#define SCREEN_TRANSFORM SIGNATURE("E8 ? ? ? ? F3 0F 10 45 ? 8B D0")

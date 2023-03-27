@@ -5,4 +5,5 @@
 class CBasePlayerController : public C_BaseEntity {
    public:
     NETVAR(m_steamID, "CBasePlayerController", "m_steamID", uint64_t);
+    NETVAR(m_hPawn, "CBasePlayerController", "m_hPawn", CHandle);
 };

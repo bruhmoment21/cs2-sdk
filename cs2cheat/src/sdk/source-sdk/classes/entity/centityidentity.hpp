@@ -1,7 +1,8 @@
 #pragma once
 
+#include "../../../math/vector.hpp"
+
 #include "../../netvars/netvars.hpp"
-#include "../../math/vector.hpp"
 
 #include "chandle.hpp"
 

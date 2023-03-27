@@ -8,5 +8,5 @@ class CCSPlayerController : public CBasePlayerController {
     NETVAR(m_sSanitizedPlayerName, "CCSPlayerController",
            "m_sSanitizedPlayerName", const char*);
     NETVAR(m_iPawnHealth, "CCSPlayerController", "m_iPawnHealth", uint32_t);
-    NETVAR(m_hPlayerPawn, "CCSPlayerController", "m_hPlayerPawn", CHandle);
+    NETVAR(m_bPawnIsAlive, "CCSPlayerController", "m_bPawnIsAlive", bool);
 };

@@ -1,7 +1,7 @@
 #include <Windows.h>
 
 // Defined in 'cs2cheat.cpp'.
-void InitializeCheat(void* hInstance);
+void InitializeCheat();
 void UninitializeCheat();
 
 #ifdef IS_WINDOWS
@@ -11,7 +11,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
 
         HANDLE hThread = CreateThread(
             NULL, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(InitializeCheat),
-            hinstDLL, 0, NULL);
+            NULL, 0, NULL);
         if (hThread != NULL) {
             CloseHandle(hThread);
         }
