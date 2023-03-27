@@ -1,8 +1,24 @@
-# cs2-sdk
-Simple and plain SDK I've written for CS2.  
-![image](https://user-images.githubusercontent.com/53657322/227791087-41555df0-02ba-4c51-8367-20286b737738.png)
+<h1 align="center">
+cs2-sdk
+</h1>
 
-## TODO
+<p align="center">
+  <img src="https://img.shields.io/badge/game-CS2-yellow" />
+  <img src="https://img.shields.io/badge/language-C%2B%2B-%23f34b7d.svg" />
+</p>
+
+## What's this?
+Plain SDK that has basic functionality such as: hooking, interface getting, simple netvar system, basic math and an basic ESP for demonstration purposes.
+
+Tested on:
+- Windows
+## Media
+![image](https://user-images.githubusercontent.com/53657322/227977558-0b3f22dc-f225-4f19-adbd-f14d5af8e1f6.png)
+## ToDo list
 - [ ] Unlock input when opening menu
-- [ ] Fix todos
-- [ ] Implement more interfaces
+- [ ] Implement more stuff
+- [ ] Fix my todos
+## Dependencies
+- [funchook + distorm](https://github.com/kubo/funchook/releases/tag/v1.1.2) - hooking
+- [imgui](https://github.com/ocornut/imgui) - gui
+- [STB](https://github.com/cristeigabriel/STB) - signatures
