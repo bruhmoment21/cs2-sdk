@@ -45,6 +45,10 @@
     <ClInclude Include="dependencies\imgui\imstb_truetype.h" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\centityidentity.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\centityinstance.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\c_csplayerpawn.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\chandle.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\math\vector.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\cgamescenenode.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sdk\memory\memory.cpp" />
@@ -76,5 +80,6 @@
     <ClCompile Include="dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\hooks\platform\win32\directx11_hook.cpp" />
     <ClCompile Include="src\hooks\platform\render.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\entity\chandle.cpp" />
   </ItemGroup>
 </Project>

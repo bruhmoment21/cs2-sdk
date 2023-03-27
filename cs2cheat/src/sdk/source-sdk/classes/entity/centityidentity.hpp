@@ -1,6 +1,9 @@
 #pragma once
 
 #include "../../netvars/netvars.hpp"
+#include "../../math/vector.hpp"
+
+#include "chandle.hpp"
 
 class CEntityIdentity {
    public:

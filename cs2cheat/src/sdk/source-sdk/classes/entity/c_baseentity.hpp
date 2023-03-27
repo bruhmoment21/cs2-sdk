@@ -1,6 +1,7 @@
 #pragma once
 
 #include "centityinstance.hpp"
+#include "cgamescenenode.hpp"
 
 class C_BaseEntity : public CEntityInstance {
    public:
@@ -14,4 +15,7 @@ class C_BaseEntity : public CEntityInstance {
         // CS2TODO: Maybe use hashes?
         return strcmp(designerName, "cs_player_controller") == 0;
     }
+
+    NETVAR(m_pGameSceneNode, "C_BaseEntity", "m_pGameSceneNode",
+           CGameSceneNode*);
 };

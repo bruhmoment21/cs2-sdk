@@ -22,6 +22,7 @@ void hooks::Initialize() {
 }
 
 void hooks::Shutdown() {
+    g_isShuttingDown = true;
     if (!g_funchookCtx) return;
 
     CS2_UnhookInputAPI();
