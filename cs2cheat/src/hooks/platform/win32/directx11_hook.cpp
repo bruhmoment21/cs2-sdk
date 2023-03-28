@@ -259,6 +259,7 @@ static void RenderImGui_DX11(IDXGISwapChain* pSwapChain) {
         if (SUCCEEDED(pSwapChain->GetDevice(IID_PPV_ARGS(&g_pd3dDevice)))) {
             g_pd3dDevice->GetImmediateContext(&g_pd3dDeviceContext);
             ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
+            ImGui::GetIO().Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Verdana.ttf", 12.5f, NULL,ImGui::GetIO().Fonts->GetGlyphRangesCyrillic());
         }
     }
 
