@@ -63,7 +63,7 @@ static void CreateRenderTarget(IDXGISwapChain* pSwapChain) {
         D3D11_RENDER_TARGET_VIEW_DESC desc = {};
         desc.Format = static_cast<DXGI_FORMAT>(
             GetCorrectDXGIFormat(sd.BufferDesc.Format));
-        desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+        desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMS;
 
         g_pd3dDevice->CreateRenderTargetView(pBackBuffer, &desc,
                                              &g_pd3dRenderTarget);
