@@ -62,11 +62,12 @@ class CModule {
         InitializeBounds();
     }
 
-    void* GetProcAddress(const char* procName) const {
-        void* rv = nullptr;
+    template <typename T = void*>
+    auto GetProcAddress(const char* procName) const {
+        T rv = nullptr;
         if (this->IsLoaded()) {
 #ifdef IS_WINDOWS
-            rv = static_cast<void*>(::GetProcAddress(
+            rv = reinterpret_cast<T>(::GetProcAddress(
                 static_cast<HMODULE>(this->m_handle), procName));
 #endif
         }

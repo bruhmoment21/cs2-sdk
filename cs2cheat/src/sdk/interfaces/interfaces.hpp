@@ -4,6 +4,7 @@
 #include "../source-sdk/classes/cgameentitysystem.hpp"
 #include "../source-sdk/classes/csource2client.hpp"
 #include "../source-sdk/classes/cschemasystem.hpp"
+#include "../source-sdk/classes/cinputsystem.hpp"
 
 namespace interfaces {
     void Initialize();
@@ -12,6 +13,7 @@ namespace interfaces {
     inline CGameResourceService* pGameResourceService;
     inline CSource2Client* pClient;
     inline CSchemaSystem* pSchemaSystem;
+    inline CInputSystem* pInputSystem;
 
     // Unexported interfaces:
     inline CGameEntitySystem* pEntitySystem;

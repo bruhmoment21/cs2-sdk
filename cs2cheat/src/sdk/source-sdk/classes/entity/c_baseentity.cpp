@@ -12,8 +12,9 @@ bool C_BaseEntity::IsPlayerController() {
     const char* designerName = pIdentity->m_designerName();
     if (!designerName) return false;
 
-    // CS2TODO: Maybe use hashes?
-    return strcmp(designerName, "cs_player_controller") == 0;
+    static constexpr auto cs_player_controller =
+        hash_32_fnv1a_const("cs_player_controller");
+    return hash_32_fnv1a_const(designerName) == cs_player_controller;
 }
 
 bool C_BaseEntity::GetBoundingBox(BBox_t& out) {

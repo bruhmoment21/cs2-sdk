@@ -7,6 +7,7 @@
 void memory::Initialize() {
     CModule client(CLIENT_DLL, true);
     CModule schemasystem(SCHEMASYSTEM_DLL, true);
+    CModule sdl2(SDL2_DLL, true);
 
     fnGetClientNetworkable = client.FindPattern(GET_CLIENT_NETWORKABLE)
                                  .ToAbsolute(3, 0)
@@ -24,6 +25,22 @@ void memory::Initialize() {
                             .ToAbsolute(1, 0)
                             .GetAs<decltype(fnScreenTransform)>();
     LOG_RESULT(fnScreenTransform);
+    fnMouseInputEnabled =
+        client.FindPattern(MOUSE_INPUT_ENABLED).GetAs<void*>();
+    LOG_RESULT(fnMouseInputEnabled);
+
+    // SDL Functions:
+    fnSDL_SetRelativeMouseMode =
+        sdl2.GetProcAddress<decltype(fnSDL_SetRelativeMouseMode)>(
+            "SDL_SetRelativeMouseMode");
+    LOG_RESULT(fnSDL_SetRelativeMouseMode);
+    fnSDL_SetWindowGrab =
+        sdl2.GetProcAddress<decltype(fnSDL_SetWindowGrab)>("SDL_SetWindowGrab");
+    LOG_RESULT(fnSDL_SetWindowGrab);
+    fnSDL_WarpMouseInWindow =
+        sdl2.GetProcAddress<decltype(fnSDL_WarpMouseInWindow)>(
+            "SDL_WarpMouseInWindow");
+    LOG_RESULT(fnSDL_WarpMouseInWindow);
 }
 
 void memory::Shutdown() {}

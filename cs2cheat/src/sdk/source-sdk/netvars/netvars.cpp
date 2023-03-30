@@ -9,7 +9,6 @@ using NetvarTableMap_t = std::unordered_map<uint32_t, NetvarKeyValueMap_t>;
 
 static bool InitNetvarsForClass(NetvarTableMap_t& tableMap,
                                 const char* className, uint32_t classKey) {
-    // CS2TODO: Most classes are in CLIENT_DLL. Should add more sanity checks.
     CSchemaSystemTypeScope* pType =
         interfaces::pSchemaSystem->FindTypeScopeForModule(CLIENT_DLL);
     if (!pType) return false;

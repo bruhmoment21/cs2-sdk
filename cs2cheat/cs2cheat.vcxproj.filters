@@ -52,6 +52,9 @@
     <ClInclude Include="src\utils\utils.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\ccollisionproperty.hpp" />
     <ClInclude Include="src\sdk\game_defines.hpp" />
+    <ClInclude Include="src\game\menu\menu.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\cinputsystem.hpp" />
+    <ClInclude Include="src\game\esp\esp.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sdk\memory\memory.cpp" />
@@ -82,10 +85,13 @@
     <ClCompile Include="dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\hooks\platform\win32\directx11_hook.cpp" />
-    <ClCompile Include="src\hooks\platform\render.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\chandle.cpp" />
     <ClCompile Include="src\utils\utils.cpp" />
     <ClCompile Include="src\api\unload\unload.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\c_baseentity.cpp" />
+    <ClCompile Include="src\game\menu\menu.cpp" />
+    <ClCompile Include="src\game\render.cpp" />
+    <ClCompile Include="src\game\game_hooks.cpp" />
+    <ClCompile Include="src\game\esp\esp.cpp" />
   </ItemGroup>
 </Project>

@@ -1,15 +1,13 @@
+#include "esp.hpp"
+
 #include "../../sdk/interfaces/interfaces.hpp"
-#include "../../sdk/memory/memory.hpp"
-#include "../../utils/utils.hpp"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 
-void CS2_RenderUI() {
-    static bool bBoxEsp, bNameEsp, bHealthbar;
+void esp::Render() {
     ImDrawList* pBackgroundDrawList = ImGui::GetBackgroundDrawList();
-    if (ImGui::IsKeyPressed(ImGuiKey_End, false)) utils::UnloadLibrary();
 
     for (int i = 1; i <= MAX_PLAYERS; ++i) {
         CCSPlayerController* pPlayer =
@@ -73,17 +71,4 @@ void CS2_RenderUI() {
             }
         }
     }
-
-    static bool bShow = false;
-    if (ImGui::IsKeyPressed(ImGuiKey_Insert, false)) bShow = !bShow;
-    if (!bShow) return;
-
-    ImGuiIO& IO = ImGui::GetIO();
-    ImGui::SetNextWindowPos(IO.DisplaySize / 2.f, ImGuiCond_Once, {0.5f, 0.5f});
-    ImGui::Begin("cs2sdk menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-    ImGui::Checkbox("Box", &bBoxEsp);
-    ImGui::Checkbox("Name", &bNameEsp);
-    ImGui::Checkbox("Healthbar", &bHealthbar);
-    if (ImGui::Button("Unload", {128, 0})) utils::UnloadLibrary();
-    ImGui::End();
 }

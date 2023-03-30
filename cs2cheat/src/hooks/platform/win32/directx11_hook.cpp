@@ -63,10 +63,23 @@ static void CreateRenderTarget(IDXGISwapChain* pSwapChain) {
         D3D11_RENDER_TARGET_VIEW_DESC desc = {};
         desc.Format = static_cast<DXGI_FORMAT>(
             GetCorrectDXGIFormat(sd.BufferDesc.Format));
-        desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMS;
 
-        g_pd3dDevice->CreateRenderTargetView(pBackBuffer, &desc,
-                                             &g_pd3dRenderTarget);
+        desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMS;
+        if (FAILED(g_pd3dDevice->CreateRenderTargetView(pBackBuffer, &desc,
+                                                        &g_pd3dRenderTarget))) {
+            LOG("CreateRenderTarget(): Falling back to "
+                "'D3D11_RTV_DIMENSION_TEXTURE2D'.\n");
+
+            desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+            if (FAILED(g_pd3dDevice->CreateRenderTargetView(
+                    pBackBuffer, &desc, &g_pd3dRenderTarget))) {
+                if (FAILED(g_pd3dDevice->CreateRenderTargetView(
+                        pBackBuffer, NULL, &g_pd3dRenderTarget))) {
+                    LOG("Severe error in CreateRenderTarget().\n");
+                }
+            }
+        }
+
         pBackBuffer->Release();
     }
 }
