@@ -14,10 +14,6 @@ Tested on:
 - Windows
 ## Media
 ![image](https://user-images.githubusercontent.com/53657322/227977558-0b3f22dc-f225-4f19-adbd-f14d5af8e1f6.png)
-## ToDo list
-- [x] Unlock input when opening menu
-- [x] Implement more stuff
-- [ ] Fix my todos
 ## Dependencies
 - [funchook + distorm](https://github.com/kubo/funchook/releases/tag/v1.1.2) - hooking
 - [imgui](https://github.com/ocornut/imgui) - gui
