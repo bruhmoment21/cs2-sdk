@@ -1,10 +1,12 @@
 #pragma once
 
-#include "../source-sdk/classes/cgameresourceserviceclient.hpp"
-#include "../source-sdk/classes/cgameentitysystem.hpp"
-#include "../source-sdk/classes/csource2client.hpp"
-#include "../source-sdk/classes/cschemasystem.hpp"
-#include "../source-sdk/classes/cinputsystem.hpp"
+#include "../source-sdk/classes/interfaces/cgameresourceserviceclient.hpp"
+#include "../source-sdk/classes/interfaces/cgameentitysystem.hpp"
+#include "../source-sdk/classes/interfaces/csource2client.hpp"
+#include "../source-sdk/classes/interfaces/cschemasystem.hpp"
+#include "../source-sdk/classes/interfaces/cengineclient.hpp"
+#include "../source-sdk/classes/interfaces/cinputsystem.hpp"
+#include "../source-sdk/classes/interfaces/ccvar.hpp"
 
 namespace interfaces {
     void Initialize();
@@ -14,6 +16,8 @@ namespace interfaces {
     inline CSource2Client* pClient;
     inline CSchemaSystem* pSchemaSystem;
     inline CInputSystem* pInputSystem;
+    inline CEngineClient* pEngine;
+    inline CCvar* pCvar;
 
     // Unexported interfaces:
     inline CGameEntitySystem* pEntitySystem;

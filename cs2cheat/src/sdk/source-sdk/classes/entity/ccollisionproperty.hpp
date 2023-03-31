@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../../../math/vector.hpp"
+#include "../../../math/math.hpp"
 
-#include "../../netvars/netvars.hpp"
+#include "../../schema/schema.hpp"
 
 class CCollisionProperty {
    public:
-    NETVAR(m_vecMins, "CCollisionProperty", "m_vecMins", Vector);
-    NETVAR(m_vecMaxs, "CCollisionProperty", "m_vecMaxs", Vector);
+    SCHEMA_FIELD(m_vecMins, "CCollisionProperty", "m_vecMins", Vector);
+    SCHEMA_FIELD(m_vecMaxs, "CCollisionProperty", "m_vecMaxs", Vector);
 };

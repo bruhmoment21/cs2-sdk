@@ -14,4 +14,4 @@ void CS2_HookGameFunctions() {
                              HOOK_FUNCTION(hkMouseInputEnabled));
 }
 
-void CS2_UnhookGameFunctions() { menu::Toggle(false); }
+void CS2_UnhookGameFunctions() {}

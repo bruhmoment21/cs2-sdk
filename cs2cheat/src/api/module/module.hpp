@@ -96,11 +96,12 @@ class CModule {
     UTILPtr FindPattern(const std::array<int, N>& signature) const {
         UTILPtr rv = 0;
         if (this->IsLoaded()) {
+            const int* pSigData = signature.data();
             uint8_t* pBytes = reinterpret_cast<uint8_t*>(this->m_start);
             for (size_t i = 0; i < this->m_end - N; ++i) {
                 bool found = true;
                 for (size_t j = 0; j < N; ++j) {
-                    if (pBytes[i + j] != signature[j] && signature[j] != -1) {
+                    if (pBytes[i + j] != pSigData[j] && pSigData[j] != -1) {
                         found = false;
                         break;
                     }

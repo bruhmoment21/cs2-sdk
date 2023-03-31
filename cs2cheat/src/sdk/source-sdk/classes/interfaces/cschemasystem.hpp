@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../virtual.hpp"
+#include "../../../virtual.hpp"
 
 struct SchemaClassFieldData_t {
     const char* pName;

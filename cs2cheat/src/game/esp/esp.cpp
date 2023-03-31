@@ -7,27 +7,43 @@
 #include <imgui/imgui_internal.h>
 
 void esp::Render() {
-    ImDrawList* pBackgroundDrawList = ImGui::GetBackgroundDrawList();
+    if (!interfaces::pEngine->IsInGame()) return;
 
+    CCSPlayerController* pLocalPlayerController =
+        interfaces::pEntitySystem->GetLocalPlayerController();
+    if (!pLocalPlayerController) return;
+
+    ImDrawList* pBackgroundDrawList = ImGui::GetBackgroundDrawList();
     for (int i = 1; i <= MAX_PLAYERS; ++i) {
-        CCSPlayerController* pPlayer =
+        CCSPlayerController* pPlayerController =
             interfaces::pEntitySystem->GetBaseEntity<CCSPlayerController>(i);
-        if (!pPlayer || !pPlayer->IsPlayerController() ||
-            !pPlayer->m_bPawnIsAlive())
+        if (!pPlayerController || !pPlayerController->IsPlayerController() ||
+            !pPlayerController->m_bPawnIsAlive())
             continue;
 
-        C_CSPlayerPawn* pPawn = pPlayer->m_hPawn().GetAs<C_CSPlayerPawn>();
+        C_CSPlayerPawn* pPawn =
+            pPlayerController->m_hPawn().GetAs<C_CSPlayerPawn>();
         if (!pPawn) continue;
+
+        if (bIgnoreTeammates &&
+            !pPawn->IsEnemyToLocalPlayer(pLocalPlayerController->m_iTeamNum()))
+            continue;
 
         BBox_t bBox;
         if (!pPawn->GetBoundingBox(bBox)) continue;
 
+        const bool isLocalPlayer =
+            pPlayerController->m_bIsLocalPlayerController();
         const ImVec2 min = {bBox.x, bBox.y};
         const ImVec2 max = {bBox.w, bBox.h};
 
         if (bBoxEsp) {
-            pBackgroundDrawList->AddRect(min, max,
-                                         IM_COL32(255, 255, 255, 255));
+            pBackgroundDrawList->AddRect(
+                min, max,
+                pPawn->IsEnemyToLocalPlayer(
+                    pLocalPlayerController->m_iTeamNum())
+                    ? IM_COL32(255, 0, 0, 255)
+                    : IM_COL32(0, 255, 0, 255));
             pBackgroundDrawList->AddRect(min - ImVec2{1.f, 1.f},
                                          max + ImVec2{1.f, 1.f},
                                          IM_COL32(0, 0, 0, 255));
@@ -36,7 +52,7 @@ void esp::Render() {
                                          IM_COL32(0, 0, 0, 255));
         }
         if (bNameEsp) {
-            const char* szName = pPlayer->m_sSanitizedPlayerName();
+            const char* szName = pPlayerController->m_sSanitizedPlayerName();
             if (szName && strlen(szName) > 0) {
                 const ImVec2 textSize = ImGui::CalcTextSize(szName);
                 const ImVec2 textPos =
@@ -49,7 +65,8 @@ void esp::Render() {
             }
         }
         if (bHealthbar) {
-            const int iClampedHp = std::min(pPlayer->m_iPawnHealth(), 100u);
+            const int iClampedHp =
+                std::min(pPlayerController->m_iPawnHealth(), 100u);
 
             const ImVec2 barMin = min - ImVec2{5, 0};
             const ImVec2 barMax = ImVec2{min.x - 2, max.y};

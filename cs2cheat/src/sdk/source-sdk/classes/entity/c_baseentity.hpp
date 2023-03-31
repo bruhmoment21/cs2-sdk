@@ -14,7 +14,8 @@ class C_BaseEntity : public CEntityInstance {
     bool IsPlayerController();
     bool GetBoundingBox(BBox_t& out);
 
-    NETVAR(m_pGameSceneNode, "C_BaseEntity", "m_pGameSceneNode",
+    SCHEMA_FIELD(m_pGameSceneNode, "C_BaseEntity", "m_pGameSceneNode",
            CGameSceneNode*);
-    NETVAR(m_pCollision, "C_BaseEntity", "m_pCollision", CCollisionProperty*)
+    SCHEMA_FIELD(m_pCollision, "C_BaseEntity", "m_pCollision", CCollisionProperty*);
+    SCHEMA_FIELD(m_iTeamNum, "C_BaseEntity", "m_iTeamNum", uint8_t);
 };

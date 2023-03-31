@@ -4,5 +4,5 @@
 
 class CEntityInstance {
    public:
-    NETVAR(m_pEntity, "CEntityInstance", "m_pEntity", CEntityIdentity*);
+    SCHEMA_FIELD(m_pEntity, "CEntityInstance", "m_pEntity", CEntityIdentity*);
 };

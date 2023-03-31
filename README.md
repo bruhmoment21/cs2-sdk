@@ -8,7 +8,7 @@ cs2-sdk
 </p>
 
 ## What's this?
-Plain SDK that has basic functionality such as: hooking, interface getter, simple netvar system, basic math and a basic ESP for demonstration purposes.
+Plain SDK that has basic functionality such as: hooking, interface getter, schema manager, basic math and basic ESP for demonstration purposes.
 
 Tested on:
 - Windows

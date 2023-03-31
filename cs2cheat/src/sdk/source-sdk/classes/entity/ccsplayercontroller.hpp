@@ -5,8 +5,8 @@
 
 class CCSPlayerController : public CBasePlayerController {
    public:
-    NETVAR(m_sSanitizedPlayerName, "CCSPlayerController",
+    SCHEMA_FIELD(m_sSanitizedPlayerName, "CCSPlayerController",
            "m_sSanitizedPlayerName", const char*);
-    NETVAR(m_iPawnHealth, "CCSPlayerController", "m_iPawnHealth", uint32_t);
-    NETVAR(m_bPawnIsAlive, "CCSPlayerController", "m_bPawnIsAlive", bool);
+    SCHEMA_FIELD(m_iPawnHealth, "CCSPlayerController", "m_iPawnHealth", uint32_t);
+    SCHEMA_FIELD(m_bPawnIsAlive, "CCSPlayerController", "m_bPawnIsAlive", bool);
 };

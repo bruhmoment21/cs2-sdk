@@ -9,14 +9,19 @@ void memory::Initialize() {
     CModule schemasystem(SCHEMASYSTEM_DLL, true);
     CModule sdl2(SDL2_DLL, true);
 
-    fnGetClientNetworkable = client.FindPattern(GET_CLIENT_NETWORKABLE)
-                                 .ToAbsolute(3, 0)
-                                 .GetAs<decltype(fnGetClientNetworkable)>();
-    LOG_RESULT(fnGetClientNetworkable);
-    fnGetMaxEntities = client.FindPattern(GET_MAX_ENTITIES)
-                           .ToAbsolute(3, 0)
-                           .GetAs<decltype(fnGetMaxEntities)>();
-    LOG_RESULT(fnGetMaxEntities);
+    fnGetBaseEntity = client.FindPattern(GET_BASE_ENTITY)
+                          .ToAbsolute(3, 0)
+                          .GetAs<decltype(fnGetBaseEntity)>();
+    LOG_RESULT(fnGetBaseEntity);
+    fnGetBaseEntityFromHandle =
+        client.FindPattern(GET_BASE_ENTITY_FROM_HANDLE)
+            .ToAbsolute(1, 0)
+            .GetAs<decltype(fnGetBaseEntityFromHandle)>();
+    LOG_RESULT(fnGetBaseEntityFromHandle);
+    fnGetHighestEntityIndex = client.FindPattern(GET_HIGHEST_ENTITY_INDEX)
+                                  .ToAbsolute(3, 0)
+                                  .GetAs<decltype(fnGetHighestEntityIndex)>();
+    LOG_RESULT(fnGetHighestEntityIndex);
     schema_detailed_class_layout =
         schemasystem.FindPattern(PRINT_SCHEMA_DETAILED_CLASS_LAYOUT)
             .GetAs<decltype(schema_detailed_class_layout)>();

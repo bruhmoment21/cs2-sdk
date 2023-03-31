@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../../../math/vector.hpp"
+#include "../../../math/math.hpp"
 
-#include "../../netvars/netvars.hpp"
+#include "../../schema/schema.hpp"
 
 #include "chandle.hpp"
 
 class CEntityIdentity {
    public:
-    NETVAR(m_designerName, "CEntityIdentity", "m_designerName", const char*);
+    SCHEMA_FIELD(m_designerName, "CEntityIdentity", "m_designerName", const char*);
 };

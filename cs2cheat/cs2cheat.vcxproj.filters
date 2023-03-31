@@ -5,15 +5,15 @@
     <ClInclude Include="src\sdk\source-sdk\classes\interface.hpp" />
     <ClInclude Include="src\api\module\module.hpp" />
     <ClInclude Include="src\sdk\interfaces\interfaces.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\classes\cgameresourceserviceclient.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\classes\cgameentitysystem.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cgameresourceserviceclient.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cgameentitysystem.hpp" />
     <ClInclude Include="src\sdk\virtual.hpp" />
     <ClInclude Include="src\defines.hpp" />
     <ClInclude Include="dependencies\stb\stb.hh" />
     <ClInclude Include="src\console\console.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\classes\csource2client.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\classes\cschemasystem.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\netvars\netvars.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\interfaces\csource2client.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cschemasystem.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\schema\schema.hpp" />
     <ClInclude Include="dependencies\fnv1a\hash_fnv1a_constexpr.h" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\ccsplayercontroller.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\cbaseplayercontroller.hpp" />
@@ -47,14 +47,19 @@
     <ClInclude Include="src\sdk\source-sdk\classes\entity\centityinstance.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_csplayerpawn.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\chandle.hpp" />
-    <ClInclude Include="src\sdk\math\vector.hpp" />
+    <ClInclude Include="src\sdk\math\types\vector.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\cgamescenenode.hpp" />
     <ClInclude Include="src\utils\utils.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\ccollisionproperty.hpp" />
     <ClInclude Include="src\sdk\game_defines.hpp" />
     <ClInclude Include="src\game\menu\menu.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\classes\cinputsystem.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cinputsystem.hpp" />
     <ClInclude Include="src\game\esp\esp.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cengineclient.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\c_baseplayerpawn.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\interfaces\ccvar.hpp" />
+    <ClInclude Include="src\sdk\math\math.hpp" />
+    <ClInclude Include="src\game\render\render.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sdk\memory\memory.cpp" />
@@ -62,7 +67,7 @@
     <ClCompile Include="src\entry\main.cpp" />
     <ClCompile Include="src\sdk\interfaces\interfaces.cpp" />
     <ClCompile Include="src\console\console.cpp" />
-    <ClCompile Include="src\sdk\source-sdk\netvars\netvars.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\schema\schema.cpp" />
     <ClCompile Include="src\hooks\hooks.cpp" />
     <ClCompile Include="dependencies\funchook\src\disasm_distorm.c" />
     <ClCompile Include="dependencies\funchook\src\funchook.c" />
@@ -90,8 +95,10 @@
     <ClCompile Include="src\api\unload\unload.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\c_baseentity.cpp" />
     <ClCompile Include="src\game\menu\menu.cpp" />
-    <ClCompile Include="src\game\render.cpp" />
+    <ClCompile Include="src\game\render\render.cpp" />
     <ClCompile Include="src\game\game_hooks.cpp" />
     <ClCompile Include="src\game\esp\esp.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\entity\c_csplayerpawn.cpp" />
+    <ClCompile Include="src\sdk\math\math.cpp" />
   </ItemGroup>
 </Project>

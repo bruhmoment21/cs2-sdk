@@ -1,9 +1,12 @@
 #include <Windows.h>
+#include <thread>
 
 #include "../../../game/menu/menu.hpp"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_win32.h>
+
+static BOOL CALLBACK EnumWindowsCallback(HWND handle, LPARAM lParam);
 
 static HWND g_hWindow;
 static WNDPROC g_oWndProc;
@@ -56,8 +59,12 @@ static LRESULT hkWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 }
 
 void CS2_HookInputAPI() {
-    // CS2TODO: I should probably find another solution.
-    g_hWindow = FindWindow(NULL, "Counter-Strike 2");
+    while (!g_hWindow) {
+        EnumWindows(::EnumWindowsCallback,
+                    reinterpret_cast<LPARAM>(&g_hWindow));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
     g_oWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(
         g_hWindow, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(hkWndProc)));
 }
@@ -67,4 +74,19 @@ void CS2_UnhookInputAPI() {
         SetWindowLongPtr(g_hWindow, GWLP_WNDPROC,
                          reinterpret_cast<LONG_PTR>(g_oWndProc));
     }
+}
+
+static BOOL CALLBACK EnumWindowsCallback(HWND handle, LPARAM lParam) {
+    const auto isMainWindow = [handle]() {
+        return GetWindow(handle, GW_OWNER) == nullptr &&
+               IsWindowVisible(handle) && handle != GetConsoleWindow();
+    };
+
+    DWORD pID = 0;
+    GetWindowThreadProcessId(handle, &pID);
+
+    if (GetCurrentProcessId() != pID || !isMainWindow()) return TRUE;
+
+    *reinterpret_cast<HWND *>(lParam) = handle;
+    return FALSE;
 }

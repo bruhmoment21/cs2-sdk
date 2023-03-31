@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../virtual.hpp"
+#include "../../../virtual.hpp"
 
 class CGameEntitySystem;
 

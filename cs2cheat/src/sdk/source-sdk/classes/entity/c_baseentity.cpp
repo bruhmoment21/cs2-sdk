@@ -18,9 +18,6 @@ bool C_BaseEntity::IsPlayerController() {
 }
 
 bool C_BaseEntity::GetBoundingBox(BBox_t& out) {
-    if (!ImGui::GetCurrentContext()) return false;
-    const ImVec2& screenSize = ImGui::GetIO().DisplaySize;
-
     CCollisionProperty* pCollision = m_pCollision();
     if (!pCollision) return false;
 
@@ -38,10 +35,7 @@ bool C_BaseEntity::GetBoundingBox(BBox_t& out) {
         const Vector points{i & 1 ? max.x : min.x, i & 2 ? max.y : min.y,
                             i & 4 ? max.z : min.z};
         Vector screen;
-        if (memory::fnScreenTransform(points, screen)) return false;
-
-        screen.x = ((screen.x + 1.f) * 0.5f) * screenSize.x;
-        screen.y = screenSize.y - (((screen.y + 1.f) * 0.5f) * screenSize.y);
+        if (!math::WorldToScreen(points, screen)) return false;
 
         out.x = IM_FLOOR(std::min(out.x, screen.x));
         out.y = IM_FLOOR(std::min(out.y, screen.y));

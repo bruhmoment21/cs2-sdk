@@ -1,7 +1,8 @@
 #pragma once
 
-#include "c_baseentity.hpp"
+#include "c_baseplayerpawn.hpp"
 
-class C_CSPlayerPawn : public C_BaseEntity {
+class C_CSPlayerPawn : public C_BasePlayerPawn {
    public:
+    bool IsEnemyToLocalPlayer(int lpTeam);
 };

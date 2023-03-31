@@ -24,6 +24,7 @@ void menu::Render() {
     ImGui::Checkbox("Box", &esp::bBoxEsp);
     ImGui::Checkbox("Name", &esp::bNameEsp);
     ImGui::Checkbox("Healthbar", &esp::bHealthbar);
+    ImGui::Checkbox("Ignore teammates", &esp::bIgnoreTeammates);
     if (ImGui::Button("Unload", {128, 0})) utils::UnloadLibrary();
     ImGui::End();
 }

@@ -6,6 +6,7 @@
 #include <imgui/imgui_impl_dx11.h>
 #include <imgui/imgui_impl_win32.h>
 
+#include "../../../game/render/render.hpp"
 #include "../../../console/console.hpp"
 #include "../../../api/hook/hook.hpp"
 
@@ -233,6 +234,8 @@ void CS2_HookGraphicsAPI() {
 void CS2_UnhookGraphicsAPI() {
     if (!ImGui::GetCurrentContext()) return;
 
+    render::Shutdown();
+
     ImGuiIO& io = ImGui::GetIO();
     if (io.BackendRendererUserData) ImGui_ImplDX11_Shutdown();
 
@@ -272,6 +275,8 @@ static void RenderImGui_DX11(IDXGISwapChain* pSwapChain) {
         if (SUCCEEDED(pSwapChain->GetDevice(IID_PPV_ARGS(&g_pd3dDevice)))) {
             g_pd3dDevice->GetImmediateContext(&g_pd3dDeviceContext);
             ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
+
+            render::Initialize();
         }
     }
 
@@ -282,8 +287,7 @@ static void RenderImGui_DX11(IDXGISwapChain* pSwapChain) {
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
-        void CS2_RenderUI();
-        CS2_RenderUI();
+        render::NewFrame();
 
         ImGui::Render();
         g_pd3dDeviceContext->OMSetRenderTargets(1, &g_pd3dRenderTarget, NULL);

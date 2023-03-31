@@ -2,5 +2,5 @@
 
 class CGameSceneNode {
    public:
-    NETVAR(m_vecAbsOrigin, "CGameSceneNode", "m_vecAbsOrigin", Vector);
+    SCHEMA_FIELD(m_vecAbsOrigin, "CGameSceneNode", "m_vecAbsOrigin", Vector);
 };
