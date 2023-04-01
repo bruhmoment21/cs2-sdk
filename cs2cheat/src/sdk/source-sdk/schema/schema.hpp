@@ -20,6 +20,6 @@
     SCHEMA_FIELD_OFFSET(varName, datatable, propName, 0, type)
 
 namespace schema {
-    uintptr_t GetOffset(const char* className, uint32_t classKey,
-                        const char* memberName, uint32_t memberKey);
+    int16_t GetOffset(const char* className, uint32_t classKey,
+                      const char* memberName, uint32_t memberKey);
 }

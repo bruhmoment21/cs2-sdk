@@ -37,8 +37,8 @@ static bool InitSchemaFieldsForClass(SchemaTableMap_t& tableMap,
     return true;
 }
 
-uintptr_t schema::GetOffset(const char* className, uint32_t classKey,
-                            const char* memberName, uint32_t memberKey) {
+int16_t schema::GetOffset(const char* className, uint32_t classKey,
+                          const char* memberName, uint32_t memberKey) {
     static SchemaTableMap_t schemaTableMap;
     const auto& tableMapIt = schemaTableMap.find(classKey);
     if (tableMapIt == schemaTableMap.cend()) {

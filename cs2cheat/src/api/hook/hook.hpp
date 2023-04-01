@@ -17,10 +17,16 @@ class CHook {
     // Template has been used to avoid casts.
     template <typename OriginalT, typename HookT>
     void Hook(OriginalT _pOriginalFn, HookT &pHookFn, const char *szHookName) {
-        if (this->m_pOriginalFn) return;
+        if (this->m_pOriginalFn) {
+            LOG("%s tried rehooking.\n", szHookName);
+            return;
+        }
 
         void *pOriginalFn = static_cast<void *>(_pOriginalFn);
-        if (!pOriginalFn) return;
+        if (!pOriginalFn) {
+            LOG("%s tried hooking null.\n", szHookName);
+            return;
+        }
 
         this->m_pOriginalFn =
             reinterpret_cast<decltype(this->m_pOriginalFn)>(pOriginalFn);
@@ -33,7 +39,8 @@ class CHook {
                 pOriginalFn, pHookFn);
         } else {
             this->m_pOriginalFn = nullptr;
-            LOG("%s hook failed.\n", szHookName);
+            LOG("%s hook failed. [ %s ]\n", szHookName,
+                funchook_error_message(g_funchookCtx));
         }
     }
 

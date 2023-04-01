@@ -44,3 +44,8 @@
 // CCSGOInput::
 #define MOUSE_INPUT_ENABLED \
     SIGNATURE("40 53 48 83 EC 20 80 B9 ? ? ? ? ? 48 8B D9 75 78")
+
+// Internal
+
+#include <cassert>
+#define CS2_ASSERT(cond, ...) assert(cond)
