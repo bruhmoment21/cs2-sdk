@@ -18,3 +18,4 @@ Tested on:
 - [funchook + distorm](https://github.com/kubo/funchook/releases/tag/v1.1.2) - hooking
 - [imgui](https://github.com/ocornut/imgui) - gui
 - [STB](https://github.com/cristeigabriel/STB) - signatures
+- [Vulkan](https://vulkan.lunarg.com/) - [defines.hpp](https://github.com/bruhmoment21/cs2-sdk/blob/main/cs2cheat/src/defines.hpp#L5-L7)
