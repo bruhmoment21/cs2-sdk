@@ -81,7 +81,7 @@
     <ClCompile Include="dependencies\funchook\src\operands.c" />
     <ClCompile Include="dependencies\funchook\src\prefix.c" />
     <ClCompile Include="dependencies\funchook\src\textdefs.c" />
-    <ClCompile Include="src\hooks\platform\win32\wndproc_hook.cpp" />
+    <ClCompile Include="src\hooks\platform\input\wndproc_hook.cpp" />
     <ClCompile Include="dependencies\imgui\imgui.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_demo.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_draw.cpp" />
@@ -89,7 +89,7 @@
     <ClCompile Include="dependencies\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\hooks\platform\win32\directx11_hook.cpp" />
+    <ClCompile Include="src\hooks\platform\graphics\directx11_hook.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\chandle.cpp" />
     <ClCompile Include="src\utils\utils.cpp" />
     <ClCompile Include="src\api\unload\unload.cpp" />
@@ -100,5 +100,7 @@
     <ClCompile Include="src\game\esp\esp.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\c_csplayerpawn.cpp" />
     <ClCompile Include="src\sdk\math\math.cpp" />
+    <ClCompile Include="src\hooks\platform\pre_graphic_hook.cpp" />
+    <ClCompile Include="src\hooks\platform\graphics\vulkan_hook.cpp" />
   </ItemGroup>
 </Project>

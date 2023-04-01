@@ -47,13 +47,15 @@
     <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)obj\</IntDir>
     <TargetName>$(ProjectName) $(Configuration) $(Platform)</TargetName>
-    <IncludePath>$(ProjectDir)dependencies\funchook\include;$(ProjectDir)dependencies;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)dependencies\funchook\include;$(ProjectDir)dependencies;$(VULKAN_SDK)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)obj\</IntDir>
     <TargetName>$(ProjectName) $(Configuration) $(Platform)</TargetName>
-    <IncludePath>$(ProjectDir)dependencies\funchook\include;$(ProjectDir)dependencies;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)dependencies\funchook\include;$(ProjectDir)dependencies;$(VULKAN_SDK)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -179,8 +181,10 @@
     <ClCompile Include="src\game\menu\menu.cpp" />
     <ClCompile Include="src\hooks\hooks.cpp" />
     <ClCompile Include="src\game\render\render.cpp" />
-    <ClCompile Include="src\hooks\platform\win32\directx11_hook.cpp" />
-    <ClCompile Include="src\hooks\platform\win32\wndproc_hook.cpp" />
+    <ClCompile Include="src\hooks\platform\graphics\directx11_hook.cpp" />
+    <ClCompile Include="src\hooks\platform\graphics\vulkan_hook.cpp" />
+    <ClCompile Include="src\hooks\platform\input\wndproc_hook.cpp" />
+    <ClCompile Include="src\hooks\platform\pre_graphic_hook.cpp" />
     <ClCompile Include="src\sdk\interfaces\interfaces.cpp" />
     <ClCompile Include="src\sdk\math\math.cpp" />
     <ClCompile Include="src\sdk\memory\memory.cpp" />

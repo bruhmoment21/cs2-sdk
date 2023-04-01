@@ -15,7 +15,8 @@ class C_BaseEntity : public CEntityInstance {
     bool GetBoundingBox(BBox_t& out);
 
     SCHEMA_FIELD(m_pGameSceneNode, "C_BaseEntity", "m_pGameSceneNode",
-           CGameSceneNode*);
-    SCHEMA_FIELD(m_pCollision, "C_BaseEntity", "m_pCollision", CCollisionProperty*);
+                 CGameSceneNode*);
+    SCHEMA_FIELD(m_pCollision, "C_BaseEntity", "m_pCollision",
+                 CCollisionProperty*);
     SCHEMA_FIELD(m_iTeamNum, "C_BaseEntity", "m_iTeamNum", uint8_t);
 };

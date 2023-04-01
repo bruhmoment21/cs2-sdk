@@ -2,6 +2,10 @@
 
 #include "sdk/game_defines.hpp"
 
+// Comment this if you don't want vulkan support.
+// Also include 'imgui_impl_vulkan.cpp' and 'imgui_impl_vulkan.h'.
+// #define CS2_SDK_ENABLE_VULKAN_SUPPORT
+
 // Helper
 #define SIGNATURE(sig) \
     stb::simple_conversion::build<stb::fixed_string{sig}>::value
@@ -14,6 +18,7 @@
 #define SDL2_DLL "SDL2.dll"
 #define TIER0_DLL "tier0.dll"
 #define NAVSYSTEM_DLL "navsystem.dll"
+#define RENDERSYSTEMVULKAN "rendersystemvulkan.dll"
 
 // Interfaces
 #define GAME_RESOURCE_SERVICE_CLIENT "GameResourceServiceClientV001"

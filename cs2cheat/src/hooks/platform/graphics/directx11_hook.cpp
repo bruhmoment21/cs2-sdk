@@ -3,12 +3,12 @@
 #include <d3d11.h>
 #include <dxgi1_2.h>
 
-#include <imgui/imgui_impl_dx11.h>
-#include <imgui/imgui_impl_win32.h>
-
 #include "../../../game/render/render.hpp"
 #include "../../../console/console.hpp"
 #include "../../../api/hook/hook.hpp"
+
+#include <imgui/imgui_impl_dx11.h>
+#include <imgui/imgui_impl_win32.h>
 
 static ID3D11Device* g_pd3dDevice = NULL;
 static ID3D11DeviceContext* g_pd3dDeviceContext = NULL;
@@ -191,7 +191,7 @@ static HRESULT WINAPI hkCreateSwapChainForComposition(
         pFactory, pDevice, pDesc, pRestrictToOutput, ppSwapChain);
 }
 
-void CS2_HookGraphicsAPI() {
+void CS2_HookDX11GraphicsAPI() {
     if (!CreateDeviceD3D11(GetConsoleWindow())) {
         LOG("[!] CreateDeviceD3D11() failed.\n");
         return;
@@ -231,7 +231,7 @@ void CS2_HookGraphicsAPI() {
     CleanupDeviceD3D11();
 }
 
-void CS2_UnhookGraphicsAPI() {
+void CS2_UnhookDX11GraphicsAPI() {
     if (!ImGui::GetCurrentContext()) return;
 
     render::Shutdown();

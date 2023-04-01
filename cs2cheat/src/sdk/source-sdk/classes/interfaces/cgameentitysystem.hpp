@@ -28,6 +28,7 @@ class CGameEntitySystem {
     }
 
     CCSPlayerController* GetLocalPlayerController() {
+        // Don't use this inside a loop.
         for (int i = 1; i <= MAX_PLAYERS; ++i) {
             CCSPlayerController* pPlayerController =
                 GetBaseEntity<CCSPlayerController>(i);
