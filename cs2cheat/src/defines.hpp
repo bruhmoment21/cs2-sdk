@@ -2,8 +2,8 @@
 
 #include "sdk/game_defines.hpp"
 
-// Comment this if you don't want vulkan support.
-// Also include 'imgui_impl_vulkan.cpp' and 'imgui_impl_vulkan.h'.
+// Uncomment this for vulkan support, add '-vulkan' into your launch
+// parameters and lastly include both 'imgui_impl_vulkan' files.
 // #define CS2_SDK_ENABLE_VULKAN_SUPPORT
 
 // Helper
