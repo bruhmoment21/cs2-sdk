@@ -7,17 +7,15 @@
 class CGameEntitySystem {
    public:
     template <typename T = C_BaseEntity>
-    T* GetBaseEntity(CEntityIndex index) {
+    T* GetBaseEntity(int index) {
         if (memory::fnGetBaseEntity)
             return (T*)(memory::fnGetBaseEntity(this, index));
         return nullptr;
     }
 
     template <typename T = C_BaseEntity>
-    T* GetBaseEntityFromHandle(CEntityHandle handle) {
-        if (memory::fnGetBaseEntityFromHandle)
-            return (T*)(memory::fnGetBaseEntityFromHandle(this, handle));
-        return nullptr;
+    T* GetBaseEntityFromHandle(CHandle handle) {
+        return GetBaseEntity(handle.GetEntryIndex());
     }
 
     int GetHighestEntityIndex() {

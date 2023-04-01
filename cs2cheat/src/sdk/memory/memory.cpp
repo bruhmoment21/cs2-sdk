@@ -13,11 +13,6 @@ void memory::Initialize() {
                           .ToAbsolute(3, 0)
                           .GetAs<decltype(fnGetBaseEntity)>();
     LOG_RESULT(fnGetBaseEntity);
-    fnGetBaseEntityFromHandle =
-        client.FindPattern(GET_BASE_ENTITY_FROM_HANDLE)
-            .ToAbsolute(1, 0)
-            .GetAs<decltype(fnGetBaseEntityFromHandle)>();
-    LOG_RESULT(fnGetBaseEntityFromHandle);
     fnGetHighestEntityIndex = client.FindPattern(GET_HIGHEST_ENTITY_INDEX)
                                   .ToAbsolute(3, 0)
                                   .GetAs<decltype(fnGetHighestEntityIndex)>();

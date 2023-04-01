@@ -16,5 +16,5 @@ class CHandle {
         return (T*)(Get());
     }
 
-    uintptr_t m_Index;
+    uint32_t m_Index;
 };

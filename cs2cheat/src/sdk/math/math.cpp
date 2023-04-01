@@ -2,14 +2,16 @@
 
 #include "../memory/memory.hpp"
 
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 
 bool math::WorldToScreen(const Vector& in, Vector& out) {
     if (memory::fnScreenTransform(in, out)) return false;
 
-    const ImVec2& screenSize = ImGui::GetIO().DisplaySize;
-    out.x = ((out.x + 1.f) * 0.5f) * screenSize.x;
-    out.y = screenSize.y - (((out.y + 1.f) * 0.5f) * screenSize.y);
+    const ImVec2 screenHalvedSize = ImGui::GetIO().DisplaySize * 0.5f;
+
+    out.x = screenHalvedSize.x * (1 + out.x);
+    out.y = screenHalvedSize.y * (1 - out.y);
 
     return true;
 }

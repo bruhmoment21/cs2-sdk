@@ -3,5 +3,5 @@
 #include "../../../interfaces/interfaces.hpp"
 
 C_BaseEntity* CHandle::Get() const {
-    return interfaces::pEntitySystem->GetBaseEntity(GetEntryIndex());
+    return interfaces::pEntitySystem->GetBaseEntityFromHandle(*this);
 }

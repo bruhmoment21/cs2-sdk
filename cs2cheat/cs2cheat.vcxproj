@@ -124,11 +124,17 @@
     <ClInclude Include="src\game\esp\esp.hpp" />
     <ClInclude Include="src\game\menu\menu.hpp" />
     <ClInclude Include="src\game\render\render.hpp" />
+    <ClInclude Include="src\game\skins\skin_changer.hpp" />
     <ClInclude Include="src\hooks\hooks.hpp" />
     <ClInclude Include="src\sdk\game_defines.hpp" />
     <ClInclude Include="src\sdk\interfaces\interfaces.hpp" />
     <ClInclude Include="src\sdk\math\math.hpp" />
     <ClInclude Include="src\sdk\memory\memory.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\cplayer_weaponservices.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\c_attributecontainer.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\c_baseplayerweapon.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\c_econentity.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\c_econitemview.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\ccvar.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cengineclient.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cgameentitysystem.hpp" />
@@ -148,6 +154,7 @@
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_csplayerpawn.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interface.hpp" />
     <ClInclude Include="src\sdk\math\types\vector.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\types\cnetworkutlvectorbase.hpp" />
     <ClInclude Include="src\sdk\source-sdk\schema\schema.hpp" />
     <ClInclude Include="src\sdk\virtual.hpp" />
     <ClInclude Include="src\utils\utils.hpp" />
@@ -179,6 +186,7 @@
     <ClCompile Include="src\game\esp\esp.cpp" />
     <ClCompile Include="src\game\game_hooks.cpp" />
     <ClCompile Include="src\game\menu\menu.cpp" />
+    <ClCompile Include="src\game\skins\skin_changer.cpp" />
     <ClCompile Include="src\hooks\hooks.cpp" />
     <ClCompile Include="src\game\render\render.cpp" />
     <ClCompile Include="src\hooks\platform\graphics\directx11_hook.cpp" />
