@@ -13,11 +13,6 @@ class CGameEntitySystem {
         return nullptr;
     }
 
-    template <typename T = C_BaseEntity>
-    T* GetBaseEntityFromHandle(CHandle handle) {
-        return GetBaseEntity(handle.GetEntryIndex());
-    }
-
     int GetHighestEntityIndex() {
         int highestIdx = -1;
         if (memory::fnGetHighestEntityIndex)

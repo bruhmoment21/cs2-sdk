@@ -22,7 +22,7 @@ void esp::Render() {
             continue;
 
         C_CSPlayerPawn* pPawn =
-            pPlayerController->m_hPawn().GetAs<C_CSPlayerPawn>();
+            pPlayerController->m_hPawn().Get<C_CSPlayerPawn>();
         if (!pPawn) continue;
 
         if (bIgnoreTeammates &&

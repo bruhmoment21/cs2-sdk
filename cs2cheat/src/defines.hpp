@@ -18,7 +18,7 @@
 #define SDL2_DLL "SDL2.dll"
 #define TIER0_DLL "tier0.dll"
 #define NAVSYSTEM_DLL "navsystem.dll"
-#define RENDERSYSTEMVULKAN "rendersystemvulkan.dll"
+#define RENDERSYSTEMVULKAN_DLL "rendersystemvulkan.dll"
 
 // Interfaces
 #define GAME_RESOURCE_SERVICE_CLIENT "GameResourceServiceClientV001"

@@ -8,7 +8,7 @@ bool C_CSPlayerPawn::IsEnemyToLocalPlayer(int lpTeam) {
         interfaces::pCvar->FindVarByName("mp_teammates_are_enemies");
 
     CCSPlayerController* pPlayerController =
-        m_hController().GetAs<CCSPlayerController>();
+        m_hController().Get<CCSPlayerController>();
     if (!pPlayerController) return true;
 
     if (pPlayerController->m_bIsLocalPlayerController()) return false;

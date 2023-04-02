@@ -4,7 +4,7 @@
 
 #include "../../schema/schema.hpp"
 
-#include "chandle.hpp"
+#include "../types/chandle.hpp"
 
 class CEntityIdentity {
    public:

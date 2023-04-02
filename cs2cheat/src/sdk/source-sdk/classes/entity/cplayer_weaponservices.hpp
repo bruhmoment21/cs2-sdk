@@ -3,9 +3,9 @@
 #include "../../schema/schema.hpp"
 
 #include "../types/cnetworkutlvectorbase.hpp"
+#include "../types/chandle.hpp"
 
 #include "c_baseplayerweapon.hpp"
-#include "chandle.hpp"
 
 class CPlayer_WeaponServices {
    public:

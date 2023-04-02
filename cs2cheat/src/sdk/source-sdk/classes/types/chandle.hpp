@@ -7,13 +7,13 @@
 class C_BaseEntity;
 
 class CHandle {
-   public:
-    C_BaseEntity* Get() const;
+    C_BaseEntity* GetBaseEntity() const;
 
+   public:
     inline int GetEntryIndex() const { return m_Index & ENT_ENTRY_MASK; }
     template <typename T>
-    inline T* GetAs() const {
-        return (T*)(Get());
+    inline T* Get() const {
+        return reinterpret_cast<T*>(GetBaseEntity());
     }
 
     uint32_t m_Index;

@@ -148,7 +148,7 @@
     <ClInclude Include="src\sdk\source-sdk\classes\entity\centityidentity.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\centityinstance.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\cgamescenenode.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\classes\entity\chandle.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\types\chandle.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_baseentity.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_baseplayerpawn.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_csplayerpawn.hpp" />
@@ -196,7 +196,7 @@
     <ClCompile Include="src\sdk\interfaces\interfaces.cpp" />
     <ClCompile Include="src\sdk\math\math.cpp" />
     <ClCompile Include="src\sdk\memory\memory.cpp" />
-    <ClCompile Include="src\sdk\source-sdk\classes\entity\chandle.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\types\chandle.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\c_baseentity.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\c_csplayerpawn.cpp" />
     <ClCompile Include="src\sdk\source-sdk\schema\schema.cpp" />

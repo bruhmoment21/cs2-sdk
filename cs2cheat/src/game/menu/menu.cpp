@@ -9,8 +9,11 @@
 #include <imgui/imgui.h>
 
 static bool g_bMenuIsOpen;
+static constexpr float g_fMaxWidth = 210.f;
 
 void menu::Render() {
+    static char classInputText[64];
+
     if (ImGui::IsKeyPressed(ImGuiKey_Insert, false)) Toggle(!IsOpen());
     if (!IsOpen()) return;
 
@@ -25,7 +28,13 @@ void menu::Render() {
     ImGui::Checkbox("Name", &esp::bNameEsp);
     ImGui::Checkbox("Healthbar", &esp::bHealthbar);
     ImGui::Checkbox("Ignore teammates", &esp::bIgnoreTeammates);
-    if (ImGui::Button("Unload", {128, 0})) utils::UnloadLibrary();
+    ImGui::SetNextItemWidth(g_fMaxWidth);
+    ImGui::InputTextWithHint("##l0", "Class", classInputText,
+                             IM_ARRAYSIZE(classInputText));
+    if (ImGui::Button("Print class layout", {g_fMaxWidth, 0}))
+        memory::schema_detailed_class_layout(nullptr, classInputText);
+
+    if (ImGui::Button("Unload", {g_fMaxWidth, 0})) utils::UnloadLibrary();
     ImGui::End();
 }
 

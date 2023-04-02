@@ -26,7 +26,7 @@ void skin_changer::Run() {
     if (!pLocalPlayerController) return;
 
     C_CSPlayerPawn* pLocalPawn =
-        pLocalPlayerController->m_hPawn().GetAs<C_CSPlayerPawn>();
+        pLocalPlayerController->m_hPawn().Get<C_CSPlayerPawn>();
     if (!pLocalPawn) return;
 
     CPlayer_WeaponServices* pWeaponServices = pLocalPawn->m_pWeaponServices();
@@ -37,7 +37,7 @@ void skin_changer::Run() {
 
     for (size_t i = 0; i < pWeapons->size; ++i) {
         C_BasePlayerWeapon* pWeapon =
-            pWeapons->pData[i].GetAs<C_BasePlayerWeapon>();
+            pWeapons->pData[i].Get<C_BasePlayerWeapon>();
         if (!pWeapon) continue;
 
         C_AttributeContainer* pAttributeContainer =
