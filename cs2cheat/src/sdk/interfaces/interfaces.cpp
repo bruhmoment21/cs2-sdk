@@ -2,8 +2,8 @@
 
 #include "../../api/module/module.hpp"
 
-#define FIND_INTERFACE(dst, module, version)              \
-    dst = module.FindInterfaceAs<decltype(dst)>(version); \
+#define FIND_INTERFACE(dst, module, version)            \
+    dst = module.FindInterface<decltype(dst)>(version); \
     LOG("interfaces::%s found at -> %p\n", #dst, dst)
 
 void interfaces::Initialize() {

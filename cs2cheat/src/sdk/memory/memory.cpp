@@ -11,22 +11,21 @@ void memory::Initialize() {
 
     fnGetBaseEntity = client.FindPattern(GET_BASE_ENTITY)
                           .ToAbsolute(3, 0)
-                          .GetAs<decltype(fnGetBaseEntity)>();
+                          .Get<decltype(fnGetBaseEntity)>();
     LOG_RESULT(fnGetBaseEntity);
     fnGetHighestEntityIndex = client.FindPattern(GET_HIGHEST_ENTITY_INDEX)
                                   .ToAbsolute(3, 0)
-                                  .GetAs<decltype(fnGetHighestEntityIndex)>();
+                                  .Get<decltype(fnGetHighestEntityIndex)>();
     LOG_RESULT(fnGetHighestEntityIndex);
     schema_detailed_class_layout =
         schemasystem.FindPattern(PRINT_SCHEMA_DETAILED_CLASS_LAYOUT)
-            .GetAs<decltype(schema_detailed_class_layout)>();
+            .Get<decltype(schema_detailed_class_layout)>();
     LOG_RESULT(schema_detailed_class_layout);
     fnScreenTransform = client.FindPattern(SCREEN_TRANSFORM)
                             .ToAbsolute(1, 0)
-                            .GetAs<decltype(fnScreenTransform)>();
+                            .Get<decltype(fnScreenTransform)>();
     LOG_RESULT(fnScreenTransform);
-    fnMouseInputEnabled =
-        client.FindPattern(MOUSE_INPUT_ENABLED).GetAs<void*>();
+    fnMouseInputEnabled = client.FindPattern(MOUSE_INPUT_ENABLED).Get<void*>();
     LOG_RESULT(fnMouseInputEnabled);
 
     // SDL Functions:

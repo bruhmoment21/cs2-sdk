@@ -20,7 +20,7 @@ struct UTILPtr {
     }
 
     template <typename T>
-    T GetAs() {
+    T Get() {
         return (T)(m_val);
     }
 
@@ -74,13 +74,13 @@ class CModule {
         return rv;
     }
     template <typename T = void*>
-    T FindInterfaceAs(const char* version) const {
+    T FindInterface(const char* version) const {
         void* rv = nullptr;
         if (this->IsLoaded()) {
             UTILPtr pCreateInterface = this->GetProcAddress("CreateInterface");
             InterfaceReg* s_pInterfaceRegs = pCreateInterface.ToAbsolute(3, 0)
                                                  .Dereference(1)
-                                                 .GetAs<InterfaceReg*>();
+                                                 .Get<InterfaceReg*>();
 
             for (; s_pInterfaceRegs;
                  s_pInterfaceRegs = s_pInterfaceRegs->m_pNext) {
@@ -90,7 +90,7 @@ class CModule {
                 }
             }
         }
-        return (T)(rv);
+        return reinterpret_cast<T>(rv);
     }
     template <size_t N>
     UTILPtr FindPattern(const std::array<int, N>& signature) const {

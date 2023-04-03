@@ -4,7 +4,7 @@
 
 #include "../../sdk/interfaces/interfaces.hpp"
 
-// More details:
+// Paint kits and weapon definition indexes:
 // https://www.unknowncheats.me/forum/3715213-post352.html
 
 // I know that skins are being applied wrong.
@@ -35,9 +35,9 @@ void skin_changer::Run() {
     CNetworkUtlVectorBase<CHandle>* pWeapons = pWeaponServices->m_hMyWeapons();
     if (!pWeapons) return;
 
-    for (size_t i = 0; i < pWeapons->size; ++i) {
+    for (size_t i = 0; i < pWeapons->m_size; ++i) {
         C_BasePlayerWeapon* pWeapon =
-            pWeapons->pData[i].Get<C_BasePlayerWeapon>();
+            pWeapons->m_data[i].Get<C_BasePlayerWeapon>();
         if (!pWeapon) continue;
 
         C_AttributeContainer* pAttributeContainer =
@@ -51,7 +51,7 @@ void skin_changer::Run() {
             g_skinsMap.find(pEconItemView->m_iItemDefinitionIndex());
         if (skinEntry == g_skinsMap.cend()) continue;
 
-        pEconItemView->m_iItemIDLow() = -1;
+        pEconItemView->m_iItemIDLow() = pEconItemView->m_iItemIDHigh() = -1;
 
         pWeapon->m_flFallbackWear() = 0.0001f;
         pWeapon->m_nFallbackSeed() = 0;
