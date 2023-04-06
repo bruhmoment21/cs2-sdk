@@ -3,7 +3,7 @@
 #include "../../../interfaces/interfaces.hpp"
 #include "../../../memory/memory.hpp"
 
-bool C_CSPlayerPawn::IsEnemyToLocalPlayer(int lpTeam) {
+bool C_CSPlayerPawn::IsEnemyWithTeam(int team) {
     static ConVar* mp_teammates_are_enemies =
         interfaces::pCvar->FindVarByName("mp_teammates_are_enemies");
 
@@ -14,5 +14,5 @@ bool C_CSPlayerPawn::IsEnemyToLocalPlayer(int lpTeam) {
     if (pPlayerController->m_bIsLocalPlayerController()) return false;
     if (mp_teammates_are_enemies->GetValue<bool>()) return true;
 
-    return m_iTeamNum() != lpTeam;
+    return m_iTeamNum() != team;
 }

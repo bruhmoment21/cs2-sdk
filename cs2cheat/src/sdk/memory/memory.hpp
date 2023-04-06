@@ -13,6 +13,7 @@ namespace memory {
     inline void*(__thiscall* schema_detailed_class_layout)(void*, const char*);
     inline bool(__thiscall* fnScreenTransform)(const Vector&, Vector&);
     inline void* fnMouseInputEnabled;
+    inline void(__thiscall* fnSetMeshGroupMask)(void*, uint64_t);
 
     // SDL2 Functions
     inline int(__stdcall* fnSDL_SetRelativeMouseMode)(int);

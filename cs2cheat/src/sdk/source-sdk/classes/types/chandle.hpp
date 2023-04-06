@@ -11,7 +11,7 @@ class CHandle {
 
    public:
     inline int GetEntryIndex() const { return m_Index & ENT_ENTRY_MASK; }
-    template <typename T>
+    template <typename T = C_BaseEntity>
     inline T* Get() const {
         return reinterpret_cast<T*>(GetBaseEntity());
     }

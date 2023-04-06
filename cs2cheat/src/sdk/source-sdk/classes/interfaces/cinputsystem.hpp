@@ -2,7 +2,7 @@
 
 class CInputSystem {
    public:
-    bool& IsRelativeMouseMode() {
+    bool IsRelativeMouseMode() {
         // Offset in 'CInputSystem::SetRelativeMouseMode'.
         // 'CInputSystem::SetRelativeMouseMode' index is 76.
         return *reinterpret_cast<bool*>((uintptr_t)(this) + 0x4F);

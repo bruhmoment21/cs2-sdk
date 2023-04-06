@@ -25,25 +25,20 @@ void esp::Render() {
             pPlayerController->m_hPawn().Get<C_CSPlayerPawn>();
         if (!pPawn) continue;
 
-        if (bIgnoreTeammates &&
-            !pPawn->IsEnemyToLocalPlayer(pLocalPlayerController->m_iTeamNum()))
-            continue;
+        const bool isEnemy =
+            pPawn->IsEnemyWithTeam(pLocalPlayerController->m_iTeamNum());
+        if (bIgnoreTeammates && !isEnemy) continue;
 
         BBox_t bBox;
         if (!pPawn->GetBoundingBox(bBox)) continue;
 
-        const bool isLocalPlayer =
-            pPlayerController->m_bIsLocalPlayerController();
         const ImVec2 min = {bBox.x, bBox.y};
         const ImVec2 max = {bBox.w, bBox.h};
 
         if (bBoxEsp) {
             pBackgroundDrawList->AddRect(
                 min, max,
-                pPawn->IsEnemyToLocalPlayer(
-                    pLocalPlayerController->m_iTeamNum())
-                    ? IM_COL32(255, 0, 0, 255)
-                    : IM_COL32(0, 255, 0, 255));
+                isEnemy ? IM_COL32(255, 0, 0, 255) : IM_COL32(0, 255, 0, 255));
             pBackgroundDrawList->AddRect(min - ImVec2{1.f, 1.f},
                                          max + ImVec2{1.f, 1.f},
                                          IM_COL32(0, 0, 0, 255));

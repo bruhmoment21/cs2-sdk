@@ -27,6 +27,10 @@ void memory::Initialize() {
     LOG_RESULT(fnScreenTransform);
     fnMouseInputEnabled = client.FindPattern(MOUSE_INPUT_ENABLED).Get<void*>();
     LOG_RESULT(fnMouseInputEnabled);
+    fnSetMeshGroupMask = client.FindPattern(SET_MESH_GROUP_MASK)
+                             .ToAbsolute(1, 0)
+                             .Get<decltype(fnSetMeshGroupMask)>();
+    LOG_RESULT(fnSetMeshGroupMask);
 
     // SDL Functions:
     fnSDL_SetRelativeMouseMode =
