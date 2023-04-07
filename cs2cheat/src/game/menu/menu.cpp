@@ -34,6 +34,15 @@ void menu::Render() {
     if (ImGui::Button("Print class layout", {g_fMaxWidth, 0}))
         memory::schema_detailed_class_layout(nullptr, classInputText);
 
+    if (ImGui::Button("Add Karambit into inventory", {g_fMaxWidth, 0})) {
+        CEconItem* pItem = CEconItem::CreateInstance();
+        if (pItem) {
+            pItem->m_unDefIndex = 507;
+            CCSPlayerInventory::GetInstance()->AddEconItem(pItem, true, false,
+                                                           true);
+        }
+    }
+
     if (ImGui::Button("Unload", {g_fMaxWidth, 0})) utils::UnloadLibrary();
     ImGui::End();
 }

@@ -41,6 +41,15 @@
 
 #define SET_MESH_GROUP_MASK SIGNATURE("E8 ? ? ? ? 8B 45 D0 48 8B 55 D8")
 
+#define GET_INVENTORY_MANAGER SIGNATURE("E8 ? ? ? ? 8B D5 48 8B D8")
+#define ADD_ECON_ITEM SIGNATURE("E8 ? ? ? ? FF C3 3B 5D 08")
+#define CREATE_SHARED_OBJECT_SUBCLASS_ECON_ITEM \
+    SIGNATURE(                                  \
+        "48 83 EC 28 B9 ? ? ? ? E8 ? ? ? ? 48 85 C0 74 3D 48 8D 0D ? ? ? ?")
+#define GET_GC_CLIENT_SYSTEM SIGNATURE("E8 ? ? ? ? 8B 53 28 48 8B C8")
+#define CREATE_BASE_TYPE_CACHE SIGNATURE("E8 ? ? ? ? 45 33 ED 41 8B D5")
+#define FIND_SO_CACHE SIGNATURE("E8 ? ? ? ? 48 8B F0 48 85 C0 74 0E 4C 8B C3")
+
 // CCSGOInput::
 #define MOUSE_INPUT_ENABLED \
     SIGNATURE("40 53 48 83 EC 20 80 B9 ? ? ? ? ? 48 8B D9 75 78")

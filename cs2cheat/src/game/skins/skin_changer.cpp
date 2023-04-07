@@ -53,7 +53,9 @@ void skin_changer::Run() {
     for (size_t i = 0; i < pWeapons->m_size; ++i) {
         C_BasePlayerWeapon* pWeapon =
             pWeapons->m_data[i].Get<C_BasePlayerWeapon>();
-        if (!pWeapon) continue;
+        if (!pWeapon || pWeapon->GetOriginalOwnerXuid() !=
+                            pLocalPlayerController->m_steamID())
+            continue;
 
         C_AttributeContainer* pAttributeContainer =
             pWeapon->m_AttributeManager();

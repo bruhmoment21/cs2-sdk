@@ -31,6 +31,30 @@ void memory::Initialize() {
                              .ToAbsolute(1, 0)
                              .Get<decltype(fnSetMeshGroupMask)>();
     LOG_RESULT(fnSetMeshGroupMask);
+    fnGetInventoryManager = client.FindPattern(GET_INVENTORY_MANAGER)
+                                .ToAbsolute(1, 0)
+                                .Get<decltype(fnGetInventoryManager)>();
+    LOG_RESULT(fnGetInventoryManager);
+    fnGetClientSystem = client.FindPattern(GET_GC_CLIENT_SYSTEM)
+                            .ToAbsolute(1, 0)
+                            .Get<decltype(fnGetClientSystem)>();
+    LOG_RESULT(fnGetClientSystem);
+    fnAddEconItem = client.FindPattern(ADD_ECON_ITEM)
+                        .ToAbsolute(1, 0)
+                        .Get<decltype(fnAddEconItem)>();
+    LOG_RESULT(fnAddEconItem);
+    fnCreateSharedObjectSubclassEconItem =
+        client.FindPattern(CREATE_SHARED_OBJECT_SUBCLASS_ECON_ITEM)
+            .Get<decltype(fnCreateSharedObjectSubclassEconItem)>();
+    LOG_RESULT(fnCreateSharedObjectSubclassEconItem);
+    fnCreateBaseTypeCache = client.FindPattern(CREATE_BASE_TYPE_CACHE)
+                                .ToAbsolute(1, 0)
+                                .Get<decltype(fnCreateBaseTypeCache)>();
+    LOG_RESULT(fnCreateBaseTypeCache);
+    fnFindSOCache = client.FindPattern(FIND_SO_CACHE)
+                        .ToAbsolute(1, 0)
+                        .Get<decltype(fnFindSOCache)>();
+    LOG_RESULT(fnFindSOCache);
 
     // SDL Functions:
     fnSDL_SetRelativeMouseMode =

@@ -130,6 +130,9 @@
     <ClInclude Include="src\sdk\interfaces\interfaces.hpp" />
     <ClInclude Include="src\sdk\math\math.hpp" />
     <ClInclude Include="src\sdk\memory\memory.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\cstrike15\ccsinventorymanager.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\cstrike15\ccsplayerinventory.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\ceconitem.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\ccsplayer_viewmodelservices.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\cplayer_weaponservices.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_attributecontainer.hpp" />
@@ -137,6 +140,10 @@
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_csplayerpawnbase.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_econentity.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_econitemview.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\gcsdk\cgcclient.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsharedobjectcache.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsystem.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsharedobjecttypecache.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\ccvar.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cengineclient.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cgameentitysystem.hpp" />
@@ -198,7 +205,12 @@
     <ClCompile Include="src\sdk\interfaces\interfaces.cpp" />
     <ClCompile Include="src\sdk\math\math.cpp" />
     <ClCompile Include="src\sdk\memory\memory.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\cstrike15\ccsplayerinventory.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\entity\ceconitem.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\cgamescenenode.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclient.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsharedobjectcache.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsystem.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\types\chandle.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\c_baseentity.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\c_csplayerpawn.cpp" />
