@@ -3,6 +3,7 @@
 template <typename T>
 class CNetworkUtlVectorBase {
    public:
-    size_t m_size;
+    int m_size;
+    char pad0[0x4];  // no idea
     T* m_data;
 };

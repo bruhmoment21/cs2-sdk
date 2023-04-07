@@ -7,6 +7,7 @@
 class Vector;
 class CCSInventoryManager;
 class CGCClientSharedObjectTypeCache;
+class CCSPlayerController;
 
 namespace memory {
     void Initialize();
@@ -26,6 +27,7 @@ namespace memory {
         void*, int);
     inline CGCClientSharedObjectCache*(__thiscall* fnFindSOCache)(void*, SOID_t,
                                                                   bool);
+    inline CCSPlayerController*(__fastcall* fnGetLocalPlayerController)(int);
 
     // SDL2 Functions
     inline int(__stdcall* fnSDL_SetRelativeMouseMode)(int);

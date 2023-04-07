@@ -1,6 +1,9 @@
 #pragma once
 
-#include "memory/memory.hpp"
+#include <cstdint>
+
+#include "../console/console.hpp"
+#include "../defines.hpp"
 
 #define CALL_VIRTUAL(retType, idx, ...) \
     vmt::CallVirtual<retType>(idx, __VA_ARGS__)

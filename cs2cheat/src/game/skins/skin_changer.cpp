@@ -37,6 +37,8 @@ void skin_changer::Run() {
     CPlayer_WeaponServices* pWeaponServices = pLocalPawn->m_pWeaponServices();
     if (!pWeaponServices) return;
 
+    CHandle hActiveWeapon = pWeaponServices->m_hActiveWeapon();
+
     CCSPlayer_ViewModelServices* pViewmodelServices =
         pLocalPawn->m_pViewModelServices();
     if (!pViewmodelServices) return;
@@ -50,9 +52,9 @@ void skin_changer::Run() {
     CNetworkUtlVectorBase<CHandle>* pWeapons = pWeaponServices->m_hMyWeapons();
     if (!pWeapons) return;
 
-    for (size_t i = 0; i < pWeapons->m_size; ++i) {
-        C_BasePlayerWeapon* pWeapon =
-            pWeapons->m_data[i].Get<C_BasePlayerWeapon>();
+    for (int i = 0; i < pWeapons->m_size; ++i) {
+        CHandle hWeapon = pWeapons->m_data[i];
+        C_BasePlayerWeapon* pWeapon = hWeapon.Get<C_BasePlayerWeapon>();
         if (!pWeapon || pWeapon->GetOriginalOwnerXuid() !=
                             pLocalPlayerController->m_steamID())
             continue;
@@ -81,7 +83,8 @@ void skin_changer::Run() {
         pWeapon->m_nFallbackSeed() = 0;
         pWeapon->m_nFallbackPaintKit() = skinEntry.m_skinDefinitionIndex;
 
-        pViewmodelSceneNode->SetMeshGroupMask(skinMeshGroupMask);
         pWeaponSceneNode->SetMeshGroupMask(skinMeshGroupMask);
+        if (hWeapon == hActiveWeapon)
+            pViewmodelSceneNode->SetMeshGroupMask(skinMeshGroupMask);
     }
 }

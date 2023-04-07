@@ -8,6 +8,7 @@ void memory::Initialize() {
     CModule client(CLIENT_DLL, true);
     CModule schemasystem(SCHEMASYSTEM_DLL, true);
     CModule sdl2(SDL2_DLL, true);
+    CModule tier0(TIER0_DLL, true);
 
     fnGetBaseEntity = client.FindPattern(GET_BASE_ENTITY)
                           .ToAbsolute(3, 0)
@@ -55,6 +56,11 @@ void memory::Initialize() {
                         .ToAbsolute(1, 0)
                         .Get<decltype(fnFindSOCache)>();
     LOG_RESULT(fnFindSOCache);
+    fnGetLocalPlayerController =
+        client.FindPattern(GET_LOCAL_PLAYER_CONTROLLER)
+            .ToAbsolute(1, 0)
+            .Get<decltype(fnGetLocalPlayerController)>();
+    LOG_RESULT(fnGetLocalPlayerController);
 
     // SDL Functions:
     fnSDL_SetRelativeMouseMode =
@@ -68,6 +74,12 @@ void memory::Initialize() {
         sdl2.GetProcAddress<decltype(fnSDL_WarpMouseInWindow)>(
             "SDL_WarpMouseInWindow");
     LOG_RESULT(fnSDL_WarpMouseInWindow);
+
+    auto ppHeapMemAlloc = tier0.GetProcAddress<CHeapMemAlloc**>("g_pMemAlloc");
+    if (ppHeapMemAlloc) {
+        s_HeapMemAlloc = *ppHeapMemAlloc;
+        LOG_RESULT(s_HeapMemAlloc);
+    }
 }
 
 void memory::Shutdown() {}

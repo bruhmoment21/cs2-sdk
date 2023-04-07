@@ -197,7 +197,6 @@ void CS2_HookDX11GraphicsAPI() {
         return;
     }
 
-    // Hook
     IDXGIDevice* pDXGIDevice = NULL;
     g_pd3dDevice->QueryInterface(IID_PPV_ARGS(&pDXGIDevice));
 

@@ -16,7 +16,7 @@ static CGCClientSharedObjectTypeCache* CreateBaseTypeCache(
     if (!pGCClient) return nullptr;
 
     CGCClientSharedObjectCache* pSOCache =
-        pGCClient->FindSOCache(pInventory->GetSOID());
+        pGCClient->FindSOCache(pInventory->GetOwnerID());
     if (!pSOCache) return nullptr;
 
     return pSOCache->CreateBaseTypeCache(1);
@@ -44,4 +44,27 @@ bool CCSPlayerInventory::AddEconItem(CEconItem* pItem, bool bUpdateAckFile,
 
     return memory::fnAddEconItem(this, pItem, bUpdateAckFile, bWriteAckFile,
                                  bCheckForNewItems);
+}
+
+std::pair<uint64_t, uint32_t> CCSPlayerInventory::GetHighestIDs() {
+    uint64_t maxItemID = 0;
+    uint32_t maxInventoryID = 0;
+
+    CGCClientSharedObjectTypeCache* pSOTypeCache = ::CreateBaseTypeCache(this);
+    if (pSOTypeCache) {
+        const CUtlVector<CEconItem*>& vecItems =
+            pSOTypeCache->GetVecObjects<CEconItem*>();
+
+        for (int i = 0; i < vecItems.m_size; ++i) {
+            CEconItem* pEconItem = vecItems.m_data[i];
+
+            // Checks if item is default.
+            if ((pEconItem->m_ulID & 0xF000000000000000) != 0) continue;
+
+            maxItemID = std::max(maxItemID, pEconItem->m_ulID);
+            maxInventoryID = std::max(maxInventoryID, pEconItem->m_unInventory);
+        }
+    }
+
+    return std::make_pair(maxItemID, maxInventoryID);
 }

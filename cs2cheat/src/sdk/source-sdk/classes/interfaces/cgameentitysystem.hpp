@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../../memory/memory.hpp"
 #include "../../../virtual.hpp"
 
 #include "../entity/ccsplayercontroller.hpp"
@@ -21,17 +22,8 @@ class CGameEntitySystem {
     }
 
     CCSPlayerController* GetLocalPlayerController() {
-        // Don't use this inside a loop.
-        for (int i = 1; i <= MAX_PLAYERS; ++i) {
-            CCSPlayerController* pPlayerController =
-                GetBaseEntity<CCSPlayerController>(i);
-            if (!pPlayerController || !pPlayerController->IsPlayerController())
-                continue;
-
-            if (pPlayerController->m_bIsLocalPlayerController())
-                return pPlayerController;
-        }
-
+        if (memory::fnGetLocalPlayerController)
+            return memory::fnGetLocalPlayerController(-1);
         return nullptr;
     }
 };

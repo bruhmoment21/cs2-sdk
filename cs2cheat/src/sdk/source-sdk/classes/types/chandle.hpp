@@ -10,6 +10,8 @@ class CHandle {
     C_BaseEntity* GetBaseEntity() const;
 
    public:
+    inline bool operator==(CHandle rhs) { return m_Index == rhs.m_Index; }
+
     inline int GetEntryIndex() const { return m_Index & ENT_ENTRY_MASK; }
     template <typename T = C_BaseEntity>
     inline T* Get() const {
