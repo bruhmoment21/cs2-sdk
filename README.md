@@ -8,12 +8,12 @@ cs2-sdk
 </p>
 
 ## What's this?
-Plain SDK that has basic functionality such as: hooking, interface getter, schema manager, basic math and basic ESP for demonstration purposes.
+Counter-Strike 2 SDK written in C++ to aid your development. This SDK has been written as simplified as possible and kept as close as possible to Source 2 code supporting both DirectX11 and Vulkan graphical APIs. I'll keep the project updated if I have time, project's features can be seen in the picture below.
 
 Tested on:
 - Windows
 ## Media
-![image](https://user-images.githubusercontent.com/53657322/227977558-0b3f22dc-f225-4f19-adbd-f14d5af8e1f6.png)
+![image](https://user-images.githubusercontent.com/53657322/230653113-a1f77f2d-eeaa-43c0-ad77-7ce759066d37.png)
 ## Dependencies
 - [funchook + distorm](https://github.com/kubo/funchook/releases/tag/v1.1.2) - hooking
 - [imgui](https://github.com/ocornut/imgui) - gui
