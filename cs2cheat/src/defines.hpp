@@ -19,6 +19,7 @@
 #define TIER0_DLL "tier0.dll"
 #define NAVSYSTEM_DLL "navsystem.dll"
 #define RENDERSYSTEMVULKAN_DLL "rendersystemvulkan.dll"
+#define LOCALIZE_DLL "localize.dll"
 
 // Interfaces
 #define GAME_RESOURCE_SERVICE_CLIENT "GameResourceServiceClientV001"
@@ -27,6 +28,7 @@
 #define INPUT_SYSTEM_VERSION "InputSystemVersion001"
 #define SOURCE2_ENGINE_TO_CLIENT "Source2EngineToClient001"
 #define ENGINE_CVAR "VEngineCvar007"
+#define LOCALIZE "Localize_001"
 
 // Signatures
 
@@ -50,6 +52,10 @@
 #define CREATE_BASE_TYPE_CACHE SIGNATURE("E8 ? ? ? ? 45 33 ED 41 8B D5")
 #define FIND_SO_CACHE SIGNATURE("E8 ? ? ? ? 48 8B F0 48 85 C0 74 0E 4C 8B C3")
 #define GET_LOCAL_PLAYER_CONTROLLER SIGNATURE("E8 ? ? ? ? 49 89 47 08")
+#define SET_DYNAMIC_ATTRIBUTE_VALUE_FLOAT                                      \
+    SIGNATURE(                                                                 \
+        "E9 ? ? ? ? CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC 49 8B C0 48 " \
+        "8B CA 48 8B D0")
 
 // CCSGOInput::
 #define MOUSE_INPUT_ENABLED \

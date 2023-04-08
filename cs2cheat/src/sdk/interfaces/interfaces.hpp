@@ -6,6 +6,7 @@
 #include "../source-sdk/classes/interfaces/cschemasystem.hpp"
 #include "../source-sdk/classes/interfaces/cengineclient.hpp"
 #include "../source-sdk/classes/interfaces/cinputsystem.hpp"
+#include "../source-sdk/classes/interfaces/clocalize.hpp"
 #include "../source-sdk/classes/interfaces/ccvar.hpp"
 
 namespace interfaces {
@@ -18,6 +19,7 @@ namespace interfaces {
     inline CInputSystem* pInputSystem;
     inline CEngineClient* pEngine;
     inline CCvar* pCvar;
+    inline CLocalize* pLocalize;
 
     // Unexported interfaces:
     inline CGameEntitySystem* pEntitySystem;

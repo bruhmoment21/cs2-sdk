@@ -1,3 +1,5 @@
+#include <thread>
+
 #include "../../utils/utils.hpp"
 
 #include "../menu/menu.hpp"
@@ -18,4 +20,9 @@ void render::NewFrame() {
     menu::Render();
 }
 
-void render::Shutdown() { menu::Toggle(false); }
+void render::Shutdown() {
+    menu::Toggle(false);
+
+    // Sleep to avoid crashes.
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+}

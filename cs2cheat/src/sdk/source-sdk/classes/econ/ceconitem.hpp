@@ -3,8 +3,12 @@
 #include <cstdint>
 
 class CEconItem {
+    void SetDynamicAttributeValue(int index, float value);
+
    public:
     static CEconItem* CreateInstance();
+
+    void SetPaintKit(int kit) { SetDynamicAttributeValue(6, float(kit)); }
 
     char pad0[0x10];  // 2 vtables
     uint64_t m_ulID;

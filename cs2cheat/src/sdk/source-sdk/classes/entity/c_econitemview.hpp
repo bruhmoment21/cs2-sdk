@@ -2,7 +2,7 @@
 
 #include "../../schema/schema.hpp"
 
-#include "ceconitemdefinition.hpp"
+#include "../econ/ceconitemdefinition.hpp"
 
 class C_EconItemView {
    public:

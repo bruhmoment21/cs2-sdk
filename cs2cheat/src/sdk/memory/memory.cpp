@@ -61,6 +61,11 @@ void memory::Initialize() {
             .ToAbsolute(1, 0)
             .Get<decltype(fnGetLocalPlayerController)>();
     LOG_RESULT(fnGetLocalPlayerController);
+    fnSetDynamicAttributeValueFloat =
+        client.FindPattern(SET_DYNAMIC_ATTRIBUTE_VALUE_FLOAT)
+            .ToAbsolute(1, 0)
+            .Get<decltype(fnSetDynamicAttributeValueFloat)>();
+    LOG_RESULT(fnSetDynamicAttributeValueFloat);
 
     // SDL Functions:
     fnSDL_SetRelativeMouseMode =

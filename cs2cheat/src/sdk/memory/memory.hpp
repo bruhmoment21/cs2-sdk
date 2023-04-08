@@ -28,6 +28,8 @@ namespace memory {
     inline CGCClientSharedObjectCache*(__thiscall* fnFindSOCache)(void*, SOID_t,
                                                                   bool);
     inline CCSPlayerController*(__fastcall* fnGetLocalPlayerController)(int);
+    inline void*(__fastcall* fnSetDynamicAttributeValueFloat)(void*, void*,
+                                                              void*);
 
     // SDL2 Functions
     inline int(__stdcall* fnSDL_SetRelativeMouseMode)(int);

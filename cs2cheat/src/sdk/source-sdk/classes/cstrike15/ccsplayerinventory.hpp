@@ -4,8 +4,8 @@
 
 #include "../gcsdk/cgcclientsystem.hpp"
 #include "../entity/c_econitemview.hpp"
-#include "../entity/ceconitem.hpp"
 #include "../types/utlvector.hpp"
+#include "../econ/ceconitem.hpp"
 
 class CCSPlayerInventory {
    public:

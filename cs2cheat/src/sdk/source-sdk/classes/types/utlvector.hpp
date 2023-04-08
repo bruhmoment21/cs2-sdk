@@ -2,6 +2,8 @@
 
 #include "../interfaces/cheapmemalloc.hpp"
 
+#include "utlmap.hpp"
+
 template <typename T>
 class CUtlVector {
    public:

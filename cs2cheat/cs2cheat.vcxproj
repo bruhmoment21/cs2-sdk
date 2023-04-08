@@ -132,8 +132,10 @@
     <ClInclude Include="src\sdk\memory\memory.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\cstrike15\ccsinventorymanager.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\cstrike15\ccsplayerinventory.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\classes\entity\ceconitemdefinition.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\classes\entity\ceconitem.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\econ\ceconitemschema.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\econ\ceconitemsystem.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\econ\ceconitemdefinition.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\econ\ceconitem.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\ccsplayer_viewmodelservices.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\cplayer_weaponservices.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_attributecontainer.hpp" />
@@ -150,6 +152,7 @@
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cgameentitysystem.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cgameresourceserviceclient.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cinputsystem.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\interfaces\clocalize.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cschemasystem.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\csource2client.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\cbaseplayercontroller.hpp" />
@@ -166,6 +169,7 @@
     <ClInclude Include="src\sdk\math\types\vector.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\types\cnetworkutlvectorbase.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cheapmemalloc.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\types\utlmap.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\types\utlvector.hpp" />
     <ClInclude Include="src\sdk\source-sdk\schema\schema.hpp" />
     <ClInclude Include="src\sdk\virtual.hpp" />
@@ -209,7 +213,7 @@
     <ClCompile Include="src\sdk\math\math.cpp" />
     <ClCompile Include="src\sdk\memory\memory.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\cstrike15\ccsplayerinventory.cpp" />
-    <ClCompile Include="src\sdk\source-sdk\classes\entity\ceconitem.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\econ\ceconitem.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\cgamescenenode.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclient.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsharedobjectcache.cpp" />

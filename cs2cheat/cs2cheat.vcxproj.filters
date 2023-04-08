@@ -68,7 +68,7 @@
     <ClInclude Include="src\sdk\source-sdk\classes\types\cnetworkutlvectorbase.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\cstrike15\ccsinventorymanager.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\cstrike15\ccsplayerinventory.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\classes\entity\ceconitem.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\econ\ceconitem.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\ccsplayer_viewmodelservices.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_csplayerpawnbase.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\gcsdk\cgcclient.hpp" />
@@ -78,7 +78,11 @@
     <ClInclude Include="src\sdk\source-sdk\classes\types\chandle.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\cheapmemalloc.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\types\utlvector.hpp" />
-    <ClInclude Include="src\sdk\source-sdk\classes\entity\ceconitemdefinition.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\econ\ceconitemdefinition.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\types\utlmap.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\econ\ceconitemsystem.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\econ\ceconitemschema.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\interfaces\clocalize.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sdk\memory\memory.cpp" />
@@ -122,7 +126,7 @@
     <ClCompile Include="src\hooks\platform\graphics\vulkan_hook.cpp" />
     <ClCompile Include="src\game\skins\skin_changer.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\cstrike15\ccsplayerinventory.cpp" />
-    <ClCompile Include="src\sdk\source-sdk\classes\entity\ceconitem.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\econ\ceconitem.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\cgamescenenode.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclient.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsharedobjectcache.cpp" />
