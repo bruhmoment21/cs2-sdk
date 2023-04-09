@@ -28,6 +28,9 @@ void memory::Initialize() {
     LOG_RESULT(fnScreenTransform);
     fnMouseInputEnabled = client.FindPattern(MOUSE_INPUT_ENABLED).Get<void*>();
     LOG_RESULT(fnMouseInputEnabled);
+    fnGetItemName = client.FindPattern(GET_ITEM_NAME)
+                            .Get<decltype(fnGetItemName)>();
+    LOG_RESULT(fnGetItemName);
     fnSetMeshGroupMask = client.FindPattern(SET_MESH_GROUP_MASK)
                              .ToAbsolute(1, 0)
                              .Get<decltype(fnSetMeshGroupMask)>();

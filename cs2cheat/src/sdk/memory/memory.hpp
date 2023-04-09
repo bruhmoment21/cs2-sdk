@@ -18,6 +18,7 @@ namespace memory {
     inline void*(__thiscall* schema_detailed_class_layout)(void*, const char*);
     inline bool(__thiscall* fnScreenTransform)(const Vector&, Vector&);
     inline void* fnMouseInputEnabled;
+    inline const char*(__fastcall* fnGetItemName)(void*, bool);
     inline void(__thiscall* fnSetMeshGroupMask)(void*, uint64_t);
     inline CCSInventoryManager* (*fnGetInventoryManager)();
     inline CGCClientSystem* (*fnGetClientSystem)();

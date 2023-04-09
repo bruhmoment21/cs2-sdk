@@ -10,6 +10,8 @@ class C_EconItemView {
         return CALL_VIRTUAL(CEconItemDefinition*, 13, this);
     }
 
+    const char* GetItemName(bool bUncustomized);
+
     SCHEMA_FIELD(m_iItemDefinitionIndex, "C_EconItemView",
                  "m_iItemDefinitionIndex", uint16_t);
     SCHEMA_FIELD(m_iItemID, "C_EconItemView", "m_iItemID", uint64_t);

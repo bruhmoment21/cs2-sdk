@@ -135,5 +135,6 @@
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsystem.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\types\chandle.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\c_basemodelentity.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\entity\c_econitemview.cpp" />
   </ItemGroup>
 </Project>

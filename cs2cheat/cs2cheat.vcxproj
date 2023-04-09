@@ -218,6 +218,7 @@
     <ClCompile Include="src\sdk\source-sdk\classes\econ\ceconitem.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\cgamescenenode.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\c_basemodelentity.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\entity\c_econitemview.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclient.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsharedobjectcache.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsystem.cpp" />
