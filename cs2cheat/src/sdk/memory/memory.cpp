@@ -62,6 +62,11 @@ void memory::Initialize() {
             .ToAbsolute(1, 0)
             .Get<decltype(fnSetDynamicAttributeValueFloat)>();
     LOG_RESULT(fnSetDynamicAttributeValueFloat);
+    fnSetCustomNameOrDescAttribute =
+        client.FindPattern(SET_CUSTOM_NAME_OR_DESC_ATTRIBUTE)
+            .ToAbsolute(1, 0)
+            .Get<decltype(fnSetCustomNameOrDescAttribute)>();
+    LOG_RESULT(fnSetCustomNameOrDescAttribute);
 
     // SDL Functions:
     fnSDL_SetRelativeMouseMode =

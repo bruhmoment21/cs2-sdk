@@ -215,6 +215,7 @@
     <ClCompile Include="src\sdk\memory\memory.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\cstrike15\ccsplayerinventory.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\econ\ceconitem.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\econ\ceconitemdefinition.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\cgamescenenode.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclient.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsharedobjectcache.cpp" />

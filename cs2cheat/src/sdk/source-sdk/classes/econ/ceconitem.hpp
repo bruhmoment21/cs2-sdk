@@ -3,14 +3,22 @@
 #include "../../../virtual.hpp"
 
 class CEconItem {
-    void SetDynamicAttributeValue(int index, float value);
+    void SetDynamicAttributeValueFloat(int index, float value);
+    void SetDynamicAttributeValueString(int index, const char* value);
 
    public:
     static CEconItem* CreateInstance();
 
     auto Destruct() { return CALL_VIRTUAL(void, 1, this, true); }
 
-    void SetPaintKit(int kit) { SetDynamicAttributeValue(6, float(kit)); }
+    void SetPaintKit(int kit) { SetDynamicAttributeValueFloat(6, float(kit)); }
+    void SetPaintSeed(int seed) {
+        SetDynamicAttributeValueFloat(7, float(seed));
+    }
+    void SetPaintWear(float wear) { SetDynamicAttributeValueFloat(8, wear); }
+    void SetCustomName(const char* pName) {
+        SetDynamicAttributeValueString(111, pName);
+    }
 
     char pad0[0x10];  // 2 vtables
     uint64_t m_ulID;

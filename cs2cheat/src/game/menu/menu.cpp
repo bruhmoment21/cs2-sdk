@@ -104,25 +104,17 @@ static void RenderInventoryWindow() {
             CEconItemDefinition* pItem = it.m_value;
             if (!pItem) continue;
 
-            uint16_t defIdx = pItem->GetDefinitionIndex();
+            const bool isWeapon = pItem->IsWeapon();
+            const bool isKnife = pItem->IsKnife(true);
+            const bool isGloves = pItem->IsGlove(true);
 
-            constexpr auto CSGO_Type_Knife =
-                hash_32_fnv1a_const("#CSGO_Type_Knife");
-            constexpr auto Type_Hands = hash_32_fnv1a_const("#Type_Hands");
-
-            const bool isWeapon = pItem->GetStickersSupportedCount() >= 4;
-            const bool isKnife =
-                hash_32_fnv1a_const(pItem->m_pszItemTypeName) ==
-                    CSGO_Type_Knife &&
-                defIdx >= 500;
-            const bool isGloves =
-                hash_32_fnv1a_const(pItem->m_pszItemTypeName) == Type_Hands &&
-                defIdx != 5028 && defIdx != 5029;
             if (!isWeapon && !isKnife && !isGloves) continue;
 
             // Some items don't have names.
             const char* itemBaseName = pItem->m_pszItemBaseName;
             if (!itemBaseName || itemBaseName[0] == '\0') continue;
+
+            const uint16_t defIdx = pItem->GetDefinitionIndex();
 
             DumpedItem_t dumpedItem;
             dumpedItem.m_name = interfaces::pLocalize->FindSafe(itemBaseName);
@@ -238,37 +230,67 @@ static void RenderInventoryWindow() {
                 }
             }
 
-            if (pSelectedItem->pSelectedSkin &&
-                ImGui::Button("Add selected item", {windowWidth, 0.f})) {
-                CEconItem* pItem = CEconItem::CreateInstance();
-                if (pItem) {
-                    CCSPlayerInventory* pInventory =
-                        CCSPlayerInventory::GetInstance();
+            if (pSelectedItem->pSelectedSkin) {
+                static float kitWear = 0.f;
+                static int kitSeed = 1;
+                static char gunName[32];
 
-                    auto highestIDs = pInventory->GetHighestIDs();
+                if (ImGui::Button("Add selected item", {windowWidth, 0.f})) {
+                    CEconItem* pItem = CEconItem::CreateInstance();
+                    if (pItem) {
+                        CCSPlayerInventory* pInventory =
+                            CCSPlayerInventory::GetInstance();
 
-                    pItem->m_ulID = highestIDs.first + 1;
-                    pItem->m_unInventory = highestIDs.second + 1;
-                    pItem->m_unAccountID =
-                        uint32_t(pInventory->GetOwnerID().m_id);
-                    pItem->m_unDefIndex = pSelectedItem->m_defIdx;
+                        auto highestIDs = pInventory->GetHighestIDs();
 
-                    if (pSelectedItem->m_unusualItem)
-                        pItem->m_nQuality = IQ_UNUSUAL;
+                        pItem->m_ulID = highestIDs.first + 1;
+                        pItem->m_unInventory = highestIDs.second + 1;
+                        pItem->m_unAccountID =
+                            uint32_t(pInventory->GetOwnerID().m_id);
+                        pItem->m_unDefIndex = pSelectedItem->m_defIdx;
 
-                    // I don't know nor do care why the rarity is calculated
-                    // like this. [Formula]
-                    pItem->m_nRarity = std::clamp(
-                        pSelectedItem->m_rarity +
-                            pSelectedItem->pSelectedSkin->m_rarity - 1,
-                        0,
-                        (pSelectedItem->pSelectedSkin->m_rarity == 7) ? 7 : 6);
+                        if (pSelectedItem->m_unusualItem)
+                            pItem->m_nQuality = IQ_UNUSUAL;
 
-                    pItem->SetPaintKit(pSelectedItem->pSelectedSkin->m_ID);
-                    pInventory->AddEconItem(pItem);
+                        // I don't know nor do care why the rarity is calculated
+                        // like this. [Formula]
+                        pItem->m_nRarity = std::clamp(
+                            pSelectedItem->m_rarity +
+                                pSelectedItem->pSelectedSkin->m_rarity - 1,
+                            0,
+                            (pSelectedItem->pSelectedSkin->m_rarity == 7) ? 7
+                                                                          : 6);
 
-                    skin_changer::AddEconItemToList(pItem);
+                        pItem->SetPaintKit(pSelectedItem->pSelectedSkin->m_ID);
+                        pItem->SetPaintSeed(kitSeed);
+                        pItem->SetPaintWear(kitWear);
+                        if (gunName[0]) pItem->SetCustomName(gunName);
+
+                        pInventory->AddEconItem(pItem);
+
+                        skin_changer::AddEconItemToList(pItem);
+
+                        kitWear = 0.f;
+                        kitSeed = 1;
+                        memset(gunName, '\0', IM_ARRAYSIZE(gunName));
+                    }
                 }
+
+                ImGui::Dummy({0, 8});
+                ImGui::SeparatorText("Extra settings");
+
+                ImGui::TextUnformatted("Wear Rating");
+                ImGui::SetNextItemWidth(windowWidth);
+                ImGui::SliderFloat("##slider1", &kitWear, 0.f, 1.f, "%.9f",
+                                   ImGuiSliderFlags_Logarithmic);
+
+                ImGui::TextUnformatted("Pattern Template");
+                ImGui::SetNextItemWidth(windowWidth);
+                ImGui::SliderInt("##slider2", &kitSeed, 1, 1000);
+
+                ImGui::TextUnformatted("Custom Name");
+                ImGui::SetNextItemWidth(windowWidth);
+                ImGui::InputText("##input1", gunName, IM_ARRAYSIZE(gunName));
             }
         }
     }

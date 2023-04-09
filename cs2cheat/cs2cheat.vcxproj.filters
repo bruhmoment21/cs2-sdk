@@ -133,5 +133,6 @@
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsharedobjectcache.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsystem.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\types\chandle.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\econ\ceconitemdefinition.cpp" />
   </ItemGroup>
 </Project>

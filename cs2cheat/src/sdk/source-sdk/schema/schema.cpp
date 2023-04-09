@@ -30,7 +30,7 @@ static bool InitSchemaFieldsForClass(SchemaTableMap_t& tableMap,
 
     for (int i = 0; i < fieldsSize; ++i) {
         SchemaClassFieldData_t& field = pFields[i];
-        keyValueMap.emplace(hash_32_fnv1a_const(field.pName), field.uOffset);
+        keyValueMap.emplace(hash_32_fnv1a_const(field.m_name), field.m_offset);
     }
 
     LOG("schemaTableMap[%s] has %llu fields.\n", className, keyValueMap.size());

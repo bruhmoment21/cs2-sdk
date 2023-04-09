@@ -6,7 +6,15 @@
 
 class CEconItemDefinition {
    public:
+    bool IsWeapon();
+    bool IsKnife(bool excludeDefault);
+    bool IsGlove(bool excludeDefault);
+
     auto GetDefinitionIndex() { return CALL_VIRTUAL(uint16_t, 0, this); }
+
+    auto GetModelName() {
+        return *reinterpret_cast<const char**>((uintptr_t)(this) + 0xD8);
+    }
 
     auto GetStickersSupportedCount() {
         return *reinterpret_cast<int*>((uintptr_t)(this) + 0x100);

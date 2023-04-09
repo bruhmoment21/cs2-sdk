@@ -6,7 +6,6 @@
 
 class Vector;
 class CCSInventoryManager;
-class CGCClientSharedObjectTypeCache;
 class CCSPlayerController;
 
 namespace memory {
@@ -29,6 +28,8 @@ namespace memory {
     inline CCSPlayerController*(__fastcall* fnGetLocalPlayerController)(int);
     inline void*(__fastcall* fnSetDynamicAttributeValueFloat)(void*, void*,
                                                               void*);
+    inline void*(__fastcall* fnSetCustomNameOrDescAttribute)(void*, void*,
+                                                             const char*);
 
     // SDL2 Functions
     inline int(__stdcall* fnSDL_SetRelativeMouseMode)(int);

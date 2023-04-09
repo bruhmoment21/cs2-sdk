@@ -3,9 +3,9 @@
 #include "../../../virtual.hpp"
 
 struct SchemaClassFieldData_t {
-    const char* pName;
+    const char* m_name;
     char pad0[0x8];
-    short uOffset;
+    short m_offset;
     char pad1[0xE];
 };
 
@@ -14,6 +14,7 @@ class SchemaClassInfoData_t {
     short GetFieldsSize() {
         return *reinterpret_cast<short*>((uintptr_t)(this) + 0x1C);
     }
+
     SchemaClassFieldData_t* GetFields() {
         return *reinterpret_cast<SchemaClassFieldData_t**>((uintptr_t)(this) +
                                                            0x28);

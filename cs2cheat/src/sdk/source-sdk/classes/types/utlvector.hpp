@@ -7,7 +7,10 @@
 template <typename T>
 class CUtlVector {
    public:
-    inline bool Empty() const { return m_size == 0; }
+    auto begin() const { return m_data; }
+    auto end() const { return m_data + m_size; }
+
+    bool Empty() const { return m_size == 0; }
 
     int m_size;
     char pad0[0x4];  // no idea

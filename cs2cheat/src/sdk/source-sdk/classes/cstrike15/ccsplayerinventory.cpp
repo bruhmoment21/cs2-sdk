@@ -18,7 +18,7 @@ static CGCClientSharedObjectTypeCache* CreateBaseTypeCache(
         pGCClient->FindSOCache(pInventory->GetOwnerID());
     if (!pSOCache) return nullptr;
 
-    return pSOCache->CreateBaseTypeCache(1);
+    return pSOCache->CreateBaseTypeCache(k_EEconTypeItem);
 }
 
 CCSPlayerInventory* CCSPlayerInventory::GetInstance() {
@@ -64,8 +64,8 @@ std::pair<uint64_t, uint32_t> CCSPlayerInventory::GetHighestIDs() {
         const CUtlVector<CEconItem*>& vecItems =
             pSOTypeCache->GetVecObjects<CEconItem*>();
 
-        for (int i = 0; i < vecItems.m_size; ++i) {
-            CEconItem* pEconItem = vecItems.m_data[i];
+        for (CEconItem* pEconItem : vecItems) {
+            if (!pEconItem) continue;
 
             // Checks if item is default.
             if ((pEconItem->m_ulID & 0xF000000000000000) != 0) continue;
