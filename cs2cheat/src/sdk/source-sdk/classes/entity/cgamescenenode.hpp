@@ -7,6 +7,6 @@
 class CGameSceneNode {
    public:
     void SetMeshGroupMask(uint64_t meshGroupMask);
-
+    SCHEMA_FIELD(m_vecOrigin, "CGameSceneNode", "m_vecOrigin", Vector);
     SCHEMA_FIELD(m_vecAbsOrigin, "CGameSceneNode", "m_vecAbsOrigin", Vector);
 };

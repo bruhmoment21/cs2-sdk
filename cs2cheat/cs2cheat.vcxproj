@@ -139,6 +139,7 @@
     <ClInclude Include="src\sdk\source-sdk\classes\entity\ccsplayer_viewmodelservices.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\cplayer_weaponservices.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_attributecontainer.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\c_basemodelentity.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_baseplayerweapon.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_csplayerpawnbase.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_econentity.hpp" />
@@ -216,6 +217,7 @@
     <ClCompile Include="src\sdk\source-sdk\classes\cstrike15\ccsplayerinventory.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\econ\ceconitem.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\entity\cgamescenenode.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\entity\c_basemodelentity.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclient.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsharedobjectcache.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsystem.cpp" />
