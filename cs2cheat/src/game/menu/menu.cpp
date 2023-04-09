@@ -6,6 +6,7 @@
 #include "../../sdk/interfaces/interfaces.hpp"
 #include "../../utils/utils.hpp"
 
+#include "../skins/skin_changer.hpp"
 #include "../esp/esp.hpp"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
@@ -149,11 +150,49 @@ static void RenderInventoryWindow() {
                 }
             }
 
+            // Sort skins by rarity.
+            if (!dumpedItem.m_dumpedSkins.empty() && isWeapon) {
+                std::sort(dumpedItem.m_dumpedSkins.begin(),
+                          dumpedItem.m_dumpedSkins.end(),
+                          [](const DumpedSkin_t& a, const DumpedSkin_t& b) {
+                              return a.m_rarity > b.m_rarity;
+                          });
+            }
+
             vecDumpedItems.emplace_back(dumpedItem);
         }
     }
 
     if (!vecDumpedItems.empty()) {
+        if (ImGui::Button("Add all items", {windowWidth, 0.f})) {
+            for (const auto& item : vecDumpedItems) {
+                for (const auto& skin : item.m_dumpedSkins) {
+                    CEconItem* pItem = CEconItem::CreateInstance();
+                    if (pItem) {
+                        CCSPlayerInventory* pInventory =
+                            CCSPlayerInventory::GetInstance();
+
+                        auto highestIDs = pInventory->GetHighestIDs();
+
+                        pItem->m_ulID = highestIDs.first + 1;
+                        pItem->m_unInventory = highestIDs.second + 1;
+                        pItem->m_unAccountID =
+                            uint32_t(pInventory->GetOwnerID().m_id);
+                        pItem->m_unDefIndex = item.m_defIdx;
+                        if (item.m_unusualItem) pItem->m_nQuality = IQ_UNUSUAL;
+                        pItem->m_nRarity =
+                            std::clamp(item.m_rarity + skin.m_rarity - 1, 0,
+                                       (skin.m_rarity == 7) ? 7 : 6);
+
+                        pItem->SetPaintKit(skin.m_ID);
+                        pInventory->AddEconItem(pItem);
+
+                        skin_changer::AddEconItemToList(pItem);
+                    }
+                }
+            }
+        }
+
         static ImGuiTextFilter itemFilter;
         itemFilter.Draw("##filter", windowWidth);
 
@@ -226,34 +265,9 @@ static void RenderInventoryWindow() {
                         (pSelectedItem->pSelectedSkin->m_rarity == 7) ? 7 : 6);
 
                     pItem->SetPaintKit(pSelectedItem->pSelectedSkin->m_ID);
-                    pInventory->AddEconItem(pItem, true, false, true);
-                }
-            }
-        }
+                    pInventory->AddEconItem(pItem);
 
-        if (ImGui::Button("Add all items", {windowWidth, 0.f})) {
-            for (const auto& item : vecDumpedItems) {
-                for (const auto& skin : item.m_dumpedSkins) {
-                    CEconItem* pItem = CEconItem::CreateInstance();
-                    if (pItem) {
-                        CCSPlayerInventory* pInventory =
-                            CCSPlayerInventory::GetInstance();
-
-                        auto highestIDs = pInventory->GetHighestIDs();
-
-                        pItem->m_ulID = highestIDs.first + 1;
-                        pItem->m_unInventory = highestIDs.second + 1;
-                        pItem->m_unAccountID =
-                            uint32_t(pInventory->GetOwnerID().m_id);
-                        pItem->m_unDefIndex = item.m_defIdx;
-                        if (item.m_unusualItem) pItem->m_nQuality = IQ_UNUSUAL;
-                        pItem->m_nRarity =
-                            std::clamp(item.m_rarity + skin.m_rarity - 1, 0,
-                                       (skin.m_rarity == 7) ? 7 : 6);
-
-                        pItem->SetPaintKit(skin.m_ID);
-                        pInventory->AddEconItem(pItem, false, false, false);
-                    }
+                    skin_changer::AddEconItemToList(pItem);
                 }
             }
         }

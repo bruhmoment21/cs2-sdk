@@ -3,7 +3,6 @@
 #include "../../../memory/memory.hpp"
 
 #include "../gcsdk/cgcclientsharedobjecttypecache.hpp"
-#include "../gcsdk/cgcclientsharedobjectcache.hpp"
 
 #include "ccsinventorymanager.hpp"
 
@@ -34,16 +33,26 @@ CCSPlayerInventory* CCSPlayerInventory::GetInstance() {
     return nullptr;
 }
 
-bool CCSPlayerInventory::AddEconItem(CEconItem* pItem, bool bUpdateAckFile,
-                                     bool bWriteAckFile,
-                                     bool bCheckForNewItems) {
-    if (!memory::fnAddEconItem) return false;
+void CCSPlayerInventory::AddEconItem(CEconItem* pItem) {
+    // Helper function to aid in adding items.
+    if (!pItem) return;
 
     CGCClientSharedObjectTypeCache* pSOTypeCache = ::CreateBaseTypeCache(this);
-    if (!pSOTypeCache || !pSOTypeCache->AddObject(pItem)) return false;
+    if (!pSOTypeCache || !pSOTypeCache->AddObject(pItem)) return;
 
-    return memory::fnAddEconItem(this, pItem, bUpdateAckFile, bWriteAckFile,
-                                 bCheckForNewItems);
+    SOCreated(GetOwnerID(), pItem, eSOCacheEvent_Incremental);
+}
+
+void CCSPlayerInventory::RemoveEconItem(CEconItem* pItem) {
+    // Helper function to aid in removing items.
+    if (!pItem) return;
+
+    SODestroyed(GetOwnerID(), pItem, eSOCacheEvent_Incremental);
+
+    CGCClientSharedObjectTypeCache* pSOTypeCache = ::CreateBaseTypeCache(this);
+    if (pSOTypeCache) pSOTypeCache->RemoveObject(pItem);
+
+    pItem->Destruct();
 }
 
 std::pair<uint64_t, uint32_t> CCSPlayerInventory::GetHighestIDs() {

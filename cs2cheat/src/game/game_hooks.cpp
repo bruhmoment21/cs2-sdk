@@ -23,4 +23,4 @@ void CS2_HookGameFunctions() {
                                    HOOK_FUNCTION(hkFrameStageNotify));
 }
 
-void CS2_UnhookGameFunctions() {}
+void CS2_UnhookGameFunctions() { skin_changer::Shutdown(); }

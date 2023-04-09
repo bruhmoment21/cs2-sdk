@@ -44,7 +44,6 @@
 #define SET_MESH_GROUP_MASK SIGNATURE("E8 ? ? ? ? 8B 45 D0 48 8B 55 D8")
 
 #define GET_INVENTORY_MANAGER SIGNATURE("E8 ? ? ? ? 8B D5 48 8B D8")
-#define ADD_ECON_ITEM SIGNATURE("E8 ? ? ? ? FF C3 3B 5D 08")
 #define CREATE_SHARED_OBJECT_SUBCLASS_ECON_ITEM \
     SIGNATURE(                                  \
         "48 83 EC 28 B9 ? ? ? ? E8 ? ? ? ? 48 85 C0 74 3D 48 8D 0D ? ? ? ?")

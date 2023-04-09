@@ -40,10 +40,6 @@ void memory::Initialize() {
                             .ToAbsolute(1, 0)
                             .Get<decltype(fnGetClientSystem)>();
     LOG_RESULT(fnGetClientSystem);
-    fnAddEconItem = client.FindPattern(ADD_ECON_ITEM)
-                        .ToAbsolute(1, 0)
-                        .Get<decltype(fnAddEconItem)>();
-    LOG_RESULT(fnAddEconItem);
     fnCreateSharedObjectSubclassEconItem =
         client.FindPattern(CREATE_SHARED_OBJECT_SUBCLASS_ECON_ITEM)
             .Get<decltype(fnCreateSharedObjectSubclassEconItem)>();

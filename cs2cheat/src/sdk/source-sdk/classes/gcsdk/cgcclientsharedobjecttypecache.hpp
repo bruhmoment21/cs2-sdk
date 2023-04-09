@@ -9,7 +9,11 @@ using CSharedObject = void;
 class CGCClientSharedObjectTypeCache {
    public:
     auto AddObject(CSharedObject* pObject) {
-        return CALL_VIRTUAL(bool, 2, this, pObject);
+        return CALL_VIRTUAL(bool, 1, this, pObject);
+    }
+
+    auto RemoveObject(CSharedObject* soIndex) {
+        return CALL_VIRTUAL(CSharedObject, 3, this, soIndex);
     }
 
     template <typename T>

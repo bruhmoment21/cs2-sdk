@@ -21,7 +21,6 @@ namespace memory {
     inline void(__thiscall* fnSetMeshGroupMask)(void*, uint64_t);
     inline CCSInventoryManager* (*fnGetInventoryManager)();
     inline CGCClientSystem* (*fnGetClientSystem)();
-    inline bool(__thiscall* fnAddEconItem)(void*, CEconItem*, bool, bool, bool);
     inline CEconItem* (*fnCreateSharedObjectSubclassEconItem)();
     inline CGCClientSharedObjectTypeCache*(__thiscall* fnCreateBaseTypeCache)(
         void*, int);

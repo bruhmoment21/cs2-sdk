@@ -12,6 +12,10 @@ class CEconItemDefinition {
         return *reinterpret_cast<int*>((uintptr_t)(this) + 0x100);
     }
 
+    auto GetLoadoutSlot() {
+        return *reinterpret_cast<int*>((uintptr_t)(this) + 0x2E8);
+    }
+
     char pad0[0x8];  // vtable
     void* m_pKVItem;
     uint16_t m_nDefIndex;

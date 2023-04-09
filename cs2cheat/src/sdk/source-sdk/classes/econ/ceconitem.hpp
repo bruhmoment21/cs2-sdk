@@ -1,12 +1,14 @@
 #pragma once
 
-#include <cstdint>
+#include "../../../virtual.hpp"
 
 class CEconItem {
     void SetDynamicAttributeValue(int index, float value);
 
    public:
     static CEconItem* CreateInstance();
+
+    auto Destruct() { return CALL_VIRTUAL(void, 1, this, true); }
 
     void SetPaintKit(int kit) { SetDynamicAttributeValue(6, float(kit)); }
 

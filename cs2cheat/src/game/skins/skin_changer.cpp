@@ -4,27 +4,13 @@
 
 #include "../../sdk/interfaces/interfaces.hpp"
 
-// Paint kits and weapon definition indexes:
-// https://www.unknowncheats.me/forum/3715213-post352.html
-
-struct SkinEntry_t {
-    int32_t m_skinDefinitionIndex;
-    bool m_isUsingOldModel;
-};
-
-static const std::unordered_map<uint16_t, SkinEntry_t> g_skinsMap{
-    {4, {38, true}},    // Glock 18 | Fade
-    {7, {302, true}},   // AK47 | Vulcan
-    {32, {260, true}},  // P2000 | Ivory
-    {61, {504, true}},  // USP | Kill Confirmed
-    {9, {344, true}},   // AWP | Dragon Lore
-    {1, {1090, true}},  // Desert Eagle | Ocean Drive
-    {16, {309, true}},  // M4A4 | Howl
-};
+static std::vector<CEconItem*> g_vecAddedItems;
 
 void skin_changer::Run() {
-    // https://www.unknowncheats.me/forum/3711351-post132.html
     if (!interfaces::pEngine->IsInGame()) return;
+
+    CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
+    if (!pInventory) return;
 
     CCSPlayerController* pLocalPlayerController =
         interfaces::pEntitySystem->GetLocalPlayerController();
@@ -54,7 +40,7 @@ void skin_changer::Run() {
 
     for (int i = 0; i < pWeapons->m_size; ++i) {
         CHandle hWeapon = pWeapons->m_data[i];
-        C_BasePlayerWeapon* pWeapon = hWeapon.Get<C_BasePlayerWeapon>();
+        C_WeaponCSBase* pWeapon = hWeapon.Get<C_WeaponCSBase>();
         if (!pWeapon || pWeapon->GetOriginalOwnerXuid() !=
                             pLocalPlayerController->m_steamID())
             continue;
@@ -63,28 +49,50 @@ void skin_changer::Run() {
             pWeapon->m_AttributeManager();
         if (!pAttributeContainer) continue;
 
-        C_EconItemView* pEconItemView = pAttributeContainer->m_Item();
-        if (!pEconItemView) continue;
+        C_EconItemView* pWeaponItemView = pAttributeContainer->m_Item();
+        if (!pWeaponItemView) continue;
+
+        CEconItemDefinition* pWeaponDefinition =
+            pWeaponItemView->GetStaticData();
+        if (!pWeaponDefinition) continue;
 
         CGameSceneNode* pWeaponSceneNode = pWeapon->m_pGameSceneNode();
         if (!pWeaponSceneNode) continue;
 
-        const auto& skinIt =
-            g_skinsMap.find(pEconItemView->m_iItemDefinitionIndex());
-        if (skinIt == g_skinsMap.cend()) continue;
+        C_EconItemView* pWeaponInLoadoutItemView =
+            pInventory->GetItemInLoadout(pWeapon->m_iOriginalTeamNumber(),
+                                         pWeaponDefinition->GetLoadoutSlot());
+        if (!pWeaponInLoadoutItemView) continue;
 
-        const SkinEntry_t& skinEntry = skinIt->second;
-        const uint64_t skinMeshGroupMask =
-            static_cast<uint64_t>(skinEntry.m_isUsingOldModel) + 1;
+        // Check if skin is added by us.
+        auto it = std::find_if(g_vecAddedItems.cbegin(), g_vecAddedItems.cend(),
+                               [pWeaponInLoadoutItemView](CEconItem* i) {
+                                   return i->m_ulID ==
+                                          pWeaponInLoadoutItemView->m_iItemID();
+                               });
+        if (it == g_vecAddedItems.cend()) continue;
 
-        pEconItemView->m_iItemIDLow() = pEconItemView->m_iItemIDHigh() = -1;
+        pWeaponItemView->m_iItemID() = pWeaponInLoadoutItemView->m_iItemID();
+        pWeaponItemView->m_iItemIDHigh() =
+            pWeaponInLoadoutItemView->m_iItemIDHigh();
+        pWeaponItemView->m_iItemIDLow() =
+            pWeaponInLoadoutItemView->m_iItemIDLow();
+        pWeaponItemView->m_iAccountID() =
+            uint32_t(pInventory->GetOwnerID().m_id);
 
-        pWeapon->m_flFallbackWear() = 0.0001f;
-        pWeapon->m_nFallbackSeed() = 0;
-        pWeapon->m_nFallbackPaintKit() = skinEntry.m_skinDefinitionIndex;
-
-        pWeaponSceneNode->SetMeshGroupMask(skinMeshGroupMask);
-        if (hWeapon == hActiveWeapon)
-            pViewmodelSceneNode->SetMeshGroupMask(skinMeshGroupMask);
+        // Workaround: We are forcing the OLD Models.
+        pWeaponSceneNode->SetMeshGroupMask(2);
+        if (hWeapon == hActiveWeapon) pViewmodelSceneNode->SetMeshGroupMask(2);
     }
+}
+
+void skin_changer::AddEconItemToList(CEconItem* pItem) {
+    g_vecAddedItems.emplace_back(pItem);
+}
+
+void skin_changer::Shutdown() {
+    CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
+    if (!pInventory) return;
+
+    for (CEconItem* pItem : g_vecAddedItems) pInventory->RemoveEconItem(pItem);
 }

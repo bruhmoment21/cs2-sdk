@@ -143,6 +143,7 @@
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_csplayerpawnbase.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_econentity.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_econitemview.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\c_weaponcsbase.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\gcsdk\cgcclient.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsharedobjectcache.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsystem.hpp" />

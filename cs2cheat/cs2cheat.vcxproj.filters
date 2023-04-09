@@ -83,6 +83,7 @@
     <ClInclude Include="src\sdk\source-sdk\classes\econ\ceconitemsystem.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\econ\ceconitemschema.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\clocalize.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\c_weaponcsbase.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sdk\memory\memory.cpp" />
