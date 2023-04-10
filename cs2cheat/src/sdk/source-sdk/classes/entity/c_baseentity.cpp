@@ -17,6 +17,17 @@ bool C_BaseEntity::IsPlayerController() {
     return hash_32_fnv1a_const(designerName) == cs_player_controller;
 }
 
+bool C_BaseEntity::IsWeapon() {
+    CEntityIdentity* pIdentity = m_pEntity();
+    if (!pIdentity) return false;
+
+    const char* designerName = pIdentity->m_designerName();
+    if (!designerName) return false;
+
+    const std::string_view svDesignerName = designerName;
+    return svDesignerName.starts_with("weapon_");
+}
+
 bool C_BaseEntity::GetBoundingBox(BBox_t& out) {
     CCollisionProperty* pCollision = m_pCollision();
     if (!pCollision) return false;

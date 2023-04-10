@@ -24,6 +24,7 @@ void skin_changer::Run() {
     if (!pWeaponServices) return;
 
     CHandle hActiveWeapon = pWeaponServices->m_hActiveWeapon();
+    C_WeaponCSBase* pActiveWeapon = hActiveWeapon.Get<C_WeaponCSBase>();
 
     CCSPlayer_ViewModelServices* pViewModelServices =
         pLocalPawn->m_pViewModelServices();
@@ -31,19 +32,14 @@ void skin_changer::Run() {
 
     C_BaseModelEntity* pViewModel =
         pViewModelServices->m_hViewModel()[0].Get<C_BaseModelEntity>();
-    if (!pViewModel) return;
 
-    CGameSceneNode* pViewModelSceneNode = pViewModel->m_pGameSceneNode();
-    if (!pViewModelSceneNode) return;
+    int highestIndex = interfaces::pEntitySystem->GetHighestEntityIndex();
+    for (int i = MAX_PLAYERS + 1; i <= highestIndex; ++i) {
+        C_BaseEntity* pEntity = interfaces::pEntitySystem->GetBaseEntity(i);
+        if (!pEntity || !pEntity->IsWeapon()) continue;
 
-    CNetworkUtlVectorBase<CHandle>* pWeapons = pWeaponServices->m_hMyWeapons();
-    if (!pWeapons) return;
-
-    for (int i = 0; i < pWeapons->m_size; ++i) {
-        CHandle hWeapon = pWeapons->m_data[i];
-        C_WeaponCSBase* pWeapon = hWeapon.Get<C_WeaponCSBase>();
-        if (!pWeapon || pWeapon->GetOriginalOwnerXuid() !=
-                            pLocalPlayerController->m_steamID())
+        C_WeaponCSBase* pWeapon = reinterpret_cast<C_WeaponCSBase*>(pEntity);
+        if (pWeapon->GetOriginalOwnerXuid() != pInventory->GetOwnerID().m_id)
             continue;
 
         C_AttributeContainer* pAttributeContainer =
@@ -91,12 +87,18 @@ void skin_changer::Run() {
 
             const char* knifeModel = pWeaponInLoadoutDefinition->GetModelName();
             pWeapon->SetModel(knifeModel);
-            if (hWeapon == hActiveWeapon) pViewModel->SetModel(knifeModel);
+            if (pWeapon == pActiveWeapon && pViewModel)
+                pViewModel->SetModel(knifeModel);
         } else {
             // Workaround: We are forcing the OLD Models.
             pWeaponSceneNode->SetMeshGroupMask(2);
-            if (hWeapon == hActiveWeapon)
-                pViewModelSceneNode->SetMeshGroupMask(2);
+            if (pWeapon == pActiveWeapon && pViewModel) {
+                CGameSceneNode* pViewModelSceneNode =
+                    pViewModel->m_pGameSceneNode();
+
+                if (pViewModelSceneNode)
+                    pViewModelSceneNode->SetMeshGroupMask(2);
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ struct BBox_t {
 class C_BaseEntity : public CEntityInstance {
    public:
     bool IsPlayerController();
+    bool IsWeapon();
     bool GetBoundingBox(BBox_t& out);
 
     SCHEMA_FIELD(m_pGameSceneNode, "C_BaseEntity", "m_pGameSceneNode",
