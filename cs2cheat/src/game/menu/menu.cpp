@@ -177,9 +177,8 @@ static void RenderInventoryWindow() {
                                        (skin.m_rarity == 7) ? 7 : 6);
 
                         pItem->SetPaintKit(skin.m_ID);
-                        pInventory->AddEconItem(pItem);
-
-                        skin_changer::AddEconItemToList(pItem);
+                        if (pInventory->AddEconItem(pItem))
+                            skin_changer::AddEconItemToList(pItem);
                     }
                 }
             }
@@ -266,9 +265,8 @@ static void RenderInventoryWindow() {
                         pItem->SetPaintWear(kitWear);
                         if (gunName[0]) pItem->SetCustomName(gunName);
 
-                        pInventory->AddEconItem(pItem);
-
-                        skin_changer::AddEconItemToList(pItem);
+                        if (pInventory->AddEconItem(pItem))
+                            skin_changer::AddEconItemToList(pItem);
 
                         kitWear = 0.f;
                         kitSeed = 1;
@@ -290,7 +288,8 @@ static void RenderInventoryWindow() {
 
                 ImGui::TextUnformatted("Custom Name");
                 ImGui::SetNextItemWidth(windowWidth);
-                ImGui::InputText("##input1", gunName, IM_ARRAYSIZE(gunName));
+                ImGui::InputTextWithHint("##input1", "Default", gunName,
+                                         IM_ARRAYSIZE(gunName));
             }
         }
     }

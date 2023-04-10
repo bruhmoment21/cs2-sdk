@@ -84,6 +84,7 @@
     <ClInclude Include="src\sdk\source-sdk\classes\econ\ceconitemschema.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\interfaces\clocalize.hpp" />
     <ClInclude Include="src\sdk\source-sdk\classes\entity\c_weaponcsbase.hpp" />
+    <ClInclude Include="src\sdk\source-sdk\classes\entity\c_basemodelentity.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sdk\memory\memory.cpp" />
@@ -134,5 +135,6 @@
     <ClCompile Include="src\sdk\source-sdk\classes\gcsdk\cgcclientsystem.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\types\chandle.cpp" />
     <ClCompile Include="src\sdk\source-sdk\classes\econ\ceconitemdefinition.cpp" />
+    <ClCompile Include="src\sdk\source-sdk\classes\entity\c_basemodelentity.cpp" />
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ class CCSPlayerInventory {
         return CALL_VIRTUAL(C_EconItemView*, 8, this, iClass, iSlot);
     }
 
-    void AddEconItem(CEconItem* pItem);
+    bool AddEconItem(CEconItem* pItem);
     void RemoveEconItem(CEconItem* pItem);
     std::pair<uint64_t, uint32_t> GetHighestIDs();
 

@@ -25,15 +25,16 @@ void skin_changer::Run() {
 
     CHandle hActiveWeapon = pWeaponServices->m_hActiveWeapon();
 
-    CCSPlayer_ViewModelServices* pViewmodelServices =
+    CCSPlayer_ViewModelServices* pViewModelServices =
         pLocalPawn->m_pViewModelServices();
-    if (!pViewmodelServices) return;
+    if (!pViewModelServices) return;
 
-    C_BaseEntity* pViewmodel = pViewmodelServices->m_hViewModel()[0].Get();
-    if (!pViewmodel) return;
+    C_BaseModelEntity* pViewModel =
+        pViewModelServices->m_hViewModel()[0].Get<C_BaseModelEntity>();
+    if (!pViewModel) return;
 
-    CGameSceneNode* pViewmodelSceneNode = pViewmodel->m_pGameSceneNode();
-    if (!pViewmodelSceneNode) return;
+    CGameSceneNode* pViewModelSceneNode = pViewModel->m_pGameSceneNode();
+    if (!pViewModelSceneNode) return;
 
     CNetworkUtlVectorBase<CHandle>* pWeapons = pWeaponServices->m_hMyWeapons();
     if (!pWeapons) return;
@@ -72,6 +73,10 @@ void skin_changer::Run() {
                                });
         if (it == g_vecAddedItems.cend()) continue;
 
+        CEconItemDefinition* pWeaponInLoadoutDefinition =
+            pWeaponInLoadoutItemView->GetStaticData();
+        if (!pWeaponInLoadoutDefinition) continue;
+
         pWeaponItemView->m_iItemID() = pWeaponInLoadoutItemView->m_iItemID();
         pWeaponItemView->m_iItemIDHigh() =
             pWeaponInLoadoutItemView->m_iItemIDHigh();
@@ -80,9 +85,19 @@ void skin_changer::Run() {
         pWeaponItemView->m_iAccountID() =
             uint32_t(pInventory->GetOwnerID().m_id);
 
-        // Workaround: We are forcing the OLD Models.
-        pWeaponSceneNode->SetMeshGroupMask(2);
-        if (hWeapon == hActiveWeapon) pViewmodelSceneNode->SetMeshGroupMask(2);
+        if (pWeaponInLoadoutDefinition->IsKnife(true)) {
+            pWeaponItemView->m_iItemDefinitionIndex() =
+                pWeaponInLoadoutDefinition->GetDefinitionIndex();
+
+            const char* knifeModel = pWeaponInLoadoutDefinition->GetModelName();
+            pWeapon->SetModel(knifeModel);
+            if (hWeapon == hActiveWeapon) pViewModel->SetModel(knifeModel);
+        } else {
+            // Workaround: We are forcing the OLD Models.
+            pWeaponSceneNode->SetMeshGroupMask(2);
+            if (hWeapon == hActiveWeapon)
+                pViewModelSceneNode->SetMeshGroupMask(2);
+        }
     }
 }
 

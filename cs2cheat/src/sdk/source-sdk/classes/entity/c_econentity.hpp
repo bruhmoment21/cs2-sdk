@@ -1,9 +1,9 @@
 #pragma once
 
 #include "c_attributecontainer.hpp"
-#include "c_baseentity.hpp"
+#include "c_basemodelentity.hpp"
 
-class C_EconEntity : public C_BaseEntity {
+class C_EconEntity : public C_BaseModelEntity {
    public:
     PSCHEMA_FIELD(m_AttributeManager, "C_EconEntity", "m_AttributeManager",
                   C_AttributeContainer);

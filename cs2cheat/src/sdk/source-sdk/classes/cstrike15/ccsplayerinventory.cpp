@@ -33,14 +33,15 @@ CCSPlayerInventory* CCSPlayerInventory::GetInstance() {
     return nullptr;
 }
 
-void CCSPlayerInventory::AddEconItem(CEconItem* pItem) {
+bool CCSPlayerInventory::AddEconItem(CEconItem* pItem) {
     // Helper function to aid in adding items.
-    if (!pItem) return;
+    if (!pItem) return false;
 
     CGCClientSharedObjectTypeCache* pSOTypeCache = ::CreateBaseTypeCache(this);
-    if (!pSOTypeCache || !pSOTypeCache->AddObject(pItem)) return;
+    if (!pSOTypeCache || !pSOTypeCache->AddObject(pItem)) return false;
 
     SOCreated(GetOwnerID(), pItem, eSOCacheEvent_Incremental);
+    return true;
 }
 
 void CCSPlayerInventory::RemoveEconItem(CEconItem* pItem) {

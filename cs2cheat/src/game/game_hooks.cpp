@@ -12,7 +12,7 @@ static bool __fastcall hkMouseInputEnabled(void* rcx) {
 
 static CHook<void __fastcall(void*, int)> g_frameStageNotify;
 static void __fastcall hkFrameStageNotify(void* rcx, int frameStage) {
-    if (5 <= frameStage && frameStage <= 6) skin_changer::Run();
+    if (frameStage == 6) skin_changer::Run();
     return g_frameStageNotify.m_pOriginalFn(rcx, frameStage);
 }
 

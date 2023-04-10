@@ -20,7 +20,6 @@
 #define NAVSYSTEM_DLL "navsystem.dll"
 #define RENDERSYSTEMVULKAN_DLL "rendersystemvulkan.dll"
 #define LOCALIZE_DLL "localize.dll"
-#define HOST_DLL "host.dll"
 
 // Interfaces
 #define GAME_RESOURCE_SERVICE_CLIENT "GameResourceServiceClientV001"
@@ -30,7 +29,6 @@
 #define SOURCE2_ENGINE_TO_CLIENT "Source2EngineToClient001"
 #define ENGINE_CVAR "VEngineCvar007"
 #define LOCALIZE "Localize_001"
-#define GAME_MODEL_INFO "GameModelInfo001"
 
 // Signatures
 
@@ -58,6 +56,7 @@
         "E9 ? ? ? ? CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC 49 8B C0 48 " \
         "8B CA 48 8B D0")
 #define SET_CUSTOM_NAME_OR_DESC_ATTRIBUTE SIGNATURE("E8 ? ? ? ? 8B 43 10 D1 E8")
+#define SET_MODEL SIGNATURE("E8 ? ? ? ? F3 0F 10 4C 3B ?")
 
 // CCSGOInput::
 #define MOUSE_INPUT_ENABLED \
