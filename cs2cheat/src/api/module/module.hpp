@@ -7,8 +7,8 @@
 #include <Windows.h>
 #include <Psapi.h>
 
-#include "../../sdk/source-sdk/classes/interface.hpp"
-#include "../../console/console.hpp"
+#include "../../sdk/source2-sdk/interface.hpp"
+#include "../../utils/console/console.hpp"
 #include "../../defines.hpp"
 
 // Pointer Class

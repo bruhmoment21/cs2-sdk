@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../source-sdk/classes/interfaces/cgameresourceserviceclient.hpp"
-#include "../source-sdk/classes/interfaces/cgameentitysystem.hpp"
-#include "../source-sdk/classes/interfaces/csource2client.hpp"
-#include "../source-sdk/classes/interfaces/cschemasystem.hpp"
-#include "../source-sdk/classes/interfaces/cengineclient.hpp"
-#include "../source-sdk/classes/interfaces/cinputsystem.hpp"
-#include "../source-sdk/classes/interfaces/clocalize.hpp"
-#include "../source-sdk/classes/interfaces/ccvar.hpp"
+#include "../source2-sdk/interfaces/cgameresourceserviceclient.hpp"
+#include "../source2-sdk/interfaces/cgameentitysystem.hpp"
+#include "../source2-sdk/interfaces/csource2client.hpp"
+#include "../source2-sdk/interfaces/cschemasystem.hpp"
+#include "../source2-sdk/interfaces/cengineclient.hpp"
+#include "../source2-sdk/interfaces/cinputsystem.hpp"
+#include "../source2-sdk/interfaces/clocalize.hpp"
+#include "../source2-sdk/interfaces/ccvar.hpp"
 
 namespace interfaces {
     void Initialize();

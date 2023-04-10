@@ -2,9 +2,9 @@
 
 #include <memory>
 
-#include <funchook/src/funchook.h>
-
 #include "../../sdk/virtual.hpp"
+
+#include <funchook/src/funchook.h>
 
 #define HOOK_FUNCTION(hook) hook, #hook
 

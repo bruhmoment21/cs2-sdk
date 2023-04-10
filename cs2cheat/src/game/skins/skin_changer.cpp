@@ -12,6 +12,8 @@ void skin_changer::Run() {
     CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
     if (!pInventory) return;
 
+    const uint64_t steamID = pInventory->GetOwnerID().m_id;
+
     CCSPlayerController* pLocalPlayerController =
         interfaces::pEntitySystem->GetLocalPlayerController();
     if (!pLocalPlayerController) return;
@@ -39,8 +41,7 @@ void skin_changer::Run() {
         if (!pEntity || !pEntity->IsWeapon()) continue;
 
         C_WeaponCSBase* pWeapon = reinterpret_cast<C_WeaponCSBase*>(pEntity);
-        if (pWeapon->GetOriginalOwnerXuid() != pInventory->GetOwnerID().m_id)
-            continue;
+        if (pWeapon->GetOriginalOwnerXuid() != steamID) continue;
 
         C_AttributeContainer* pAttributeContainer =
             pWeapon->m_AttributeManager();
@@ -78,8 +79,7 @@ void skin_changer::Run() {
             pWeaponInLoadoutItemView->m_iItemIDHigh();
         pWeaponItemView->m_iItemIDLow() =
             pWeaponInLoadoutItemView->m_iItemIDLow();
-        pWeaponItemView->m_iAccountID() =
-            uint32_t(pInventory->GetOwnerID().m_id);
+        pWeaponItemView->m_iAccountID() = uint32_t(steamID);
 
         if (pWeaponInLoadoutDefinition->IsKnife(true)) {
             pWeaponItemView->m_iItemDefinitionIndex() =

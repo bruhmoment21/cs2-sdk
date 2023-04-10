@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "../console/console.hpp"
+#include "../utils/console/console.hpp"
 #include "../defines.hpp"
 
 #define CALL_VIRTUAL(retType, idx, ...) \

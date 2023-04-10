@@ -2,7 +2,7 @@
 
 #include "../../api/module/module.hpp"
 
-#include "../source-sdk/classes/cstrike15/ccsplayerinventory.hpp"
+#include "../source2-sdk/cstrike15/ccsplayerinventory.hpp"
 
 class Vector;
 class CCSInventoryManager;
