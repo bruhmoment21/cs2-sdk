@@ -8,9 +8,18 @@
 #include "render.hpp"
 
 #include <imgui/imgui.h>
+#include <imgui/imgui_freetype.h>
 
 void render::Initialize() {
     // Initialize fonts/colors/style here.
+    ImGuiIO& IO = ImGui::GetIO();
+
+    ImFontConfig cfg{};
+    cfg.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_Bitmap;
+
+    IO.Fonts->Clear();
+    IO.Fonts->AddFontFromFileTTF("E:\\cozette_bitmap.ttf", 13.f, &cfg);
+    IO.Fonts->Build();
 }
 
 void render::NewFrame() {
