@@ -95,6 +95,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="dependencies\cozette\cozette_bitmap.hpp" />
     <ClInclude Include="dependencies\fnv1a\hash_fnv1a_constexpr.h" />
     <ClInclude Include="dependencies\funchook\include\distorm.h" />
     <ClInclude Include="dependencies\funchook\include\mnemonics.h" />

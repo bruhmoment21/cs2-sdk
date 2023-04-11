@@ -10,15 +10,27 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_freetype.h>
 
+#include <cozette/cozette_bitmap.hpp>
+
 void render::Initialize() {
-    // Initialize fonts/colors/style here.
     ImGuiIO& IO = ImGui::GetIO();
+
+    ImVector<ImWchar> ranges;
+    ImFontGlyphRangesBuilder builder;
+
+    // Add your custom ranges right here.
+    // https://github.com/ocornut/imgui/blob/master/docs/FONTS.md#using-custom-glyph-ranges
+
+    builder.AddRanges(IO.Fonts->GetGlyphRangesCyrillic());
+    builder.BuildRanges(&ranges);
 
     ImFontConfig cfg{};
     cfg.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_Bitmap;
+    cfg.SizePixels = 13.f;
 
     IO.Fonts->Clear();
-    IO.Fonts->AddFontFromFileTTF("E:\\cozette_bitmap.ttf", 13.f, &cfg);
+    IO.Fonts->AddFontFromMemoryCompressedBase85TTF(
+        cozette_bitmap_compressed_data_base85, 0.f, &cfg, ranges.Data);
     IO.Fonts->Build();
 }
 
