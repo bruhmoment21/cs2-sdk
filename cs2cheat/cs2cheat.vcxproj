@@ -47,15 +47,15 @@
     <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)obj\</IntDir>
     <TargetName>$(ProjectName) $(Configuration) $(Platform)</TargetName>
-    <IncludePath>$(ProjectDir)dependencies\funchook\include;$(ProjectDir)dependencies;$(VULKAN_SDK)\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)dependencies\freetype-2.13.0\include;$(ProjectDir)dependencies\funchook\include;$(ProjectDir)dependencies;$(VULKAN_SDK)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)dependencies\freetype-2.13.0\objs\$(Platform)\$(Configuration) Static;$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)obj\</IntDir>
     <TargetName>$(ProjectName) $(Configuration) $(Platform)</TargetName>
-    <IncludePath>$(ProjectDir)dependencies\funchook\include;$(ProjectDir)dependencies;$(VULKAN_SDK)\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)dependencies\freetype-2.13.0\include;$(ProjectDir)dependencies\funchook\include;$(ProjectDir)dependencies;$(VULKAN_SDK)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)dependencies\freetype-2.13.0\objs\$(Platform)\$(Configuration) Static;$(VULKAN_SDK)\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -69,7 +69,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;psapi.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;d3d11.lib;dxgi.lib;psapi.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -82,16 +82,20 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;psapi.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;d3d11.lib;dxgi.lib;psapi.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="dependencies\cozette\cozette_bitmap.hpp" />
     <ClInclude Include="dependencies\fnv1a\hash_fnv1a_constexpr.h" />
     <ClInclude Include="dependencies\funchook\include\distorm.h" />
     <ClInclude Include="dependencies\funchook\include\mnemonics.h" />
@@ -110,12 +114,12 @@
     <ClInclude Include="dependencies\funchook\src\x86defs.h" />
     <ClInclude Include="dependencies\imgui\imconfig.h" />
     <ClInclude Include="dependencies\imgui\imgui.h" />
+    <ClInclude Include="dependencies\imgui\imgui_freetype.h" />
     <ClInclude Include="dependencies\imgui\imgui_impl_dx11.h" />
     <ClInclude Include="dependencies\imgui\imgui_impl_win32.h" />
     <ClInclude Include="dependencies\imgui\imgui_internal.h" />
     <ClInclude Include="dependencies\imgui\imstb_rectpack.h" />
     <ClInclude Include="dependencies\imgui\imstb_textedit.h" />
-    <ClInclude Include="dependencies\imgui\imstb_truetype.h" />
     <ClInclude Include="dependencies\stb\stb.hh" />
     <ClInclude Include="src\api\hook\hook.hpp" />
     <ClInclude Include="src\api\module\module.hpp" />
@@ -193,6 +197,7 @@
     <ClCompile Include="dependencies\imgui\imgui.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_demo.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_draw.cpp" />
+    <ClCompile Include="dependencies\imgui\imgui_freetype.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_impl_dx11.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_tables.cpp" />

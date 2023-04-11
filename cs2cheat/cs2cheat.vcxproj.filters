@@ -42,7 +42,6 @@
     <ClInclude Include="dependencies\imgui\imgui_internal.h" />
     <ClInclude Include="dependencies\imgui\imstb_rectpack.h" />
     <ClInclude Include="dependencies\imgui\imstb_textedit.h" />
-    <ClInclude Include="dependencies\imgui\imstb_truetype.h" />
     <ClInclude Include="src\sdk\source2-sdk\entity\centityidentity.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\entity\centityinstance.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\entity\c_csplayerpawn.hpp" />
@@ -85,6 +84,8 @@
     <ClInclude Include="src\sdk\source2-sdk\interfaces\clocalize.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\entity\c_weaponcsbase.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\entity\c_basemodelentity.hpp" />
+    <ClInclude Include="dependencies\imgui\imgui_freetype.h" />
+    <ClInclude Include="dependencies\cozette\cozette_bitmap.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sdk\memory\memory.cpp" />
@@ -136,5 +137,6 @@
     <ClCompile Include="src\sdk\source2-sdk\types\chandle.cpp" />
     <ClCompile Include="src\sdk\source2-sdk\econ\ceconitemdefinition.cpp" />
     <ClCompile Include="src\sdk\source2-sdk\entity\c_basemodelentity.cpp" />
+    <ClCompile Include="dependencies\imgui\imgui_freetype.cpp" />
   </ItemGroup>
 </Project>

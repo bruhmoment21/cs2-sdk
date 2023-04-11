@@ -1,3 +1,9 @@
 .vs/*
 bin/*
 obj/*
+
+cs2cheat/dependencies/freetype-2.13.0/objs/*
+cs2cheat/dependencies/freetype-2.13.0/src/**/*.*
+!cs2cheat/dependencies/freetype-2.13.0/src/**/*.c
+!cs2cheat/dependencies/freetype-2.13.0/src/**/*.h
+!cs2cheat/dependencies/freetype-2.13.0/src/base/ftver.rc
