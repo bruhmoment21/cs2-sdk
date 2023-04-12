@@ -3,5 +3,7 @@
 namespace esp {
     void Render();
 
-    inline bool bBoxEsp, bNameEsp, bHealthbar, bIgnoreTeammates;
+    inline bool bBoxes, bName, bHealthbar, bIgnoreTeammates, bActiveWeaponName,
+        bDroppedWeaponBoxes, bDroppedWeaponName;
+    inline float fWeaponMaxDistance;
 }  // namespace esp

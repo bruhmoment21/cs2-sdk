@@ -28,25 +28,36 @@ bool C_BaseEntity::IsWeapon() {
     return svDesignerName.starts_with("weapon_");
 }
 
-bool C_BaseEntity::GetBoundingBox(BBox_t& out) {
+const Vector& C_BaseEntity::GetOrigin() {
+    static const Vector null{};
+
+    CGameSceneNode* pGameSceneNode = m_pGameSceneNode();
+    if (!pGameSceneNode) return null;
+
+    return pGameSceneNode->m_vecAbsOrigin();
+}
+
+bool C_BaseEntity::GetBoundingBox(BBox_t& out, bool computeSurroundingBox) {
     CCollisionProperty* pCollision = m_pCollision();
     if (!pCollision) return false;
 
-    CGameSceneNode* pGameSceneNode = m_pGameSceneNode();
-    if (!pGameSceneNode) return false;
-
-    const Vector& origin = pGameSceneNode->m_vecAbsOrigin();
-    const Vector min = pCollision->m_vecMins() + origin;
-    const Vector max = pCollision->m_vecMaxs() + origin;
+    Vector min{}, max{};
+    if (computeSurroundingBox) {
+        if (!ComputeHitboxSurroundingBox(min, max)) return false;
+    } else {
+        const Vector& absOrigin = GetOrigin();
+        min = pCollision->m_vecMins() + absOrigin;
+        max = pCollision->m_vecMaxs() + absOrigin;
+    }
 
     out.x = out.y = std::numeric_limits<float>::max();
     out.w = out.h = -std::numeric_limits<float>::max();
 
     for (size_t i = 0; i < 8; ++i) {
-        const Vector points{i & 1 ? max.x : min.x, i & 2 ? max.y : min.y,
-                            i & 4 ? max.z : min.z};
+        const Vector point{i & 1 ? max.x : min.x, i & 2 ? max.y : min.y,
+                           i & 4 ? max.z : min.z};
         Vector screen;
-        if (!math::WorldToScreen(points, screen)) return false;
+        if (!math::WorldToScreen(point, screen)) return false;
 
         out.x = IM_FLOOR(std::min(out.x, screen.x));
         out.y = IM_FLOOR(std::min(out.y, screen.y));
@@ -55,4 +66,16 @@ bool C_BaseEntity::GetBoundingBox(BBox_t& out) {
     }
 
     return true;
+}
+
+bool C_BaseEntity::ComputeHitboxSurroundingBox(Vector& mins, Vector& maxs) {
+    if (!memory::fnComputeHitboxSurroundingBox) return false;
+    return memory::fnComputeHitboxSurroundingBox(this, mins, maxs);
+}
+
+float C_BaseEntity::DistanceToSquared(C_BaseEntity* pEntity) {
+    const Vector& currentOrigin = GetOrigin();
+    const Vector& entityOrigin = pEntity->GetOrigin();
+
+    return currentOrigin.DistToSquaredInMeters(entityOrigin);
 }

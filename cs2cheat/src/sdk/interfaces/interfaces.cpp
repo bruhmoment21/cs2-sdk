@@ -7,12 +7,12 @@
     LOG("interfaces::%s found at -> %p\n", #dst, dst)
 
 void interfaces::Initialize() {
-    CModule engine(ENGINE2_DLL, true);
-    CModule client(CLIENT_DLL, true);
-    CModule schemasystem(SCHEMASYSTEM_DLL, true);
-    CModule inputsystem(INPUTSYSTEM_DLL, true);
-    CModule tier0(TIER0_DLL, true);
-    CModule localize(LOCALIZE_DLL, true);
+    CModule engine(ENGINE2_DLL);
+    CModule client(CLIENT_DLL);
+    CModule schemasystem(SCHEMASYSTEM_DLL);
+    CModule inputsystem(INPUTSYSTEM_DLL);
+    CModule tier0(TIER0_DLL);
+    CModule localize(LOCALIZE_DLL);
 
     FIND_INTERFACE(pGameResourceService, engine, GAME_RESOURCE_SERVICE_CLIENT);
     FIND_INTERFACE(pClient, client, SOURCE2_CLIENT);

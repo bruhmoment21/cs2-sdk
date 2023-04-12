@@ -15,6 +15,9 @@ static ID3D11DeviceContext* g_pd3dDeviceContext = NULL;
 static ID3D11RenderTargetView* g_pd3dRenderTarget = NULL;
 static IDXGISwapChain* g_pSwapChain = NULL;
 
+// Defined in 'wndproc_hook.cpp'.
+HWND GetGameWindow();
+
 static void CleanupDeviceD3D11();
 static void CleanupRenderTarget();
 static void RenderImGui_DX11(IDXGISwapChain* pSwapChain);
@@ -192,7 +195,7 @@ static HRESULT WINAPI hkCreateSwapChainForComposition(
 }
 
 void CS2_HookDX11GraphicsAPI() {
-    if (!CreateDeviceD3D11(GetConsoleWindow())) {
+    if (!CreateDeviceD3D11(GetGameWindow())) {
         LOG("[!] CreateDeviceD3D11() failed.\n");
         return;
     }

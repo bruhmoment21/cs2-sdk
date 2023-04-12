@@ -6,7 +6,7 @@ void CS2_HookDX11GraphicsAPI();
 void CS2_UnhookDX11GraphicsAPI();
 
 void CS2_HookGraphicsAPI() {
-    CModule rendersystemvulkan(RENDERSYSTEMVULKAN_DLL, true);
+    CModule rendersystemvulkan(RENDERSYSTEMVULKAN_DLL);
     if (rendersystemvulkan.IsLoaded()) {
 #ifdef CS2_SDK_ENABLE_VULKAN_SUPPORT
         CS2_HookVulkanGraphicsAPI();
@@ -19,7 +19,7 @@ void CS2_HookGraphicsAPI() {
     }
 }
 void CS2_UnhookGraphicsAPI() {
-    CModule rendersystemvulkan(RENDERSYSTEMVULKAN_DLL, true);
+    CModule rendersystemvulkan(RENDERSYSTEMVULKAN_DLL);
     if (rendersystemvulkan.IsLoaded()) {
 #ifdef CS2_SDK_ENABLE_VULKAN_SUPPORT
         CS2_UnhookVulkanGraphicsAPI();

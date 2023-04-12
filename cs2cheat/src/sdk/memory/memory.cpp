@@ -5,10 +5,10 @@
 #define LOG_RESULT(src) LOG("memory::%s found at -> %p\n", #src, src)
 
 void memory::Initialize() {
-    CModule client(CLIENT_DLL, true);
-    CModule schemasystem(SCHEMASYSTEM_DLL, true);
-    CModule sdl2(SDL2_DLL, true);
-    CModule tier0(TIER0_DLL, true);
+    CModule client(CLIENT_DLL);
+    CModule schemasystem(SCHEMASYSTEM_DLL);
+    CModule sdl2(SDL2_DLL);
+    CModule tier0(TIER0_DLL);
 
     fnGetBaseEntity = client.FindPattern(GET_BASE_ENTITY)
                           .ToAbsolute(3, 0)
@@ -71,6 +71,11 @@ void memory::Initialize() {
                      .ToAbsolute(1, 0)
                      .Get<decltype(fnSetModel)>();
     LOG_RESULT(fnSetModel);
+    fnComputeHitboxSurroundingBox =
+        client.FindPattern(COMPUTE_HITBOX_SURROUNDING_BOX)
+            .ToAbsolute(1, 0)
+            .Get<decltype(fnComputeHitboxSurroundingBox)>();
+    LOG_RESULT(fnComputeHitboxSurroundingBox);
 
     // SDL Functions:
     fnSDL_SetRelativeMouseMode =

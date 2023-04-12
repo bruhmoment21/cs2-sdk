@@ -5,13 +5,14 @@
 #include "../hooks/hooks.hpp"
 
 void InitializeCheat() {
-    CModule navsystem(NAVSYSTEM_DLL, true);
+    console::Initialize();
+
+    CModule navsystem(NAVSYSTEM_DLL);
     while (!navsystem.IsLoaded()) {
         navsystem.Load();
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
 
-    console::Initialize();
     interfaces::Initialize();
     memory::Initialize();
     hooks::Initialize();

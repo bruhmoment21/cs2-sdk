@@ -8,8 +8,11 @@
 
 static ImDrawList* g_pBackgroundDrawList = nullptr;
 static CCSPlayerController* g_pLocalPlayerController = nullptr;
+static C_CSPlayerPawn* g_pLocalPlayerPawn = nullptr;
 
 static void RenderPlayerESP(CCSPlayerController* pPlayerController);
+static void RenderWeaponESP(C_WeaponCSBase* pWeapon);
+static void RenderWeaponName(C_WeaponCSBase* pWeapon, const BBox_t& bBox);
 
 void esp::Render() {
     if (!interfaces::pEngine->IsInGame()) return;
@@ -20,13 +23,20 @@ void esp::Render() {
         interfaces::pEntitySystem->GetLocalPlayerController();
     if (!g_pLocalPlayerController) return;
 
+    g_pLocalPlayerPawn =
+        g_pLocalPlayerController->m_hPawn().Get<C_CSPlayerPawn>();
+    if (!g_pLocalPlayerPawn) return;
+
     // Expand ESP as needed.
-    for (int i = 1; i <= MAX_PLAYERS; ++i) {
+    int highestIndex = interfaces::pEntitySystem->GetHighestEntityIndex();
+    for (int i = 1; i <= highestIndex; ++i) {
         C_BaseEntity* pEntity = interfaces::pEntitySystem->GetBaseEntity(i);
         if (!pEntity) continue;
 
         if (pEntity->IsPlayerController())
             RenderPlayerESP((CCSPlayerController*)pEntity);
+        else if (pEntity->IsWeapon())
+            RenderWeaponESP((C_WeaponCSBase*)pEntity);
     }
 }
 
@@ -48,18 +58,18 @@ static void RenderPlayerESP(CCSPlayerController* pPlayerController) {
     const ImVec2 min = {bBox.x, bBox.y};
     const ImVec2 max = {bBox.w, bBox.h};
 
-    if (bBoxEsp) {
-        g_pBackgroundDrawList->AddRect(
-            min, max,
-            isEnemy ? IM_COL32(255, 0, 0, 255) : IM_COL32(0, 255, 0, 255));
+    if (bBoxes) {
         g_pBackgroundDrawList->AddRect(min - ImVec2{1.f, 1.f},
                                        max + ImVec2{1.f, 1.f},
                                        IM_COL32(0, 0, 0, 255));
         g_pBackgroundDrawList->AddRect(min + ImVec2{1.f, 1.f},
                                        max - ImVec2{1.f, 1.f},
                                        IM_COL32(0, 0, 0, 255));
+        g_pBackgroundDrawList->AddRect(
+            min, max,
+            isEnemy ? IM_COL32(255, 0, 0, 255) : IM_COL32(0, 255, 0, 255));
     }
-    if (bNameEsp) {
+    if (bName) {
         const char* szName = pPlayerController->m_sSanitizedPlayerName();
         if (szName && strlen(szName) > 0) {
             const ImVec2 textSize = ImGui::CalcTextSize(szName);
@@ -94,4 +104,71 @@ static void RenderPlayerESP(CCSPlayerController* pPlayerController) {
                 IM_COL32(red, greenClamped, 0, 255));
         }
     }
+    if (bActiveWeaponName) {
+        CPlayer_WeaponServices* pWeaponServices = pPawn->m_pWeaponServices();
+        if (pWeaponServices) {
+            C_WeaponCSBase* pActiveWeapon =
+                pWeaponServices->m_hActiveWeapon().Get<C_WeaponCSBase>();
+            RenderWeaponName(pActiveWeapon, bBox);
+        }
+    }
+}
+
+static void RenderWeaponESP(C_WeaponCSBase* pWeapon) {
+    using namespace esp;
+
+    if (pWeapon->m_hOwnerEntity().IsValid()) return;
+
+    if (fWeaponMaxDistance != 0.f &&
+        g_pLocalPlayerPawn->DistanceToSquared(pWeapon) >=
+            fWeaponMaxDistance * fWeaponMaxDistance)
+        return;
+
+    BBox_t bBox;
+    if (!pWeapon->GetBoundingBox(bBox, true)) return;
+
+    const ImVec2 min = {bBox.x, bBox.y};
+    const ImVec2 max = {bBox.w, bBox.h};
+
+    if (bDroppedWeaponBoxes) {
+        g_pBackgroundDrawList->AddRect(min - ImVec2{1.f, 1.f},
+                                       max + ImVec2{1.f, 1.f},
+                                       IM_COL32(0, 0, 0, 255));
+        g_pBackgroundDrawList->AddRect(min + ImVec2{1.f, 1.f},
+                                       max - ImVec2{1.f, 1.f},
+                                       IM_COL32(0, 0, 0, 255));
+        g_pBackgroundDrawList->AddRect(min, max, IM_COL32(255, 255, 255, 255));
+    }
+    if (bDroppedWeaponName) {
+        RenderWeaponName(pWeapon, bBox);
+    }
+}
+
+static void RenderWeaponName(C_WeaponCSBase* pWeapon, const BBox_t& bBox) {
+    // Function to avoid spaghetti code.
+    if (!pWeapon) return;
+
+    C_AttributeContainer* pAttributeContainer = pWeapon->m_AttributeManager();
+    if (!pAttributeContainer) return;
+
+    C_EconItemView* pItemView = pAttributeContainer->m_Item();
+    if (!pItemView) return;
+
+    CEconItemDefinition* pItemStaticData = pItemView->GetStaticData();
+    if (!pItemStaticData) return;
+
+    const char* szWeaponName =
+        interfaces::pLocalize->FindSafe(pItemStaticData->m_pszItemBaseName);
+    if (!szWeaponName || strlen(szWeaponName) < 1) return;
+
+    const ImVec2 min = {bBox.x, bBox.y};
+    const ImVec2 max = {bBox.w, bBox.h};
+
+    const ImVec2 textSize = ImGui::CalcTextSize(szWeaponName);
+    const ImVec2 textPos = ImFloor(
+        {(min.x + max.x - textSize.x) / 2.f, max.y + textSize.y - 12.f});
+    g_pBackgroundDrawList->AddText(textPos + ImVec2{1, 1},
+                                   IM_COL32(0, 0, 0, 255), szWeaponName);
+    g_pBackgroundDrawList->AddText(textPos, IM_COL32(255, 255, 255, 255),
+                                   szWeaponName);
 }

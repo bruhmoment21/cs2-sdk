@@ -90,3 +90,5 @@ static BOOL CALLBACK EnumWindowsCallback(HWND handle, LPARAM lParam) {
     *reinterpret_cast<HWND *>(lParam) = handle;
     return FALSE;
 }
+
+HWND GetGameWindow() { return g_hWindow; }

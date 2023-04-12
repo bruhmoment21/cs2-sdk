@@ -15,7 +15,7 @@
 struct UTILPtr {
    public:
     template <typename T>
-    UTILPtr(const T& val) {
+    UTILPtr(T val) {
         m_val = (uintptr_t)(val);
     }
 
@@ -42,6 +42,8 @@ struct UTILPtr {
         return *this;
     }
 
+    bool operator!() { return m_val == 0; }
+
    private:
     uintptr_t m_val;
 };
@@ -53,13 +55,13 @@ class CModule {
     CModule(CModule&&) = delete;
     CModule(const CModule&) = delete;
 
-    explicit CModule(const char* name, bool shouldLoad) {
+    explicit CModule(const char* name) {
         this->m_name = name;
-        if (shouldLoad) Load();
+        this->Load();
     }
     void Load() {
-        InitializeHandle();
-        InitializeBounds();
+        this->InitializeHandle();
+        this->InitializeBounds();
     }
 
     template <typename T = void*>
@@ -71,13 +73,18 @@ class CModule {
                 static_cast<HMODULE>(this->m_handle), procName));
 #endif
         }
+
+        LOG("GetProcAddress('%s', '%s') returned -> %p\n", this->GetName(),
+            procName, rv);
         return rv;
     }
     template <typename T = void*>
     T FindInterface(const char* version) const {
-        void* rv = nullptr;
+        T rv = nullptr;
         if (this->IsLoaded()) {
             UTILPtr pCreateInterface = this->GetProcAddress("CreateInterface");
+            if (!pCreateInterface) return rv;
+
             InterfaceReg* s_pInterfaceRegs = pCreateInterface.ToAbsolute(3, 0)
                                                  .Dereference(1)
                                                  .Get<InterfaceReg*>();
@@ -85,12 +92,12 @@ class CModule {
             for (; s_pInterfaceRegs;
                  s_pInterfaceRegs = s_pInterfaceRegs->m_pNext) {
                 if (strcmp(version, s_pInterfaceRegs->m_pName) == 0) {
-                    rv = s_pInterfaceRegs->m_CreateFn();
+                    rv = (T)(s_pInterfaceRegs->m_CreateFn());
                     break;
                 }
             }
         }
-        return reinterpret_cast<T>(rv);
+        return rv;
     }
     template <size_t N>
     UTILPtr FindPattern(const std::array<int, N>& signature) const {
@@ -115,7 +122,7 @@ class CModule {
         }
         return rv;
     }
-    const char* GetName() const { return this->m_name.c_str(); }
+    const char* GetName() const { return this->m_name; }
     bool IsLoaded() const { return this->m_handle != 0; }
 
    private:
@@ -123,6 +130,8 @@ class CModule {
 #ifdef IS_WINDOWS
         this->m_handle = static_cast<void*>(GetModuleHandle(this->GetName()));
 #endif
+
+        LOG("Module '%s' found at -> %p\n", this->GetName(), this->m_handle);
     }
     void InitializeBounds() {
         if (!this->IsLoaded()) return;
@@ -141,5 +150,5 @@ class CModule {
 
     void* m_handle = nullptr;
     uintptr_t m_start = 0, m_end = 0;
-    std::string m_name = "";
+    const char* m_name = "";
 };

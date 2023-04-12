@@ -36,10 +36,24 @@ void menu::Render() {
 
     ImGui::SetNextWindowPos(IO.DisplaySize / 2.f, ImGuiCond_Once, {0.5f, 0.5f});
     ImGui::Begin("cs2sdk menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-    ImGui::Checkbox("Box", &esp::bBoxEsp);
-    ImGui::Checkbox("Name", &esp::bNameEsp);
-    ImGui::Checkbox("Healthbar", &esp::bHealthbar);
+
+    ImGui::SeparatorText("Player ESP");
+    ImGui::Checkbox("Players box", &esp::bBoxes);
+    ImGui::Checkbox("Players name", &esp::bName);
+    ImGui::Checkbox("Players healthbar", &esp::bHealthbar);
+    ImGui::Checkbox("Active weapon name", &esp::bActiveWeaponName);
     ImGui::Checkbox("Ignore teammates", &esp::bIgnoreTeammates);
+
+    ImGui::SeparatorText("Weapon ESP");
+    ImGui::Checkbox("Weapons box", &esp::bDroppedWeaponBoxes);
+    ImGui::Checkbox("Weapons name", &esp::bDroppedWeaponName);
+
+    ImGui::TextUnformatted("Max weapon distance in meters:");
+    ImGui::SetNextItemWidth(windowWidth);
+    ImGui::SliderFloat("##sliderWeapon", &esp::fWeaponMaxDistance, 0.f, 150.f,
+                       "%.2f");
+
+    ImGui::SeparatorText("Other");
     ImGui::SetNextItemWidth(windowWidth);
     ImGui::InputTextWithHint("##l0", "Class", classInputText,
                              IM_ARRAYSIZE(classInputText));

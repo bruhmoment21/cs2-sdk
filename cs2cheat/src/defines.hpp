@@ -6,6 +6,9 @@
 // parameters and lastly include both 'imgui_impl_vulkan' files.
 // #define CS2_SDK_ENABLE_VULKAN_SUPPORT
 
+// Pretty self-explanatory.
+#define CS2_SDK_ENABLE_LOGGING
+
 // Helper
 #define SIGNATURE(sig) \
     stb::simple_conversion::build<stb::fixed_string{sig}>::value
@@ -57,6 +60,7 @@
         "8B CA 48 8B D0")
 #define SET_CUSTOM_NAME_OR_DESC_ATTRIBUTE SIGNATURE("E8 ? ? ? ? 8B 43 10 D1 E8")
 #define SET_MODEL SIGNATURE("E8 ? ? ? ? F3 0F 10 4C 3B ?")
+#define COMPUTE_HITBOX_SURROUNDING_BOX SIGNATURE("E9 ? ? ? ? F6 43 5B FD")
 
 // CCSGOInput::
 #define MOUSE_INPUT_ENABLED \
