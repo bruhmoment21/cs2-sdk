@@ -13,7 +13,7 @@ Counter-Strike 2 SDK written in C++ to aid your development. This SDK has been w
 Tested on:
 - Windows
 ## Media
-![image](https://user-images.githubusercontent.com/53657322/230977094-43890c00-576d-4b08-bdef-c046d99b3533.png)
+![image](https://user-images.githubusercontent.com/53657322/231369676-574fb8ff-5ca9-46c1-bfef-af91803161ab.png)
 ## Dependencies
 - [funchook + distorm](https://github.com/kubo/funchook/releases/tag/v1.1.2) - hooking
 - [imgui](https://github.com/ocornut/imgui) - gui
