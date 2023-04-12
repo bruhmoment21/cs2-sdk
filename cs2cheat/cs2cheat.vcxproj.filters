@@ -86,6 +86,7 @@
     <ClInclude Include="src\sdk\source2-sdk\entity\c_basemodelentity.hpp" />
     <ClInclude Include="dependencies\imgui\imgui_freetype.h" />
     <ClInclude Include="dependencies\cozette\cozette_bitmap.hpp" />
+    <ClInclude Include="src\sdk\source2-sdk\entity\c_chicken.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sdk\memory\memory.cpp" />

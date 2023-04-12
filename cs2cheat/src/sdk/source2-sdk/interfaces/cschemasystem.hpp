@@ -11,11 +11,15 @@ struct SchemaClassFieldData_t {
 
 class SchemaClassInfoData_t {
    public:
-    short GetFieldsSize() {
+    auto GetName() {
+        return *reinterpret_cast<const char**>((uintptr_t)(this) + 0x8);
+    }
+
+    auto GetFieldsSize() {
         return *reinterpret_cast<short*>((uintptr_t)(this) + 0x1C);
     }
 
-    SchemaClassFieldData_t* GetFields() {
+    auto GetFields() {
         return *reinterpret_cast<SchemaClassFieldData_t**>((uintptr_t)(this) +
                                                            0x28);
     }

@@ -28,6 +28,17 @@ bool C_BaseEntity::IsWeapon() {
     return svDesignerName.starts_with("weapon_");
 }
 
+bool C_BaseEntity::IsChicken() {
+    SchemaClassInfoData_t* pClassInfo = Schema_DynamicBinding();
+    if (!pClassInfo) return false;
+
+    const char* className = pClassInfo->GetName();
+    if (!className) return false;
+
+    static constexpr auto C_Chicken = hash_32_fnv1a_const("C_Chicken");
+    return hash_32_fnv1a_const(className) == C_Chicken;
+}
+
 const Vector& C_BaseEntity::GetOrigin() {
     static const Vector null{};
 

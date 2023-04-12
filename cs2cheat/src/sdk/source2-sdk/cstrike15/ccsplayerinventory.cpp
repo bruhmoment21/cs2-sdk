@@ -48,10 +48,15 @@ void CCSPlayerInventory::RemoveEconItem(CEconItem* pItem) {
     // Helper function to aid in removing items.
     if (!pItem) return;
 
-    SODestroyed(GetOwnerID(), pItem, eSOCacheEvent_Incremental);
-
     CGCClientSharedObjectTypeCache* pSOTypeCache = ::CreateBaseTypeCache(this);
-    if (pSOTypeCache) pSOTypeCache->RemoveObject(pItem);
+    if (!pSOTypeCache) return;
+
+    const CUtlVector<CEconItem*>& pSharedObjects =
+        pSOTypeCache->GetVecObjects<CEconItem*>();
+    if (!pSharedObjects.Exists(pItem)) return;
+
+    SODestroyed(GetOwnerID(), pItem, eSOCacheEvent_Incremental);
+    pSOTypeCache->RemoveObject(pItem);
 
     pItem->Destruct();
 }

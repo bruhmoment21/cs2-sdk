@@ -13,6 +13,7 @@ static C_CSPlayerPawn* g_pLocalPlayerPawn = nullptr;
 static void RenderPlayerESP(CCSPlayerController* pPlayerController);
 static void RenderWeaponESP(C_WeaponCSBase* pWeapon);
 static void RenderWeaponName(C_WeaponCSBase* pWeapon, const BBox_t& bBox);
+static void RenderChickenESP(C_Chicken* pChicken);
 
 void esp::Render() {
     if (!interfaces::pEngine->IsInGame()) return;
@@ -37,6 +38,8 @@ void esp::Render() {
             RenderPlayerESP((CCSPlayerController*)pEntity);
         else if (pEntity->IsWeapon())
             RenderWeaponESP((C_WeaponCSBase*)pEntity);
+        else if (pEntity->IsChicken())
+            RenderChickenESP((C_Chicken*)pEntity);
     }
 }
 
@@ -109,7 +112,9 @@ static void RenderPlayerESP(CCSPlayerController* pPlayerController) {
         if (pWeaponServices) {
             C_WeaponCSBase* pActiveWeapon =
                 pWeaponServices->m_hActiveWeapon().Get<C_WeaponCSBase>();
-            RenderWeaponName(pActiveWeapon, bBox);
+            if (pActiveWeapon) {
+                RenderWeaponName(pActiveWeapon, bBox);
+            }
         }
     }
 }
@@ -146,8 +151,6 @@ static void RenderWeaponESP(C_WeaponCSBase* pWeapon) {
 
 static void RenderWeaponName(C_WeaponCSBase* pWeapon, const BBox_t& bBox) {
     // Function to avoid spaghetti code.
-    if (!pWeapon) return;
-
     C_AttributeContainer* pAttributeContainer = pWeapon->m_AttributeManager();
     if (!pAttributeContainer) return;
 
@@ -171,4 +174,30 @@ static void RenderWeaponName(C_WeaponCSBase* pWeapon, const BBox_t& bBox) {
                                    IM_COL32(0, 0, 0, 255), szWeaponName);
     g_pBackgroundDrawList->AddText(textPos, IM_COL32(255, 255, 255, 255),
                                    szWeaponName);
+}
+
+static void RenderChickenESP(C_Chicken* pChicken) {
+    using namespace esp;
+
+    BBox_t bBox;
+    if (!pChicken->GetBoundingBox(bBox)) return;
+
+    C_CSPlayerPawnBase* pLeaderPawn =
+        pChicken->m_leader().Get<C_CSPlayerPawnBase>();
+
+    const ImVec2 min = {bBox.x, bBox.y};
+    const ImVec2 max = {bBox.w, bBox.h};
+
+    if (bChickenBox) {
+        g_pBackgroundDrawList->AddRect(min - ImVec2{1.f, 1.f},
+                                       max + ImVec2{1.f, 1.f},
+                                       IM_COL32(0, 0, 0, 255));
+        g_pBackgroundDrawList->AddRect(min + ImVec2{1.f, 1.f},
+                                       max - ImVec2{1.f, 1.f},
+                                       IM_COL32(0, 0, 0, 255));
+        g_pBackgroundDrawList->AddRect(
+            min, max,
+            IM_COL32(pLeaderPawn == g_pLocalPlayerPawn ? 160 : 255, 0, 255,
+                     255));
+    }
 }

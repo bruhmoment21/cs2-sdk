@@ -10,6 +10,11 @@ class CUtlVector {
     auto begin() const { return m_data; }
     auto end() const { return m_data + m_size; }
 
+    bool Exists(T val) const {
+        for (const auto& it : *this)
+            if (it == val) return true;
+        return false;
+    }
     bool Empty() const { return m_size == 0; }
 
     int m_size;

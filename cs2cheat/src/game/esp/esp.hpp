@@ -6,4 +6,5 @@ namespace esp {
     inline bool bBoxes, bName, bHealthbar, bIgnoreTeammates, bActiveWeaponName,
         bDroppedWeaponBoxes, bDroppedWeaponName;
     inline float fWeaponMaxDistance;
+    inline bool bChickenBox;
 }  // namespace esp

@@ -9,6 +9,9 @@
 // Pretty self-explanatory.
 #define CS2_SDK_ENABLE_LOGGING
 
+// Pretty long name but if enabled it will print you the offsets in the console.
+#define CS2_SDK_ENABLE_SCHEMA_FIELD_OFFSET_LOGGING
+
 // Helper
 #define SIGNATURE(sig) \
     stb::simple_conversion::build<stb::fixed_string{sig}>::value
@@ -70,3 +73,7 @@
 
 #include <cassert>
 #define CS2_ASSERT(cond, ...) assert(cond)
+
+#ifdef DISTRIBUTION_BUILD
+#undef CS2_SDK_ENABLE_LOGGING
+#endif

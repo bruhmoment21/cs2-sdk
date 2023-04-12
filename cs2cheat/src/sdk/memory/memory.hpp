@@ -31,7 +31,8 @@ namespace memory {
     inline void*(__fastcall* fnSetCustomNameOrDescAttribute)(void*, void*,
                                                              const char*);
     inline void*(__fastcall* fnSetModel)(void*, const char*);
-    inline bool(__fastcall* fnComputeHitboxSurroundingBox)(void*, Vector&, Vector&);
+    inline bool(__fastcall* fnComputeHitboxSurroundingBox)(void*, Vector&,
+                                                           Vector&);
 
     // SDL2 Functions
     inline int(__stdcall* fnSDL_SetRelativeMouseMode)(int);
