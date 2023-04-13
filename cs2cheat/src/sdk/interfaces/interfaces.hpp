@@ -20,7 +20,4 @@ namespace interfaces {
     inline CEngineClient* pEngine;
     inline CCvar* pCvar;
     inline CLocalize* pLocalize;
-
-    // Unexported interfaces:
-    inline CGameEntitySystem* pEntitySystem;
 }  // namespace interfaces

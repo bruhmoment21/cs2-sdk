@@ -32,7 +32,7 @@ static bool InitSchemaFieldsForClass(SchemaTableMap_t& tableMap,
         SchemaClassFieldData_t& field = pFields[i];
 
 #ifdef CS2_SDK_ENABLE_SCHEMA_FIELD_OFFSET_LOGGING
-        LOG("InitSchemaFieldsForClass(): %s::%s found at -> %x\n", className,
+        LOG("InitSchemaFieldsForClass(): %s::%s found at -> 0x%X\n", className,
             field.m_name, field.m_offset);
 #endif
 

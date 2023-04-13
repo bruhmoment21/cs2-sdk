@@ -139,5 +139,6 @@
     <ClCompile Include="src\sdk\source2-sdk\econ\ceconitemdefinition.cpp" />
     <ClCompile Include="src\sdk\source2-sdk\entity\c_basemodelentity.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_freetype.cpp" />
+    <ClCompile Include="src\sdk\source2-sdk\interfaces\cgameentitysystem.cpp" />
   </ItemGroup>
 </Project>

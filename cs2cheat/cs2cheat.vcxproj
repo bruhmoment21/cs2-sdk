@@ -250,6 +250,7 @@
     <ClCompile Include="dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\api\unload\unload.cpp" />
+    <ClCompile Include="src\sdk\source2-sdk\interfaces\cgameentitysystem.cpp" />
     <ClCompile Include="src\utils\console\console.cpp" />
     <ClCompile Include="src\entry\cs2cheat.cpp" />
     <ClCompile Include="src\entry\main.cpp" />

@@ -8,23 +8,24 @@
 
 class CGameEntitySystem {
    public:
+    static CGameEntitySystem* GetInstance();
+
     template <typename T = C_BaseEntity>
     T* GetBaseEntity(int index) {
-        if (memory::fnGetBaseEntity)
-            return (T*)(memory::fnGetBaseEntity(this, index));
-        return nullptr;
+        if (!memory::fnGetBaseEntity) return nullptr;
+        return (T*)(memory::fnGetBaseEntity(this, index));
     }
 
     int GetHighestEntityIndex() {
         int highestIdx = -1;
-        if (memory::fnGetHighestEntityIndex)
-            memory::fnGetHighestEntityIndex(this, &highestIdx);
+        if (!memory::fnGetHighestEntityIndex) return highestIdx;
+
+        memory::fnGetHighestEntityIndex(this, &highestIdx);
         return highestIdx;
     }
 
     CCSPlayerController* GetLocalPlayerController() {
-        if (memory::fnGetLocalPlayerController)
-            return memory::fnGetLocalPlayerController(-1);
-        return nullptr;
+        if (!memory::fnGetLocalPlayerController) return nullptr;
+        return memory::fnGetLocalPlayerController(-1);
     }
 };

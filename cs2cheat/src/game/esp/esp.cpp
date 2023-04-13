@@ -18,10 +18,12 @@ static void RenderChickenESP(C_Chicken* pChicken);
 void esp::Render() {
     if (!interfaces::pEngine->IsInGame()) return;
 
+    CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
+    if (!pEntitySystem) return;
+
     g_pBackgroundDrawList = ImGui::GetBackgroundDrawList();
 
-    g_pLocalPlayerController =
-        interfaces::pEntitySystem->GetLocalPlayerController();
+    g_pLocalPlayerController = pEntitySystem->GetLocalPlayerController();
     if (!g_pLocalPlayerController) return;
 
     g_pLocalPlayerPawn =
@@ -29,9 +31,9 @@ void esp::Render() {
     if (!g_pLocalPlayerPawn) return;
 
     // Expand ESP as needed.
-    int highestIndex = interfaces::pEntitySystem->GetHighestEntityIndex();
+    int highestIndex = pEntitySystem->GetHighestEntityIndex();
     for (int i = 1; i <= highestIndex; ++i) {
-        C_BaseEntity* pEntity = interfaces::pEntitySystem->GetBaseEntity(i);
+        C_BaseEntity* pEntity = pEntitySystem->GetBaseEntity(i);
         if (!pEntity) continue;
 
         if (pEntity->IsPlayerController())

@@ -3,5 +3,8 @@
 #include "../../interfaces/interfaces.hpp"
 
 C_BaseEntity* CHandle::GetBaseEntity() const {
-    return interfaces::pEntitySystem->GetBaseEntity(GetEntryIndex());
+    CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
+    if (!pEntitySystem) return nullptr;
+
+    return pEntitySystem->GetBaseEntity(GetEntryIndex());
 }

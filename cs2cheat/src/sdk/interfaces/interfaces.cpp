@@ -21,9 +21,6 @@ void interfaces::Initialize() {
     FIND_INTERFACE(pEngine, engine, SOURCE2_ENGINE_TO_CLIENT);
     FIND_INTERFACE(pCvar, tier0, ENGINE_CVAR);
     FIND_INTERFACE(pLocalize, localize, LOCALIZE);
-
-    pEntitySystem = pGameResourceService->GetGameEntitySystem();
-    LOG("interfaces::pEntitySystem found at -> %p\n", pEntitySystem);
 }
 
 void interfaces::Shutdown() {}

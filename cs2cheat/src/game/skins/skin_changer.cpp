@@ -12,10 +12,13 @@ void skin_changer::Run() {
     CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
     if (!pInventory) return;
 
+    CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
+    if (!pEntitySystem) return;
+
     const uint64_t steamID = pInventory->GetOwnerID().m_id;
 
     CCSPlayerController* pLocalPlayerController =
-        interfaces::pEntitySystem->GetLocalPlayerController();
+        pEntitySystem->GetLocalPlayerController();
     if (!pLocalPlayerController) return;
 
     C_CSPlayerPawn* pLocalPawn =
@@ -35,9 +38,9 @@ void skin_changer::Run() {
     C_BaseModelEntity* pViewModel =
         pViewModelServices->m_hViewModel()[0].Get<C_BaseModelEntity>();
 
-    int highestIndex = interfaces::pEntitySystem->GetHighestEntityIndex();
+    int highestIndex = pEntitySystem->GetHighestEntityIndex();
     for (int i = MAX_PLAYERS + 1; i <= highestIndex; ++i) {
-        C_BaseEntity* pEntity = interfaces::pEntitySystem->GetBaseEntity(i);
+        C_BaseEntity* pEntity = pEntitySystem->GetBaseEntity(i);
         if (!pEntity || !pEntity->IsWeapon()) continue;
 
         C_WeaponCSBase* pWeapon = reinterpret_cast<C_WeaponCSBase*>(pEntity);
