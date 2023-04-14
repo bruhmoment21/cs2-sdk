@@ -52,7 +52,7 @@ bool C_BaseEntity::GetBoundingBox(BBox_t& out, bool computeSurroundingBox) {
     for (size_t i = 0; i < 8; ++i) {
         const Vector point{i & 1 ? max.x : min.x, i & 2 ? max.y : min.y,
                            i & 4 ? max.z : min.z};
-        Vector screen;
+        ImVec2 screen;
         if (!math::WorldToScreen(point, screen)) return false;
 
         out.x = IM_FLOOR(std::min(out.x, screen.x));

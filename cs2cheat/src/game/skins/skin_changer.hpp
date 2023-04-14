@@ -3,7 +3,7 @@
 class CEconItem;
 
 namespace skin_changer {
-    void Run();
+    void FrameStageNotify(int frameStage);
     void AddEconItemToList(CEconItem* pItem);
     void Shutdown();
 }  // namespace skin_changer

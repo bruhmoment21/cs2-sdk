@@ -22,10 +22,6 @@ void memory::Initialize() {
         schemasystem.FindPattern(PRINT_SCHEMA_DETAILED_CLASS_LAYOUT)
             .Get<decltype(schema_detailed_class_layout)>();
     LOG_RESULT(schema_detailed_class_layout);
-    fnScreenTransform = client.FindPattern(SCREEN_TRANSFORM)
-                            .ToAbsolute(1, 0)
-                            .Get<decltype(fnScreenTransform)>();
-    LOG_RESULT(fnScreenTransform);
     fnMouseInputEnabled = client.FindPattern(MOUSE_INPUT_ENABLED).Get<void*>();
     LOG_RESULT(fnMouseInputEnabled);
     fnSetMeshGroupMask = client.FindPattern(SET_MESH_GROUP_MASK)
@@ -76,6 +72,9 @@ void memory::Initialize() {
             .ToAbsolute(1, 0)
             .Get<decltype(fnComputeHitboxSurroundingBox)>();
     LOG_RESULT(fnComputeHitboxSurroundingBox);
+    fnGetMatricesForView = client.FindPattern(GET_MATRICES_FOR_VIEW)
+                               .Get<decltype(fnGetMatricesForView)>();
+    LOG_RESULT(fnGetMatricesForView);
 
     // SDL Functions:
     fnSDL_SetRelativeMouseMode =

@@ -15,7 +15,6 @@ namespace memory {
     inline void*(__thiscall* fnGetBaseEntity)(void*, int);
     inline int(__thiscall* fnGetHighestEntityIndex)(void*, int*);
     inline void*(__thiscall* schema_detailed_class_layout)(void*, const char*);
-    inline bool(__thiscall* fnScreenTransform)(const Vector&, Vector&);
     inline void* fnMouseInputEnabled;
     inline void(__thiscall* fnSetMeshGroupMask)(void*, uint64_t);
     inline CCSInventoryManager* (*fnGetInventoryManager)();
@@ -33,6 +32,7 @@ namespace memory {
     inline void*(__fastcall* fnSetModel)(void*, const char*);
     inline bool(__fastcall* fnComputeHitboxSurroundingBox)(void*, Vector&,
                                                            Vector&);
+    inline void* fnGetMatricesForView;
 
     // SDL2 Functions
     inline int(__stdcall* fnSDL_SetRelativeMouseMode)(int);

@@ -6,8 +6,8 @@
 
 static std::vector<CEconItem*> g_vecAddedItems;
 
-void skin_changer::Run() {
-    if (!interfaces::pEngine->IsInGame()) return;
+void skin_changer::FrameStageNotify(int frameStage) {
+    if (frameStage != 6 || !interfaces::pEngine->IsInGame()) return;
 
     CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
     if (!pInventory) return;

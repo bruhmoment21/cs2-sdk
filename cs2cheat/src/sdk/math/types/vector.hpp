@@ -1,5 +1,7 @@
 #pragma once
 
+#include "vmatrix.hpp"
+
 class Vector {
    public:
     Vector operator+(const Vector& rhs) const noexcept {

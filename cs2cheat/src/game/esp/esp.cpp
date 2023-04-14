@@ -1,3 +1,6 @@
+#include <vector>
+#include <mutex>
+
 #include "esp.hpp"
 
 #include "../../sdk/interfaces/interfaces.hpp"
@@ -10,10 +13,26 @@ static ImDrawList* g_pBackgroundDrawList = nullptr;
 static CCSPlayerController* g_pLocalPlayerController = nullptr;
 static C_CSPlayerPawn* g_pLocalPlayerPawn = nullptr;
 
-static void RenderPlayerESP(CCSPlayerController* pPlayerController);
-static void RenderWeaponESP(C_WeaponCSBase* pWeapon);
+// Cache example:
+struct CachedEntity_t {
+    enum Type { UNKNOWN = 0, PLAYER_CONTROLLER, BASE_WEAPON, CHICKEN };
+
+    CHandle m_handle;
+    Type m_type;
+    bool m_removed;  // If OnRemoveEntity() gets called this will be true.
+
+    BBox_t m_bbox;
+    bool m_draw;  // If player is not visible it will be false.
+};
+static std::vector<CachedEntity_t> g_cachedEntities;
+static std::mutex g_cachedEntitiesMutex;
+
+static CachedEntity_t::Type GetEntityType(C_BaseEntity* pEntity);
+static void RenderPlayerESP(CCSPlayerController* pPlayerController,
+                            const BBox_t& bBox);
+static void RenderWeaponESP(C_WeaponCSBase* pWeapon, const BBox_t& bBox);
 static void RenderWeaponName(C_WeaponCSBase* pWeapon, const BBox_t& bBox);
-static void RenderChickenESP(C_Chicken* pChicken);
+static void RenderChickenESP(C_Chicken* pChicken, const BBox_t& bBox);
 
 void esp::Render() {
     if (!interfaces::pEngine->IsInGame()) return;
@@ -30,22 +49,122 @@ void esp::Render() {
         g_pLocalPlayerController->m_hPawn().Get<C_CSPlayerPawn>();
     if (!g_pLocalPlayerPawn) return;
 
-    // Expand ESP as needed.
+    const std::lock_guard<std::mutex> guard{g_cachedEntitiesMutex};
+
+    for (const auto& it : g_cachedEntities) {
+        if (it.m_removed || !it.m_draw) continue;
+
+        C_BaseEntity* pEntity = it.m_handle.Get();
+        if (!pEntity) continue;
+
+        switch (it.m_type) {
+            case CachedEntity_t::PLAYER_CONTROLLER:
+                RenderPlayerESP((CCSPlayerController*)pEntity, it.m_bbox);
+                break;
+            case CachedEntity_t::BASE_WEAPON:
+                RenderWeaponESP((C_WeaponCSBase*)pEntity, it.m_bbox);
+                break;
+            case CachedEntity_t::CHICKEN:
+                RenderChickenESP((C_Chicken*)pEntity, it.m_bbox);
+                break;
+        }
+    }
+}
+
+void esp::CalculateBoundingBoxes() {
+    if (!interfaces::pEngine->IsInGame()) return;
+
+    const std::lock_guard<std::mutex> guard{g_cachedEntitiesMutex};
+
+    for (auto& it : g_cachedEntities) {
+        if (it.m_removed) continue;
+
+        C_BaseEntity* pEntity = it.m_handle.Get();
+        if (!pEntity) continue;
+
+        switch (it.m_type) {
+            case CachedEntity_t::PLAYER_CONTROLLER: {
+                C_CSPlayerPawn* pPlayerPawn = ((CCSPlayerController*)pEntity)
+                                                  ->m_hPawn()
+                                                  .Get<C_CSPlayerPawn>();
+                if (pPlayerPawn)
+                    it.m_draw = pPlayerPawn->GetBoundingBox(it.m_bbox, false);
+
+            } break;
+            case CachedEntity_t::BASE_WEAPON:
+                it.m_draw = pEntity->GetBoundingBox(it.m_bbox, true);
+                break;
+            case CachedEntity_t::CHICKEN:
+                it.m_draw = pEntity->GetBoundingBox(it.m_bbox, false);
+                break;
+        }
+    }
+}
+
+void esp::CacheCurrentEntities() {
+    if (!interfaces::pEngine->IsInGame()) return;
+
+    CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
+    if (!pEntitySystem) return;
+
     int highestIndex = pEntitySystem->GetHighestEntityIndex();
     for (int i = 1; i <= highestIndex; ++i) {
         C_BaseEntity* pEntity = pEntitySystem->GetBaseEntity(i);
         if (!pEntity) continue;
 
-        if (pEntity->IsBasePlayerController())
-            RenderPlayerESP((CCSPlayerController*)pEntity);
-        else if (pEntity->IsBasePlayerWeapon())
-            RenderWeaponESP((C_WeaponCSBase*)pEntity);
-        else if (pEntity->IsChicken())
-            RenderChickenESP((C_Chicken*)pEntity);
+        OnAddEntity(pEntity, pEntity->GetRefEHandle());
     }
 }
 
-static void RenderPlayerESP(CCSPlayerController* pPlayerController) {
+void esp::OnAddEntity(CEntityInstance* pInst, CHandle handle) {
+    C_BaseEntity* pEntity = (C_BaseEntity*)pInst;
+    if (!pEntity) return;
+
+    auto it = std::find_if(g_cachedEntities.begin(), g_cachedEntities.end(),
+                           [handle](const CachedEntity_t& i) {
+                               return i.m_handle.GetEntryIndex() ==
+                                      handle.GetEntryIndex();
+                           });
+
+    if (it == g_cachedEntities.cend()) {
+        CachedEntity_t cachedEntity{};
+        cachedEntity.m_handle = handle;
+        cachedEntity.m_type = ::GetEntityType(pEntity);
+        if (cachedEntity.m_type != CachedEntity_t::UNKNOWN)
+            g_cachedEntities.emplace_back(cachedEntity);
+    } else {
+        it->m_handle = handle;
+        it->m_type = ::GetEntityType(pEntity);
+        if (it->m_type != CachedEntity_t::UNKNOWN) it->m_removed = false;
+    }
+}
+
+void esp::OnRemoveEntity(CEntityInstance* pInst, CHandle handle) {
+    C_BaseEntity* pEntity = (C_BaseEntity*)pInst;
+    if (!pEntity) return;
+
+    auto it = std::find_if(
+        g_cachedEntities.begin(), g_cachedEntities.end(),
+        [handle](const CachedEntity_t& i) { return i.m_handle == handle; });
+    if (it == g_cachedEntities.cend()) return;
+
+    it->m_removed = true;
+    it->m_draw = false;
+}
+
+static CachedEntity_t::Type GetEntityType(C_BaseEntity* pEntity) {
+    if (pEntity->IsBasePlayerController())
+        return CachedEntity_t::PLAYER_CONTROLLER;
+    else if (pEntity->IsBasePlayerWeapon())
+        return CachedEntity_t::BASE_WEAPON;
+    else if (pEntity->IsChicken())
+        return CachedEntity_t::CHICKEN;
+
+    return CachedEntity_t::UNKNOWN;
+}
+
+static void RenderPlayerESP(CCSPlayerController* pPlayerController,
+                            const BBox_t& bBox) {
     using namespace esp;
 
     if (!pPlayerController->m_bPawnIsAlive()) return;
@@ -56,9 +175,6 @@ static void RenderPlayerESP(CCSPlayerController* pPlayerController) {
     const bool isEnemy =
         pPawn->IsEnemyWithTeam(g_pLocalPlayerController->m_iTeamNum());
     if (bIgnoreTeammates && !isEnemy) return;
-
-    BBox_t bBox;
-    if (!pPawn->GetBoundingBox(bBox)) return;
 
     const ImVec2 min = {bBox.x, bBox.y};
     const ImVec2 max = {bBox.w, bBox.h};
@@ -121,7 +237,7 @@ static void RenderPlayerESP(CCSPlayerController* pPlayerController) {
     }
 }
 
-static void RenderWeaponESP(C_WeaponCSBase* pWeapon) {
+static void RenderWeaponESP(C_WeaponCSBase* pWeapon, const BBox_t& bBox) {
     using namespace esp;
 
     if (pWeapon->m_hOwnerEntity().IsValid()) return;
@@ -130,9 +246,6 @@ static void RenderWeaponESP(C_WeaponCSBase* pWeapon) {
         g_pLocalPlayerPawn->DistanceToSquared(pWeapon) >=
             fWeaponMaxDistance * fWeaponMaxDistance)
         return;
-
-    BBox_t bBox;
-    if (!pWeapon->GetBoundingBox(bBox, true)) return;
 
     const ImVec2 min = {bBox.x, bBox.y};
     const ImVec2 max = {bBox.w, bBox.h};
@@ -178,11 +291,8 @@ static void RenderWeaponName(C_WeaponCSBase* pWeapon, const BBox_t& bBox) {
                                    szWeaponName);
 }
 
-static void RenderChickenESP(C_Chicken* pChicken) {
+static void RenderChickenESP(C_Chicken* pChicken, const BBox_t& bBox) {
     using namespace esp;
-
-    BBox_t bBox;
-    if (!pChicken->GetBoundingBox(bBox)) return;
 
     C_CSPlayerPawnBase* pLeaderPawn =
         pChicken->m_leader().Get<C_CSPlayerPawnBase>();

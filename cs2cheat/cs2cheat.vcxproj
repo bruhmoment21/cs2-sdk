@@ -169,6 +169,7 @@
     <ClInclude Include="dependencies\stb\stb.hh" />
     <ClInclude Include="src\api\hook\hook.hpp" />
     <ClInclude Include="src\api\module\module.hpp" />
+    <ClInclude Include="src\sdk\math\types\vmatrix.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\entity\c_chicken.hpp" />
     <ClInclude Include="src\utils\console\console.hpp" />
     <ClInclude Include="src\defines.hpp" />
