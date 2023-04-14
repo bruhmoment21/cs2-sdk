@@ -33,6 +33,7 @@ namespace memory {
     inline bool(__fastcall* fnComputeHitboxSurroundingBox)(void*, Vector&,
                                                            Vector&);
     inline void* fnGetMatricesForView;
+    inline void* fnFireEventClientSide;
 
     // SDL2 Functions
     inline int(__stdcall* fnSDL_SetRelativeMouseMode)(int);

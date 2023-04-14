@@ -140,6 +140,11 @@ static void RenderInventoryWindow() {
 
             if (isKnife || isGloves) dumpedItem.m_unusualItem = true;
 
+            // Add vanilla knives
+            if (isKnife) {
+                dumpedItem.m_dumpedSkins.emplace_back("Vanilla", 0, IR_ANCIENT);
+            }
+
             // We filter skins by guns.
             for (const auto& it : vecPaintKits) {
                 CPaintKit* pPaintKit = it.m_value;

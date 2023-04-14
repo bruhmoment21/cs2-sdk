@@ -47,6 +47,13 @@ static void __fastcall hkGetMatricesForView(void* rcx, void* view,
     esp::CalculateBoundingBoxes();
 }
 
+static CHook<bool __fastcall(void*, CGameEvent*, bool)> g_fireEventClientSide;
+static bool __fastcall hkFireEventClientSide(void* rcx, CGameEvent* event,
+                                             bool bServerOnly) {
+    skin_changer::PreFireEvent(event);
+    return g_fireEventClientSide.m_pOriginalFn(rcx, event, bServerOnly);
+}
+
 void CS2_HookGameFunctions() {
     g_mouseInputEnabled.Hook(memory::fnMouseInputEnabled,
                              HOOK_FUNCTION(hkMouseInputEnabled));
@@ -58,6 +65,8 @@ void CS2_HookGameFunctions() {
                                  HOOK_FUNCTION(hkOnRemoveEntity));
     g_getMatricesForView.Hook(memory::fnGetMatricesForView,
                               HOOK_FUNCTION(hkGetMatricesForView));
+    g_fireEventClientSide.Hook(memory::fnFireEventClientSide,
+                               HOOK_FUNCTION(hkFireEventClientSide));
 
     esp::CacheCurrentEntities();
 }

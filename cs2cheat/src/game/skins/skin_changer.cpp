@@ -106,6 +106,54 @@ void skin_changer::FrameStageNotify(int frameStage) {
     }
 }
 
+void skin_changer::PreFireEvent(CGameEvent* pEvent) {
+    if (!pEvent) return;
+
+    const char* eventName = pEvent->GetName();
+    if (!eventName) return;
+
+    static constexpr auto player_death = hash_32_fnv1a_const("player_death");
+    if (hash_32_fnv1a_const(eventName) != player_death) return;
+
+    CCSPlayerController* pControllerWhoKilled =
+        pEvent->GetPlayerController("attacker");
+    CCSPlayerController* pControllerWhoDied =
+        pEvent->GetPlayerController("userid");
+    if (pControllerWhoKilled == pControllerWhoDied) return;
+
+    CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
+    if (!pEntitySystem) return;
+
+    CCSPlayerController* pLocalPlayerController =
+        pEntitySystem->GetLocalPlayerController();
+    if (!pLocalPlayerController ||
+        pControllerWhoKilled != pLocalPlayerController)
+        return;
+
+    C_CSPlayerPawn* pLocalPawn =
+        pLocalPlayerController->m_hPawn().Get<C_CSPlayerPawn>();
+    if (!pLocalPawn) return;
+
+    CPlayer_WeaponServices* pWeaponServices = pLocalPawn->m_pWeaponServices();
+    if (!pWeaponServices) return;
+
+    C_WeaponCSBase* pActiveWeapon =
+        pWeaponServices->m_hActiveWeapon().Get<C_WeaponCSBase>();
+    if (!pActiveWeapon) return;
+
+    C_AttributeContainer* pAttributeContainer =
+        pActiveWeapon->m_AttributeManager();
+    if (!pAttributeContainer) return;
+
+    C_EconItemView* pWeaponItemView = pAttributeContainer->m_Item();
+    if (!pWeaponItemView) return;
+
+    CEconItemDefinition* pWeaponDefinition = pWeaponItemView->GetStaticData();
+    if (!pWeaponDefinition || !pWeaponDefinition->IsKnife(true)) return;
+
+    pEvent->SetString("weapon", pWeaponDefinition->GetSimpleWeaponName());
+}
+
 void skin_changer::AddEconItemToList(CEconItem* pItem) {
     g_vecAddedItems.emplace_back(pItem);
 }

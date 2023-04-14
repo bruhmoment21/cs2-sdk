@@ -75,6 +75,9 @@ void memory::Initialize() {
     fnGetMatricesForView = client.FindPattern(GET_MATRICES_FOR_VIEW)
                                .Get<decltype(fnGetMatricesForView)>();
     LOG_RESULT(fnGetMatricesForView);
+    fnFireEventClientSide = client.FindPattern(FIRE_EVENT_CLIENT_SIDE)
+                                .Get<decltype(fnFireEventClientSide)>();
+    LOG_RESULT(fnFireEventClientSide);
 
     // SDL Functions:
     fnSDL_SetRelativeMouseMode =
@@ -91,8 +94,8 @@ void memory::Initialize() {
 
     auto ppHeapMemAlloc = tier0.GetProcAddress<CHeapMemAlloc**>("g_pMemAlloc");
     if (ppHeapMemAlloc) {
-        s_HeapMemAlloc = *ppHeapMemAlloc;
-        LOG_RESULT(s_HeapMemAlloc);
+        g_pHeapMemAlloc = *ppHeapMemAlloc;
+        LOG_RESULT(g_pHeapMemAlloc);
     }
 }
 

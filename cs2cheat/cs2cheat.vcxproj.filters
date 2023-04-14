@@ -88,6 +88,7 @@
     <ClInclude Include="dependencies\cozette\cozette_bitmap.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\entity\c_chicken.hpp" />
     <ClInclude Include="src\sdk\math\types\vmatrix.hpp" />
+    <ClInclude Include="src\sdk\source2-sdk\interfaces\cgameevent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sdk\memory\memory.cpp" />

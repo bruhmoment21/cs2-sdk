@@ -6,6 +6,7 @@
 #include "../source2-sdk/interfaces/cschemasystem.hpp"
 #include "../source2-sdk/interfaces/cengineclient.hpp"
 #include "../source2-sdk/interfaces/cinputsystem.hpp"
+#include "../source2-sdk/interfaces/cgameevent.hpp"
 #include "../source2-sdk/interfaces/clocalize.hpp"
 #include "../source2-sdk/interfaces/ccvar.hpp"
 

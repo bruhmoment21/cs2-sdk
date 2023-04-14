@@ -15,4 +15,4 @@ class CHeapMemAlloc {
     }
 
     auto Free(void* pMem) { return CALL_VIRTUAL(void, 6, this, pMem); }
-} inline* s_HeapMemAlloc;
+} inline* g_pHeapMemAlloc;
