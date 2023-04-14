@@ -11,8 +11,8 @@ struct BBox_t {
 
 class C_BaseEntity : public CEntityInstance {
    public:
-    bool IsPlayerController();
-    bool IsWeapon();
+    bool IsBasePlayerController();
+    bool IsBasePlayerWeapon();
     bool IsChicken();
     const Vector& GetOrigin();
     bool GetBoundingBox(BBox_t& out, bool computeSurroundingBox = false);

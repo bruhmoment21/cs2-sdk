@@ -41,7 +41,7 @@ void skin_changer::Run() {
     int highestIndex = pEntitySystem->GetHighestEntityIndex();
     for (int i = MAX_PLAYERS + 1; i <= highestIndex; ++i) {
         C_BaseEntity* pEntity = pEntitySystem->GetBaseEntity(i);
-        if (!pEntity || !pEntity->IsWeapon()) continue;
+        if (!pEntity || !pEntity->IsBasePlayerWeapon()) continue;
 
         C_WeaponCSBase* pWeapon = reinterpret_cast<C_WeaponCSBase*>(pEntity);
         if (pWeapon->GetOriginalOwnerXuid() != steamID) continue;

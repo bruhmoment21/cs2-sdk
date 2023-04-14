@@ -36,9 +36,9 @@ void esp::Render() {
         C_BaseEntity* pEntity = pEntitySystem->GetBaseEntity(i);
         if (!pEntity) continue;
 
-        if (pEntity->IsPlayerController())
+        if (pEntity->IsBasePlayerController())
             RenderPlayerESP((CCSPlayerController*)pEntity);
-        else if (pEntity->IsWeapon())
+        else if (pEntity->IsBasePlayerWeapon())
             RenderWeaponESP((C_WeaponCSBase*)pEntity);
         else if (pEntity->IsChicken())
             RenderChickenESP((C_Chicken*)pEntity);

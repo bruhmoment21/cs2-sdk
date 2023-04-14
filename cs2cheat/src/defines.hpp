@@ -65,10 +65,6 @@
     SIGNATURE("40 53 48 83 EC 20 80 B9 ? ? ? ? ? 48 8B D9 75 78")
 
 // Internal
-
-#include <cassert>
-#define CS2_ASSERT(cond, ...) assert(cond)
-
 #ifdef DISTRIBUTION_BUILD
 #ifdef CS2_SDK_ENABLE_LOGGING
 #undef CS2_SDK_ENABLE_LOGGING

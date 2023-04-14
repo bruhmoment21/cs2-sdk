@@ -20,6 +20,10 @@ class CEconItemDefinition {
         return *reinterpret_cast<int*>((uintptr_t)(this) + 0x100);
     }
 
+    auto GetSimpleWeaponName() {
+        return *reinterpret_cast<const char**>((uintptr_t)(this) + 0x210);
+    }
+
     auto GetLoadoutSlot() {
         return *reinterpret_cast<int*>((uintptr_t)(this) + 0x2E8);
     }

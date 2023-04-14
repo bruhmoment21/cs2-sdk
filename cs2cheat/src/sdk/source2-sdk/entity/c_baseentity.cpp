@@ -5,27 +5,12 @@
 
 #include <imgui/imgui_internal.h>
 
-bool C_BaseEntity::IsPlayerController() {
-    CEntityIdentity* pIdentity = m_pEntity();
-    if (!pIdentity) return false;
-
-    const char* designerName = pIdentity->m_designerName();
-    if (!designerName) return false;
-
-    static constexpr auto cs_player_controller =
-        hash_32_fnv1a_const("cs_player_controller");
-    return hash_32_fnv1a_const(designerName) == cs_player_controller;
+bool C_BaseEntity::IsBasePlayerController() {
+    return CALL_VIRTUAL(bool, 139, this);
 }
 
-bool C_BaseEntity::IsWeapon() {
-    CEntityIdentity* pIdentity = m_pEntity();
-    if (!pIdentity) return false;
-
-    const char* designerName = pIdentity->m_designerName();
-    if (!designerName) return false;
-
-    const std::string_view svDesignerName = designerName;
-    return svDesignerName.starts_with("weapon_");
+bool C_BaseEntity::IsBasePlayerWeapon() {
+    return CALL_VIRTUAL(bool, 145, this);
 }
 
 bool C_BaseEntity::IsChicken() {
