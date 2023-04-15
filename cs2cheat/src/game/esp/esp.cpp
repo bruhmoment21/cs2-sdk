@@ -120,6 +120,12 @@ void esp::OnAddEntity(CEntityInstance* pInst, CHandle handle) {
     C_BaseEntity* pEntity = (C_BaseEntity*)pInst;
     if (!pEntity) return;
 
+    CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
+    if (!pEntitySystem) return;
+
+    // Some entities have an index bigger than 10k.
+    if (handle.GetEntryIndex() > pEntitySystem->GetHighestEntityIndex()) return;
+
     auto it = std::find_if(g_cachedEntities.begin(), g_cachedEntities.end(),
                            [handle](const CachedEntity_t& i) {
                                return i.m_handle.GetEntryIndex() ==
@@ -150,6 +156,7 @@ void esp::OnRemoveEntity(CEntityInstance* pInst, CHandle handle) {
 
     it->m_removed = true;
     it->m_draw = false;
+    it->m_type = CachedEntity_t::UNKNOWN;
 }
 
 static CachedEntity_t::Type GetEntityType(C_BaseEntity* pEntity) {
