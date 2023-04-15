@@ -4,9 +4,9 @@
 
 #include "../types/chandle.hpp"
 
-#include "c_baseentity.hpp"
+#include "c_basemodelentity.hpp"
 
-class C_Chicken : public C_BaseEntity {
+class C_Chicken : public C_BaseModelEntity {
    public:
     SCHEMA_FIELD(m_leader, "C_Chicken", "m_leader", CHandle);
 };

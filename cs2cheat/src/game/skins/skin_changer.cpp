@@ -60,10 +60,9 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
         CGameSceneNode* pWeaponSceneNode = pWeapon->m_pGameSceneNode();
         if (!pWeaponSceneNode) continue;
 
-        const int team = pWeapon->m_iOriginalTeamNumber();
-        C_EconItemView* pWeaponInLoadoutItemView = pInventory->GetItemInLoadout(
-            team == 0 ? pLocalPawn->m_iTeamNum() : team,
-            pWeaponDefinition->GetLoadoutSlot());
+        C_EconItemView* pWeaponInLoadoutItemView =
+            pInventory->GetItemInLoadout(pWeapon->m_iOriginalTeamNumber(),
+                                         pWeaponDefinition->GetLoadoutSlot());
         if (!pWeaponInLoadoutItemView) continue;
 
         // Check if skin is added by us.
@@ -254,10 +253,8 @@ void skin_changer::OnSetModel(C_BaseModelEntity* pEntity, const char*& model) {
     CEconItemDefinition* pWeaponDefinition = pWeaponItemView->GetStaticData();
     if (!pWeaponDefinition) return;
 
-    const int team = pWeapon->m_iOriginalTeamNumber();
     C_EconItemView* pWeaponInLoadoutItemView = pInventory->GetItemInLoadout(
-        team == 0 ? pLocalPawn->m_iTeamNum() : team,
-        pWeaponDefinition->GetLoadoutSlot());
+        pWeapon->m_iOriginalTeamNumber(), pWeaponDefinition->GetLoadoutSlot());
     if (!pWeaponInLoadoutItemView) return;
 
     // Check if skin is added by us.

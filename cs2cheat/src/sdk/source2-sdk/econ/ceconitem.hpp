@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../gcsdk/csharedobject.hpp"
+#include "cecondefaultequippeddefinitioninstanceclient.hpp"
 
 class CEconItem {
     void SetDynamicAttributeValueFloat(int index, float value);
@@ -35,11 +35,4 @@ class CEconItem {
     int16_t m_iItemSet;
     int m_bSOUpdateFrame;
     uint8_t m_unFlags;
-};
-
-class CEconDefaultEquippedDefinitionInstanceClient : public CSharedObject {
-   public:
-    auto& GetDefinitionIndex() {
-        return *reinterpret_cast<short*>((uintptr_t)(this) + 0x24);
-    }
 };
