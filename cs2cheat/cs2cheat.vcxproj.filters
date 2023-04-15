@@ -89,6 +89,7 @@
     <ClInclude Include="src\sdk\source2-sdk\entity\c_chicken.hpp" />
     <ClInclude Include="src\sdk\math\types\vmatrix.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\interfaces\cgameevent.hpp" />
+    <ClInclude Include="src\sdk\source2-sdk\gcsdk\csharedobject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\sdk\memory\memory.cpp" />
@@ -142,5 +143,7 @@
     <ClCompile Include="src\sdk\source2-sdk\entity\c_basemodelentity.cpp" />
     <ClCompile Include="dependencies\imgui\imgui_freetype.cpp" />
     <ClCompile Include="src\sdk\source2-sdk\interfaces\cgameentitysystem.cpp" />
+    <ClCompile Include="src\sdk\source2-sdk\cstrike15\ccsinventorymanager.cpp" />
+    <ClCompile Include="src\sdk\source2-sdk\entity\c_econitemview.cpp" />
   </ItemGroup>
 </Project>

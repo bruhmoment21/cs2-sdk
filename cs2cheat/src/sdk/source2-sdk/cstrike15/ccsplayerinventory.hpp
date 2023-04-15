@@ -8,7 +8,7 @@
 #include "../types/utlvector.hpp"
 #include "../econ/ceconitem.hpp"
 
-using CSharedObject = void;
+#include "ccsinventorymanager.hpp"
 
 class CCSPlayerInventory {
    public:

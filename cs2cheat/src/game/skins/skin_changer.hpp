@@ -1,11 +1,14 @@
 #pragma once
 
+class CEconDefaultEquippedDefinitionInstanceClient;
 class CGameEvent;
 class CEconItem;
 
 namespace skin_changer {
-    void FrameStageNotify(int frameStage);
-    void PreFireEvent(CGameEvent* pEvent);
+    void OnFrameStageNotify(int frameStage);
+    void OnPreFireEvent(CGameEvent* pEvent);
+    void OnSoUpdated(CEconDefaultEquippedDefinitionInstanceClient* pObject);
+    void OnEquipItemInLoadout(int team, int slot, uint64_t itemID);
 
     void AddEconItemToList(CEconItem* pItem);
     void Shutdown();

@@ -13,7 +13,7 @@ static bool __fastcall hkMouseInputEnabled(void* rcx) {
 
 static CHook<void __fastcall(void*, int)> g_frameStageNotify;
 static void __fastcall hkFrameStageNotify(void* rcx, int frameStage) {
-    skin_changer::FrameStageNotify(frameStage);
+    skin_changer::OnFrameStageNotify(frameStage);
     return g_frameStageNotify.m_pOriginalFn(rcx, frameStage);
 }
 
@@ -23,6 +23,7 @@ static void* __fastcall hkOnAddEntity(void* rcx, CEntityInstance* pInstance,
     esp::OnAddEntity(pInstance, hHandle);
     return g_onAddEntity.m_pOriginalFn(rcx, pInstance, hHandle);
 }
+
 static CHook<void* __fastcall(void*, CEntityInstance*, CHandle)>
     g_onRemoveEntity;
 static void* __fastcall hkOnRemoveEntity(void* rcx, CEntityInstance* pInstance,
@@ -50,8 +51,27 @@ static void __fastcall hkGetMatricesForView(void* rcx, void* view,
 static CHook<bool __fastcall(void*, CGameEvent*, bool)> g_fireEventClientSide;
 static bool __fastcall hkFireEventClientSide(void* rcx, CGameEvent* event,
                                              bool bServerOnly) {
-    skin_changer::PreFireEvent(event);
+    skin_changer::OnPreFireEvent(event);
     return g_fireEventClientSide.m_pOriginalFn(rcx, event, bServerOnly);
+}
+
+static CHook<void __fastcall(void*, SOID_t, CSharedObject*, ESOCacheEvent)>
+    g_soUpdated;
+static void __fastcall hkSoUpdated(void* rcx, SOID_t owner,
+                                   CSharedObject* pObject,
+                                   ESOCacheEvent eEvent) {
+    skin_changer::OnSoUpdated(
+        (CEconDefaultEquippedDefinitionInstanceClient*)pObject);
+    return g_soUpdated.m_pOriginalFn(rcx, owner, pObject, eEvent);
+}
+
+static CHook<bool __fastcall(void*, int, int, uint64_t, bool)>
+    g_equipItemInLoadout;
+static bool __fastcall hkEquipItemInLoadout(void* rcx, int iTeam, int iSlot,
+                                            uint64_t iItemID, bool bSwap) {
+    skin_changer::OnEquipItemInLoadout(iTeam, iSlot, iItemID);
+    return g_equipItemInLoadout.m_pOriginalFn(rcx, iTeam, iSlot, iItemID,
+                                              bSwap);
 }
 
 void CS2_HookGameFunctions() {
@@ -67,6 +87,10 @@ void CS2_HookGameFunctions() {
                               HOOK_FUNCTION(hkGetMatricesForView));
     g_fireEventClientSide.Hook(memory::fnFireEventClientSide,
                                HOOK_FUNCTION(hkFireEventClientSide));
+    g_soUpdated.HookVirtual(CCSPlayerInventory::GetInstance(), 1,
+                            HOOK_FUNCTION(hkSoUpdated));
+    g_equipItemInLoadout.HookVirtual(CCSInventoryManager::GetInstance(), 50,
+                                     HOOK_FUNCTION(hkEquipItemInLoadout));
 
     esp::CacheCurrentEntities();
 }

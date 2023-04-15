@@ -126,7 +126,7 @@ void esp::OnAddEntity(CEntityInstance* pInst, CHandle handle) {
                                       handle.GetEntryIndex();
                            });
 
-    if (it == g_cachedEntities.cend()) {
+    if (it == g_cachedEntities.end()) {
         CachedEntity_t cachedEntity{};
         cachedEntity.m_handle = handle;
         cachedEntity.m_type = ::GetEntityType(pEntity);
@@ -146,7 +146,7 @@ void esp::OnRemoveEntity(CEntityInstance* pInst, CHandle handle) {
     auto it = std::find_if(
         g_cachedEntities.begin(), g_cachedEntities.end(),
         [handle](const CachedEntity_t& i) { return i.m_handle == handle; });
-    if (it == g_cachedEntities.cend()) return;
+    if (it == g_cachedEntities.end()) return;
 
     it->m_removed = true;
     it->m_draw = false;
@@ -294,8 +294,7 @@ static void RenderWeaponName(C_WeaponCSBase* pWeapon, const BBox_t& bBox) {
 static void RenderChickenESP(C_Chicken* pChicken, const BBox_t& bBox) {
     using namespace esp;
 
-    C_CSPlayerPawnBase* pLeaderPawn =
-        pChicken->m_leader().Get<C_CSPlayerPawnBase>();
+    CHandle hLeader = pChicken->m_leader();
 
     const ImVec2 min = {bBox.x, bBox.y};
     const ImVec2 max = {bBox.w, bBox.h};
@@ -309,7 +308,7 @@ static void RenderChickenESP(C_Chicken* pChicken, const BBox_t& bBox) {
                                        IM_COL32(0, 0, 0, 255));
         g_pBackgroundDrawList->AddRect(
             min, max,
-            IM_COL32(pLeaderPawn == g_pLocalPlayerPawn ? 160 : 255, 0, 255,
-                     255));
+            IM_COL32(hLeader == g_pLocalPlayerPawn->GetRefEHandle() ? 160 : 255,
+                     0, 255, 255));
     }
 }

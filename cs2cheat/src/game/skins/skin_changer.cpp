@@ -4,9 +4,10 @@
 
 #include "../../sdk/interfaces/interfaces.hpp"
 
+static int g_lastEquippedCount;
 static std::vector<CEconItem*> g_vecAddedItems;
 
-void skin_changer::FrameStageNotify(int frameStage) {
+void skin_changer::OnFrameStageNotify(int frameStage) {
     if (frameStage != 6 || !interfaces::pEngine->IsInGame()) return;
 
     CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
@@ -29,7 +30,6 @@ void skin_changer::FrameStageNotify(int frameStage) {
     if (!pWeaponServices) return;
 
     CHandle hActiveWeapon = pWeaponServices->m_hActiveWeapon();
-    C_WeaponCSBase* pActiveWeapon = hActiveWeapon.Get<C_WeaponCSBase>();
 
     CCSPlayer_ViewModelServices* pViewModelServices =
         pLocalPawn->m_pViewModelServices();
@@ -77,6 +77,12 @@ void skin_changer::FrameStageNotify(int frameStage) {
             pWeaponInLoadoutItemView->GetStaticData();
         if (!pWeaponInLoadoutDefinition) continue;
 
+        // Example: Will not equip FiveSeven skin on CZ.
+        const bool isKnife = pWeaponInLoadoutDefinition->IsKnife(true);
+        if (!isKnife && pWeaponInLoadoutDefinition->GetDefinitionIndex() !=
+                            pWeaponDefinition->GetDefinitionIndex())
+            continue;
+
         pWeaponItemView->m_iItemID() = pWeaponInLoadoutItemView->m_iItemID();
         pWeaponItemView->m_iItemIDHigh() =
             pWeaponInLoadoutItemView->m_iItemIDHigh();
@@ -84,18 +90,19 @@ void skin_changer::FrameStageNotify(int frameStage) {
             pWeaponInLoadoutItemView->m_iItemIDLow();
         pWeaponItemView->m_iAccountID() = uint32_t(steamID);
 
-        if (pWeaponInLoadoutDefinition->IsKnife(true)) {
+        CHandle hWeapon = pWeapon->GetRefEHandle();
+        if (isKnife) {
             pWeaponItemView->m_iItemDefinitionIndex() =
                 pWeaponInLoadoutDefinition->GetDefinitionIndex();
 
             const char* knifeModel = pWeaponInLoadoutDefinition->GetModelName();
             pWeapon->SetModel(knifeModel);
-            if (pWeapon == pActiveWeapon && pViewModel)
+            if (hWeapon == hActiveWeapon && pViewModel)
                 pViewModel->SetModel(knifeModel);
         } else {
             // Workaround: We are forcing the OLD Models.
             pWeaponSceneNode->SetMeshGroupMask(2);
-            if (pWeapon == pActiveWeapon && pViewModel) {
+            if (hWeapon == hActiveWeapon && pViewModel) {
                 CGameSceneNode* pViewModelSceneNode =
                     pViewModel->m_pGameSceneNode();
 
@@ -106,7 +113,7 @@ void skin_changer::FrameStageNotify(int frameStage) {
     }
 }
 
-void skin_changer::PreFireEvent(CGameEvent* pEvent) {
+void skin_changer::OnPreFireEvent(CGameEvent* pEvent) {
     if (!pEvent) return;
 
     const char* eventName = pEvent->GetName();
@@ -152,6 +159,61 @@ void skin_changer::PreFireEvent(CGameEvent* pEvent) {
     if (!pWeaponDefinition || !pWeaponDefinition->IsKnife(true)) return;
 
     pEvent->SetString("weapon", pWeaponDefinition->GetSimpleWeaponName());
+}
+
+void skin_changer::OnSoUpdated(
+    CEconDefaultEquippedDefinitionInstanceClient* pObject) {
+    if (g_lastEquippedCount <= 0 ||
+        pObject->GetTypeID() !=
+            k_EEconTypeDefaultEquippedDefinitionInstanceClient)
+        return;
+
+    pObject->GetDefinitionIndex() = 0;
+    --g_lastEquippedCount;
+}
+
+void skin_changer::OnEquipItemInLoadout(int team, int slot, uint64_t itemID) {
+    auto it =
+        std::find_if(g_vecAddedItems.begin(), g_vecAddedItems.end(),
+                     [itemID](CEconItem* i) { return i->m_ulID == itemID; });
+    if (it == g_vecAddedItems.end()) return;
+
+    CEconItem* pItemToEquip = *it;
+    if (!pItemToEquip) return;
+
+    CCSInventoryManager* pInventoryManager = CCSInventoryManager::GetInstance();
+    if (!pInventoryManager) return;
+
+    CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
+    if (!pInventory) return;
+
+    C_EconItemView* pItemInLoadout = pInventory->GetItemInLoadout(team, slot);
+    if (!pItemInLoadout) return;
+
+    CEconItemDefinition* pItemInLoadoutStaticData =
+        pItemInLoadout->GetStaticData();
+    if (!pItemInLoadoutStaticData) return;
+
+    if (pItemInLoadoutStaticData->IsGlove(false) ||
+        pItemInLoadoutStaticData->IsKnife(false) ||
+        pItemInLoadoutStaticData->GetDefinitionIndex() ==
+            pItemToEquip->m_unDefIndex)
+        return;
+
+    // Equip default item. If you would have bought Deagle and you previously
+    // had R8 equipped it will now give you a Deagle.
+    const uint64_t defaultItemID =
+        (std::uint64_t(0xF) << 60) | pItemToEquip->m_unDefIndex;
+    pInventoryManager->EquipItemInLoadout(team, slot, defaultItemID);
+    ++g_lastEquippedCount;
+
+    CEconItem* pItemInLoadoutSOCData = pItemInLoadout->GetSOCData();
+    if (!pItemInLoadoutSOCData) return;
+
+    // Mark old item as unequipped.
+    pInventory->SOUpdated(pInventory->GetOwnerID(),
+                          (CSharedObject*)pItemInLoadoutSOCData,
+                          eSOCacheEvent_Incremental);
 }
 
 void skin_changer::AddEconItemToList(CEconItem* pItem) {

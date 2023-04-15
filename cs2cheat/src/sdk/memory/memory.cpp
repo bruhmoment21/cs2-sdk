@@ -78,6 +78,10 @@ void memory::Initialize() {
     fnFireEventClientSide = client.FindPattern(FIRE_EVENT_CLIENT_SIDE)
                                 .Get<decltype(fnFireEventClientSide)>();
     LOG_RESULT(fnFireEventClientSide);
+    fnGetSOCData = client.FindPattern(GET_SOC_DATA)
+                       .ToAbsolute(1, 0)
+                       .Get<decltype(fnGetSOCData)>();
+    LOG_RESULT(fnGetSOCData);
 
     // SDL Functions:
     fnSDL_SetRelativeMouseMode =

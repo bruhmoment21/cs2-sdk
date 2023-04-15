@@ -4,7 +4,7 @@
 
 #include "../types/utlvector.hpp"
 
-using CSharedObject = void;
+class CSharedObject;
 
 class CGCClientSharedObjectTypeCache {
    public:

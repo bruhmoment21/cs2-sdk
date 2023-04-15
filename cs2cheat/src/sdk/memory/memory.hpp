@@ -34,6 +34,7 @@ namespace memory {
                                                            Vector&);
     inline void* fnGetMatricesForView;
     inline void* fnFireEventClientSide;
+    inline CEconItem*(__fastcall* fnGetSOCData)(void*);
 
     // SDL2 Functions
     inline int(__stdcall* fnSDL_SetRelativeMouseMode)(int);

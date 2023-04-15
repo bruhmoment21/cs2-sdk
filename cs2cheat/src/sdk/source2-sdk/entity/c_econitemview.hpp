@@ -4,8 +4,12 @@
 
 #include "../econ/ceconitemdefinition.hpp"
 
+class CEconItem;
+
 class C_EconItemView {
    public:
+    CEconItem* GetSOCData();
+
     auto GetStaticData() {
         return CALL_VIRTUAL(CEconItemDefinition*, 13, this);
     }

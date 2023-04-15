@@ -4,8 +4,6 @@
 
 #include "../gcsdk/cgcclientsharedobjecttypecache.hpp"
 
-#include "ccsinventorymanager.hpp"
-
 static CGCClientSharedObjectTypeCache* CreateBaseTypeCache(
     CCSPlayerInventory* pInventory) {
     CGCClientSystem* pGCClientSystem = CGCClientSystem::GetInstance();
@@ -22,15 +20,10 @@ static CGCClientSharedObjectTypeCache* CreateBaseTypeCache(
 }
 
 CCSPlayerInventory* CCSPlayerInventory::GetInstance() {
-    if (memory::fnGetInventoryManager) {
-        CCSInventoryManager* pInventoryManager =
-            memory::fnGetInventoryManager();
-        if (!pInventoryManager) return nullptr;
+    CCSInventoryManager* pInventoryManager = CCSInventoryManager::GetInstance();
+    if (!pInventoryManager) return nullptr;
 
-        return pInventoryManager->GetLocalInventory();
-    }
-
-    return nullptr;
+    return pInventoryManager->GetLocalInventory();
 }
 
 bool CCSPlayerInventory::AddEconItem(CEconItem* pItem) {
@@ -38,9 +31,10 @@ bool CCSPlayerInventory::AddEconItem(CEconItem* pItem) {
     if (!pItem) return false;
 
     CGCClientSharedObjectTypeCache* pSOTypeCache = ::CreateBaseTypeCache(this);
-    if (!pSOTypeCache || !pSOTypeCache->AddObject(pItem)) return false;
+    if (!pSOTypeCache || !pSOTypeCache->AddObject((CSharedObject*)pItem))
+        return false;
 
-    SOCreated(GetOwnerID(), pItem, eSOCacheEvent_Incremental);
+    SOCreated(GetOwnerID(), (CSharedObject*)pItem, eSOCacheEvent_Incremental);
     return true;
 }
 
@@ -55,8 +49,8 @@ void CCSPlayerInventory::RemoveEconItem(CEconItem* pItem) {
         pSOTypeCache->GetVecObjects<CEconItem*>();
     if (!pSharedObjects.Exists(pItem)) return;
 
-    SODestroyed(GetOwnerID(), pItem, eSOCacheEvent_Incremental);
-    pSOTypeCache->RemoveObject(pItem);
+    SODestroyed(GetOwnerID(), (CSharedObject*)pItem, eSOCacheEvent_Incremental);
+    pSOTypeCache->RemoveObject((CSharedObject*)pItem);
 
     pItem->Destruct();
 }
