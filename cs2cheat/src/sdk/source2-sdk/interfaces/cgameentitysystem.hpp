@@ -4,6 +4,7 @@
 #include "../../virtual.hpp"
 
 #include "../entity/ccsplayercontroller.hpp"
+#include "../entity/c_baseviewmodel.hpp"
 #include "../entity/c_chicken.hpp"
 
 class CGameEntitySystem {

@@ -74,6 +74,12 @@ static bool __fastcall hkEquipItemInLoadout(void* rcx, int iTeam, int iSlot,
                                               bSwap);
 }
 
+static CHook<void* __fastcall(C_BaseModelEntity*, const char*)> g_setModel;
+static void* __fastcall hkSetModel(C_BaseModelEntity* rcx, const char* model) {
+    skin_changer::OnSetModel(rcx, model);
+    return g_setModel.m_pOriginalFn(rcx, model);
+}
+
 void CS2_HookGameFunctions() {
     g_mouseInputEnabled.Hook(memory::fnMouseInputEnabled,
                              HOOK_FUNCTION(hkMouseInputEnabled));
@@ -91,6 +97,7 @@ void CS2_HookGameFunctions() {
                             HOOK_FUNCTION(hkSoUpdated));
     g_equipItemInLoadout.HookVirtual(CCSInventoryManager::GetInstance(), 50,
                                      HOOK_FUNCTION(hkEquipItemInLoadout));
+    g_setModel.Hook(memory::fnSetModel, HOOK_FUNCTION(hkSetModel));
 
     esp::CacheCurrentEntities();
 }

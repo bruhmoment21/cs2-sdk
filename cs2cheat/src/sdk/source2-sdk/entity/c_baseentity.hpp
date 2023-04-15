@@ -14,6 +14,8 @@ class C_BaseEntity : public CEntityInstance {
     bool IsBasePlayerController();
     bool IsBasePlayerWeapon();
     bool IsChicken();
+    bool IsViewModel();
+
     const Vector& GetOrigin();
     bool GetBoundingBox(BBox_t& out, bool computeSurroundingBox = false);
     bool ComputeHitboxSurroundingBox(Vector& mins, Vector& maxs);

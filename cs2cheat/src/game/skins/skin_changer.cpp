@@ -60,9 +60,10 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
         CGameSceneNode* pWeaponSceneNode = pWeapon->m_pGameSceneNode();
         if (!pWeaponSceneNode) continue;
 
-        C_EconItemView* pWeaponInLoadoutItemView =
-            pInventory->GetItemInLoadout(pWeapon->m_iOriginalTeamNumber(),
-                                         pWeaponDefinition->GetLoadoutSlot());
+        const int team = pWeapon->m_iOriginalTeamNumber();
+        C_EconItemView* pWeaponInLoadoutItemView = pInventory->GetItemInLoadout(
+            team == 0 ? pLocalPawn->m_iTeamNum() : team,
+            pWeaponDefinition->GetLoadoutSlot());
         if (!pWeaponInLoadoutItemView) continue;
 
         // Check if skin is added by us.
@@ -78,7 +79,7 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
         if (!pWeaponInLoadoutDefinition) continue;
 
         // Example: Will not equip FiveSeven skin on CZ.
-        const bool isKnife = pWeaponInLoadoutDefinition->IsKnife(true);
+        const bool isKnife = pWeaponInLoadoutDefinition->IsKnife(false);
         if (!isKnife && pWeaponInLoadoutDefinition->GetDefinitionIndex() !=
                             pWeaponDefinition->GetDefinitionIndex())
             continue;
@@ -214,6 +215,66 @@ void skin_changer::OnEquipItemInLoadout(int team, int slot, uint64_t itemID) {
     pInventory->SOUpdated(pInventory->GetOwnerID(),
                           (CSharedObject*)pItemInLoadoutSOCData,
                           eSOCacheEvent_Incremental);
+}
+
+void skin_changer::OnSetModel(C_BaseModelEntity* pEntity, const char*& model) {
+    // When you're lagging you may see the default knife for one second and this
+    // function fixes that.
+    if (!pEntity || !pEntity->IsViewModel()) return;
+
+    C_BaseViewModel* pViewModel = (C_BaseViewModel*)pEntity;
+
+    CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
+    if (!pInventory) return;
+
+    CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
+    if (!pEntitySystem) return;
+
+    CCSPlayerController* pLocalPlayerController =
+        pEntitySystem->GetLocalPlayerController();
+    if (!pLocalPlayerController) return;
+
+    C_CSPlayerPawn* pLocalPawn =
+        pLocalPlayerController->m_hPawn().Get<C_CSPlayerPawn>();
+    if (!pLocalPawn) return;
+
+    const uint64_t steamID = pInventory->GetOwnerID().m_id;
+
+    C_WeaponCSBase* pWeapon = pViewModel->m_hWeapon().Get<C_WeaponCSBase>();
+    if (!pWeapon || !pWeapon->IsBasePlayerWeapon() ||
+        pWeapon->GetOriginalOwnerXuid() != steamID)
+        return;
+
+    C_AttributeContainer* pAttributeContainer = pWeapon->m_AttributeManager();
+    if (!pAttributeContainer) return;
+
+    C_EconItemView* pWeaponItemView = pAttributeContainer->m_Item();
+    if (!pWeaponItemView) return;
+
+    CEconItemDefinition* pWeaponDefinition = pWeaponItemView->GetStaticData();
+    if (!pWeaponDefinition) return;
+
+    const int team = pWeapon->m_iOriginalTeamNumber();
+    C_EconItemView* pWeaponInLoadoutItemView = pInventory->GetItemInLoadout(
+        team == 0 ? pLocalPawn->m_iTeamNum() : team,
+        pWeaponDefinition->GetLoadoutSlot());
+    if (!pWeaponInLoadoutItemView) return;
+
+    // Check if skin is added by us.
+    auto it = std::find_if(g_vecAddedItems.cbegin(), g_vecAddedItems.cend(),
+                           [pWeaponInLoadoutItemView](CEconItem* i) {
+                               return i->m_ulID ==
+                                      pWeaponInLoadoutItemView->m_iItemID();
+                           });
+    if (it == g_vecAddedItems.cend()) return;
+
+    CEconItemDefinition* pWeaponInLoadoutDefinition =
+        pWeaponInLoadoutItemView->GetStaticData();
+    if (!pWeaponInLoadoutDefinition ||
+        !pWeaponInLoadoutDefinition->IsKnife(true))
+        return;
+
+    model = pWeaponInLoadoutDefinition->GetModelName();
 }
 
 void skin_changer::AddEconItemToList(CEconItem* pItem) {
