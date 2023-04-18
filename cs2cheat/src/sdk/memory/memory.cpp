@@ -22,7 +22,8 @@ void memory::Initialize() {
         schemasystem.FindPattern(PRINT_SCHEMA_DETAILED_CLASS_LAYOUT)
             .Get<decltype(schema_detailed_class_layout)>();
     LOG_RESULT(schema_detailed_class_layout);
-    fnMouseInputEnabled = client.FindPattern(MOUSE_INPUT_ENABLED).Get<void*>();
+    fnMouseInputEnabled = client.FindPattern(MOUSE_INPUT_ENABLED)
+                              .Get<decltype(fnMouseInputEnabled)>();
     LOG_RESULT(fnMouseInputEnabled);
     fnSetMeshGroupMask = client.FindPattern(SET_MESH_GROUP_MASK)
                              .ToAbsolute(1, 0)

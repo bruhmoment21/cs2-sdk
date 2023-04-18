@@ -13,11 +13,13 @@ inline bool g_isShuttingDown = false;
 
 template <typename T>
 class CHook {
+    std::add_pointer_t<T> m_pOriginal;
+
    public:
     // Template has been used to avoid casts.
     template <typename OriginalT, typename HookT>
     void Hook(OriginalT _pOriginalFn, HookT &pHookFn, const char *szHookName) {
-        if (this->m_pOriginalFn) {
+        if (this->m_pOriginal) {
             LOG("%s tried rehooking.\n", szHookName);
             return;
         }
@@ -28,17 +30,17 @@ class CHook {
             return;
         }
 
-        this->m_pOriginalFn =
-            reinterpret_cast<decltype(this->m_pOriginalFn)>(pOriginalFn);
-        int rv = funchook_prepare(
-            g_funchookCtx, reinterpret_cast<void **>(&this->m_pOriginalFn),
-            reinterpret_cast<void *>(pHookFn));
+        this->m_pOriginal =
+            reinterpret_cast<decltype(this->m_pOriginal)>(pOriginalFn);
+        int rv = funchook_prepare(g_funchookCtx,
+                                  reinterpret_cast<void **>(&this->m_pOriginal),
+                                  reinterpret_cast<void *>(pHookFn));
 
         if (rv == FUNCHOOK_ERROR_SUCCESS) {
             LOG("%s hooked successfully. [ %p -> %p ]\n", szHookName,
                 pOriginalFn, pHookFn);
         } else {
-            this->m_pOriginalFn = nullptr;
+            this->m_pOriginal = nullptr;
             LOG("%s hook failed. [ %s ]\n", szHookName,
                 funchook_error_message(g_funchookCtx));
         }
@@ -50,5 +52,10 @@ class CHook {
         this->Hook(vmt::GetVMethod(index, pClass), pHookFn, szHookName);
     }
 
-    std::add_pointer_t<T> m_pOriginalFn;
+    template <typename... Args>
+    auto operator()(Args &&...args)
+        -> decltype(std::invoke(this->m_pOriginal,
+                                std::forward<Args>(args)...)) {
+        return std::invoke(this->m_pOriginal, std::forward<Args>(args)...);
+    }
 };

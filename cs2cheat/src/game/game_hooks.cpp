@@ -8,20 +8,20 @@
 static CHook<bool __fastcall(void*)> g_mouseInputEnabled;
 static bool __fastcall hkMouseInputEnabled(void* rcx) {
     if (menu::IsOpen()) return false;
-    return g_mouseInputEnabled.m_pOriginalFn(rcx);
+    return g_mouseInputEnabled(rcx);
 }
 
 static CHook<void __fastcall(void*, int)> g_frameStageNotify;
 static void __fastcall hkFrameStageNotify(void* rcx, int frameStage) {
     skin_changer::OnFrameStageNotify(frameStage);
-    return g_frameStageNotify.m_pOriginalFn(rcx, frameStage);
+    return g_frameStageNotify(rcx, frameStage);
 }
 
 static CHook<void* __fastcall(void*, CEntityInstance*, CHandle)> g_onAddEntity;
 static void* __fastcall hkOnAddEntity(void* rcx, CEntityInstance* pInstance,
                                       CHandle hHandle) {
     esp::OnAddEntity(pInstance, hHandle);
-    return g_onAddEntity.m_pOriginalFn(rcx, pInstance, hHandle);
+    return g_onAddEntity(rcx, pInstance, hHandle);
 }
 
 static CHook<void* __fastcall(void*, CEntityInstance*, CHandle)>
@@ -29,7 +29,7 @@ static CHook<void* __fastcall(void*, CEntityInstance*, CHandle)>
 static void* __fastcall hkOnRemoveEntity(void* rcx, CEntityInstance* pInstance,
                                          CHandle hHandle) {
     esp::OnRemoveEntity(pInstance, hHandle);
-    return g_onRemoveEntity.m_pOriginalFn(rcx, pInstance, hHandle);
+    return g_onRemoveEntity(rcx, pInstance, hHandle);
 }
 
 static CHook<void __fastcall(void*, void*, VMatrix*, VMatrix*, VMatrix*,
@@ -40,9 +40,8 @@ static void __fastcall hkGetMatricesForView(void* rcx, void* view,
                                             VMatrix* pViewToProjection,
                                             VMatrix* pWorldToProjection,
                                             VMatrix* pWorldToPixels) {
-    g_getMatricesForView.m_pOriginalFn(rcx, view, pWorldToView,
-                                       pViewToProjection, pWorldToProjection,
-                                       pWorldToPixels);
+    g_getMatricesForView(rcx, view, pWorldToView, pViewToProjection,
+                         pWorldToProjection, pWorldToPixels);
 
     math::UpdateViewMatrix(pWorldToProjection);
     esp::CalculateBoundingBoxes();
@@ -52,7 +51,7 @@ static CHook<bool __fastcall(void*, CGameEvent*, bool)> g_fireEventClientSide;
 static bool __fastcall hkFireEventClientSide(void* rcx, CGameEvent* event,
                                              bool bServerOnly) {
     skin_changer::OnPreFireEvent(event);
-    return g_fireEventClientSide.m_pOriginalFn(rcx, event, bServerOnly);
+    return g_fireEventClientSide(rcx, event, bServerOnly);
 }
 
 static CHook<void __fastcall(void*, SOID_t, CSharedObject*, ESOCacheEvent)>
@@ -62,7 +61,7 @@ static void __fastcall hkSoUpdated(void* rcx, SOID_t owner,
                                    ESOCacheEvent eEvent) {
     skin_changer::OnSoUpdated(
         (CEconDefaultEquippedDefinitionInstanceClient*)pObject);
-    return g_soUpdated.m_pOriginalFn(rcx, owner, pObject, eEvent);
+    return g_soUpdated(rcx, owner, pObject, eEvent);
 }
 
 static CHook<bool __fastcall(void*, int, int, uint64_t, bool)>
@@ -70,14 +69,13 @@ static CHook<bool __fastcall(void*, int, int, uint64_t, bool)>
 static bool __fastcall hkEquipItemInLoadout(void* rcx, int iTeam, int iSlot,
                                             uint64_t iItemID, bool bSwap) {
     skin_changer::OnEquipItemInLoadout(iTeam, iSlot, iItemID);
-    return g_equipItemInLoadout.m_pOriginalFn(rcx, iTeam, iSlot, iItemID,
-                                              bSwap);
+    return g_equipItemInLoadout(rcx, iTeam, iSlot, iItemID, bSwap);
 }
 
 static CHook<void* __fastcall(C_BaseModelEntity*, const char*)> g_setModel;
 static void* __fastcall hkSetModel(C_BaseModelEntity* rcx, const char* model) {
     skin_changer::OnSetModel(rcx, model);
-    return g_setModel.m_pOriginalFn(rcx, model);
+    return g_setModel(rcx, model);
 }
 
 void CS2_HookGameFunctions() {

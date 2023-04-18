@@ -46,8 +46,8 @@ static VkResult VKAPI_CALL hkAcquireNextImageKHR(
     VkSemaphore semaphore, VkFence fence, uint32_t* pImageIndex) {
     g_Device = device;
 
-    return g_acquireNextImageKHR.m_pOriginalFn(device, swapchain, timeout,
-                                               semaphore, fence, pImageIndex);
+    return g_acquireNextImageKHR(device, swapchain, timeout, semaphore, fence,
+                                 pImageIndex);
 }
 
 static CHook<VkResult VKAPI_CALL(VkDevice, const VkAcquireNextImageInfoKHR*,
@@ -58,8 +58,7 @@ static VkResult VKAPI_CALL hkAcquireNextImage2KHR(
     uint32_t* pImageIndex) {
     g_Device = device;
 
-    return g_acquireNextImage2KHR.m_pOriginalFn(device, pAcquireInfo,
-                                                pImageIndex);
+    return g_acquireNextImage2KHR(device, pAcquireInfo, pImageIndex);
 }
 
 static CHook<VkResult VKAPI_CALL(VkQueue, const VkPresentInfoKHR*)>
@@ -68,7 +67,7 @@ static VkResult VKAPI_CALL
 hkQueuePresentKHR(VkQueue queue, const VkPresentInfoKHR* pPresentInfo) {
     RenderImGui_Vulkan(queue, pPresentInfo);
 
-    return g_queuePresentKHR.m_pOriginalFn(queue, pPresentInfo);
+    return g_queuePresentKHR(queue, pPresentInfo);
 }
 
 static CHook<VkResult VKAPI_CALL(VkDevice, const VkSwapchainCreateInfoKHR*,
@@ -80,8 +79,7 @@ static VkResult VKAPI_CALL hkCreateSwapchainKHR(
     CleanupRenderTarget();
     g_ImageExtent = pCreateInfo->imageExtent;
 
-    return g_createSwapchainKHR.m_pOriginalFn(device, pCreateInfo, pAllocator,
-                                              pSwapchain);
+    return g_createSwapchainKHR(device, pCreateInfo, pAllocator, pSwapchain);
 }
 
 void CS2_HookVulkanGraphicsAPI() {

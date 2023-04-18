@@ -93,7 +93,7 @@ static HRESULT WINAPI hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval,
                                 UINT Flags) {
     RenderImGui_DX11(pSwapChain);
 
-    return g_present.m_pOriginalFn(pSwapChain, SyncInterval, Flags);
+    return g_present(pSwapChain, SyncInterval, Flags);
 }
 
 static CHook<HRESULT WINAPI(IDXGISwapChain*, UINT, UINT,
@@ -104,8 +104,8 @@ hkPresent1(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT PresentFlags,
            const DXGI_PRESENT_PARAMETERS* pPresentParameters) {
     RenderImGui_DX11(pSwapChain);
 
-    return g_present1.m_pOriginalFn(pSwapChain, SyncInterval, PresentFlags,
-                                    pPresentParameters);
+    return g_present1(pSwapChain, SyncInterval, PresentFlags,
+                      pPresentParameters);
 }
 
 static CHook<HRESULT WINAPI(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT,
@@ -117,8 +117,8 @@ static HRESULT WINAPI hkResizeBuffers(IDXGISwapChain* pSwapChain,
                                       UINT SwapChainFlags) {
     CleanupRenderTarget();
 
-    return g_resizeBuffers.m_pOriginalFn(pSwapChain, BufferCount, Width, Height,
-                                         NewFormat, SwapChainFlags);
+    return g_resizeBuffers(pSwapChain, BufferCount, Width, Height, NewFormat,
+                           SwapChainFlags);
 }
 
 static CHook<HRESULT WINAPI(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT,
@@ -132,9 +132,8 @@ static HRESULT WINAPI hkResizeBuffers1(IDXGISwapChain* pSwapChain,
                                        IUnknown* const* ppPresentQueue) {
     CleanupRenderTarget();
 
-    return g_resizeBuffers1.m_pOriginalFn(pSwapChain, BufferCount, Width,
-                                          Height, NewFormat, SwapChainFlags,
-                                          pCreationNodeMask, ppPresentQueue);
+    return g_resizeBuffers1(pSwapChain, BufferCount, Width, Height, NewFormat,
+                            SwapChainFlags, pCreationNodeMask, ppPresentQueue);
 }
 
 static CHook<HRESULT WINAPI(IDXGIFactory*, IUnknown*, DXGI_SWAP_CHAIN_DESC*,
@@ -146,8 +145,7 @@ static HRESULT WINAPI hkCreateSwapChain(IDXGIFactory* pFactory,
                                         IDXGISwapChain** ppSwapChain) {
     CleanupRenderTarget();
 
-    return g_createSwapChain.m_pOriginalFn(pFactory, pDevice, pDesc,
-                                           ppSwapChain);
+    return g_createSwapChain(pFactory, pDevice, pDesc, ppSwapChain);
 }
 
 static CHook<HRESULT WINAPI(
@@ -161,9 +159,9 @@ static HRESULT WINAPI hkCreateSwapChainForHwnd(
     IDXGIOutput* pRestrictToOutput, IDXGISwapChain1** ppSwapChain) {
     CleanupRenderTarget();
 
-    return g_createSwapChainForHwnd.m_pOriginalFn(
-        pFactory, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput,
-        ppSwapChain);
+    return g_createSwapChainForHwnd(pFactory, pDevice, hWnd, pDesc,
+                                    pFullscreenDesc, pRestrictToOutput,
+                                    ppSwapChain);
 }
 
 static CHook<HRESULT WINAPI(IDXGIFactory*, IUnknown*, IUnknown*,
@@ -176,8 +174,8 @@ static HRESULT WINAPI hkCreateSwapChainForCoreWindow(
     IDXGISwapChain1** ppSwapChain) {
     CleanupRenderTarget();
 
-    return g_createSwapChainForCoreWindow.m_pOriginalFn(
-        pFactory, pDevice, pWindow, pDesc, pRestrictToOutput, ppSwapChain);
+    return g_createSwapChainForCoreWindow(pFactory, pDevice, pWindow, pDesc,
+                                          pRestrictToOutput, ppSwapChain);
 }
 
 static CHook<HRESULT WINAPI(IDXGIFactory*, IUnknown*,
@@ -190,8 +188,8 @@ static HRESULT WINAPI hkCreateSwapChainForComposition(
     IDXGISwapChain1** ppSwapChain) {
     CleanupRenderTarget();
 
-    return g_createSwapChainForComposition.m_pOriginalFn(
-        pFactory, pDevice, pDesc, pRestrictToOutput, ppSwapChain);
+    return g_createSwapChainForComposition(pFactory, pDevice, pDesc,
+                                           pRestrictToOutput, ppSwapChain);
 }
 
 void CS2_HookDX11GraphicsAPI() {

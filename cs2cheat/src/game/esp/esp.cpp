@@ -120,11 +120,9 @@ void esp::OnAddEntity(CEntityInstance* pInst, CHandle handle) {
     C_BaseEntity* pEntity = (C_BaseEntity*)pInst;
     if (!pEntity) return;
 
-    CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
-    if (!pEntitySystem) return;
-
-    // Some entities have an index bigger than 10k.
-    if (handle.GetEntryIndex() > pEntitySystem->GetHighestEntityIndex()) return;
+    // Cache only networked entities.
+    // https://developer.valvesoftware.com/wiki/Entity_limit#Source_2_limits
+    if (handle.GetEntryIndex() >= 16384) return;
 
     auto it = std::find_if(g_cachedEntities.begin(), g_cachedEntities.end(),
                            [handle](const CachedEntity_t& i) {

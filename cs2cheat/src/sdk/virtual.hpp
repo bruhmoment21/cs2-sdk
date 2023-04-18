@@ -28,13 +28,12 @@ namespace vmt {
 
     template <typename T, typename... Args>
     inline T CallVirtual(uint32_t uIndex, void* pClass, Args... args) {
-        using FnType = T(__thiscall*)(void*, Args...);
-        auto pFunction = static_cast<FnType>(GetVMethod(uIndex, pClass));
-        if (!pFunction) {
+        auto pFunc = GetVMethod<T(__thiscall*)(void*, Args...)>(uIndex, pClass);
+        if (!pFunc) {
             LOG("Tried calling a null virtual function.\n");
             return T{};
         }
 
-        return pFunction(pClass, args...);
+        return pFunc(pClass, args...);
     }
 }  // namespace vmt

@@ -19,7 +19,7 @@ struct UTILPtr {
         m_val = (uintptr_t)(val);
     }
 
-    template <typename T>
+    template <typename T = void*>
     T Get() {
         return (T)(m_val);
     }

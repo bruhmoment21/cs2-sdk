@@ -226,17 +226,6 @@ void skin_changer::OnSetModel(C_BaseModelEntity* pEntity, const char*& model) {
     CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
     if (!pInventory) return;
 
-    CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
-    if (!pEntitySystem) return;
-
-    CCSPlayerController* pLocalPlayerController =
-        pEntitySystem->GetLocalPlayerController();
-    if (!pLocalPlayerController) return;
-
-    C_CSPlayerPawn* pLocalPawn =
-        pLocalPlayerController->m_hPawn().Get<C_CSPlayerPawn>();
-    if (!pLocalPawn) return;
-
     const uint64_t steamID = pInventory->GetOwnerID().m_id;
 
     C_WeaponCSBase* pWeapon = pViewModel->m_hWeapon().Get<C_WeaponCSBase>();

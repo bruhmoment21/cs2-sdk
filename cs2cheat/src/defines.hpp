@@ -10,7 +10,7 @@
 #define CS2_SDK_ENABLE_LOGGING
 
 // Pretty long name but if enabled it will print you the offsets in the console.
-#define CS2_SDK_ENABLE_SCHEMA_FIELD_OFFSET_LOGGING
+// #define CS2_SDK_ENABLE_SCHEMA_FIELD_OFFSET_LOGGING
 
 // Helper
 #define SIGNATURE(sig) \
