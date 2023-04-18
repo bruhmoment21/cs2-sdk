@@ -82,6 +82,10 @@ void esp::CalculateBoundingBoxes() {
         C_BaseEntity* pEntity = it.m_handle.Get();
         if (!pEntity) continue;
 
+        // Additional sanity check.
+        CHandle hEntity = pEntity->GetRefEHandle();
+        if (hEntity != it.m_handle) continue;
+
         switch (it.m_type) {
             case CachedEntity_t::PLAYER_CONTROLLER: {
                 C_CSPlayerPawn* pPlayerPawn = ((CCSPlayerController*)pEntity)
@@ -177,9 +181,17 @@ static void RenderPlayerESP(CCSPlayerController* pPlayerController,
     C_CSPlayerPawn* pPawn = pPlayerController->m_hPawn().Get<C_CSPlayerPawn>();
     if (!pPawn) return;
 
+    const bool isLocalPlayer = pPlayerController->m_bIsLocalPlayerController();
     const bool isEnemy =
         pPawn->IsEnemyWithTeam(g_pLocalPlayerController->m_iTeamNum());
-    if (bIgnoreTeammates && !isEnemy) return;
+
+    // Filters
+    if (bIgnoreTeammates && !isLocalPlayer && !isEnemy)
+        return;
+    else if (bIgnoreEnemies && isEnemy)
+        return;
+    else if (bIgnoreSelf && isLocalPlayer)
+        return;
 
     const ImVec2 min = {bBox.x, bBox.y};
     const ImVec2 max = {bBox.w, bBox.h};
@@ -191,9 +203,11 @@ static void RenderPlayerESP(CCSPlayerController* pPlayerController,
         g_pBackgroundDrawList->AddRect(min + ImVec2{1.f, 1.f},
                                        max - ImVec2{1.f, 1.f},
                                        IM_COL32(0, 0, 0, 255));
-        g_pBackgroundDrawList->AddRect(
-            min, max,
-            isEnemy ? IM_COL32(255, 0, 0, 255) : IM_COL32(0, 255, 0, 255));
+        g_pBackgroundDrawList->AddRect(min, max,
+                                       isLocalPlayer
+                                           ? IM_COL32(52, 131, 235, 255)
+                                       : isEnemy ? IM_COL32(255, 0, 0, 255)
+                                                 : IM_COL32(0, 255, 0, 255));
     }
     if (bName) {
         const char* szName = pPlayerController->m_sSanitizedPlayerName();

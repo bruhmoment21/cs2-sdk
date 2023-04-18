@@ -51,16 +51,16 @@ bool C_BaseEntity::GetBoundingBox(BBox_t& out, bool computeSurroundingBox) {
     out.x = out.y = std::numeric_limits<float>::max();
     out.w = out.h = -std::numeric_limits<float>::max();
 
-    for (size_t i = 0; i < 8; ++i) {
+    for (int i = 0; i < 8; ++i) {
         const Vector point{i & 1 ? max.x : min.x, i & 2 ? max.y : min.y,
                            i & 4 ? max.z : min.z};
         ImVec2 screen;
         if (!math::WorldToScreen(point, screen)) return false;
 
-        out.x = IM_FLOOR(std::min(out.x, screen.x));
-        out.y = IM_FLOOR(std::min(out.y, screen.y));
-        out.w = IM_FLOOR(std::max(out.w, screen.x));
-        out.h = IM_FLOOR(std::max(out.h, screen.y));
+        out.x = std::min(out.x, screen.x);
+        out.y = std::min(out.y, screen.y);
+        out.w = std::max(out.w, screen.x);
+        out.h = std::max(out.h, screen.y);
     }
 
     return true;

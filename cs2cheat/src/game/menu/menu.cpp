@@ -42,7 +42,9 @@ void menu::Render() {
     ImGui::Checkbox("Players name", &esp::bName);
     ImGui::Checkbox("Players healthbar", &esp::bHealthbar);
     ImGui::Checkbox("Active weapon name", &esp::bActiveWeaponName);
-    ImGui::Checkbox("Ignore teammates and yourself", &esp::bIgnoreTeammates);
+    ImGui::Checkbox("Ignore teammates", &esp::bIgnoreTeammates);
+    ImGui::Checkbox("Ignore enemies", &esp::bIgnoreEnemies);
+    ImGui::Checkbox("Ignore yourself", &esp::bIgnoreSelf);
 
     ImGui::SeparatorText("Weapon ESP");
     ImGui::Checkbox("Weapons box", &esp::bDroppedWeaponBoxes);
@@ -60,8 +62,10 @@ void menu::Render() {
     ImGui::SetNextItemWidth(windowWidth);
     ImGui::InputTextWithHint("##l0", "Class", classInputText,
                              IM_ARRAYSIZE(classInputText));
-    if (ImGui::Button("Print class layout", {windowWidth, 0}))
+    if (ImGui::Button("Print class layout in game console", {windowWidth, 0}))
         memory::schema_detailed_class_layout(nullptr, classInputText);
+    if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Type 'C_BaseEntity' to understand what this does.");
 
     if (ImGui::Button("Unload", {windowWidth, 0})) utils::UnloadLibrary();
     ImGui::End();

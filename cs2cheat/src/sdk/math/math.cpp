@@ -4,6 +4,7 @@
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 
 static VMatrix g_viewMatrix;
 
@@ -21,6 +22,9 @@ bool math::WorldToScreen(const Vector& in, ImVec2& out) {
     out.y *= 1.0f - (g_viewMatrix.m[1][0] * in.x + g_viewMatrix.m[1][1] * in.y +
                      g_viewMatrix.m[1][2] * in.z + g_viewMatrix.m[1][3]) /
                         z;
+
+    // So 'rounded' corners will not appear.
+    out = ImFloor(out);
 
     return true;
 }

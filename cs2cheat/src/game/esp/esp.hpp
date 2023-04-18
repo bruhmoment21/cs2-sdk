@@ -13,7 +13,7 @@ namespace esp {
     void OnRemoveEntity(CEntityInstance* pInst, CHandle handle);
 
     inline bool bBoxes, bName, bHealthbar, bIgnoreTeammates, bActiveWeaponName,
-        bDroppedWeaponBoxes, bDroppedWeaponName;
+        bDroppedWeaponBoxes, bDroppedWeaponName, bIgnoreEnemies, bIgnoreSelf;
     inline float fWeaponMaxDistance;
     inline bool bChickenBox;
 }  // namespace esp
