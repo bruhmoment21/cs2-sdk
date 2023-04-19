@@ -52,10 +52,9 @@ class CHook {
         this->Hook(vmt::GetVMethod(index, pClass), pHookFn, szHookName);
     }
 
+    // Shorthand for calling original.
     template <typename... Args>
-    auto operator()(Args &&...args)
-        -> decltype(std::invoke(this->m_pOriginal,
-                                std::forward<Args>(args)...)) {
+    auto operator()(Args &&...args) {
         return std::invoke(this->m_pOriginal, std::forward<Args>(args)...);
     }
 };

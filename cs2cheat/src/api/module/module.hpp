@@ -55,10 +55,8 @@ class CModule {
     CModule(CModule&&) = delete;
     CModule(const CModule&) = delete;
 
-    explicit CModule(const char* name) {
-        this->m_name = name;
-        this->Load();
-    }
+    explicit CModule(const char* name) : m_name(name) { this->Load(); }
+
     void Load() {
         this->InitializeHandle();
         this->InitializeBounds();

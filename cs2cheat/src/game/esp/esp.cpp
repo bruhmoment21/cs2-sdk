@@ -106,6 +106,9 @@ void esp::CalculateBoundingBoxes() {
 }
 
 void esp::CacheCurrentEntities() {
+    // This function runs ONCE on injection and caches all the entities if
+    // you happen to inject connected on a server.
+
     if (!interfaces::pEngine->IsInGame()) return;
 
     CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
