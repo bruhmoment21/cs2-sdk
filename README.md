@@ -5,6 +5,7 @@ cs2-sdk
 <p align="center">
   <img src="https://img.shields.io/badge/game-CS2-yellow" />
   <img src="https://img.shields.io/badge/language-C%2B%2B-%23f34b7d.svg" />
+  <img src="https://img.shields.io/badge/game%20version-9652%20(revision%207964241)-green" />
 </p>
 
 ## What's this?
@@ -13,7 +14,7 @@ Counter-Strike 2 SDK written in C++ to aid your development. This SDK has been w
 Tested on:
 - Windows
 ## Media
-![image](https://user-images.githubusercontent.com/53657322/231369676-574fb8ff-5ca9-46c1-bfef-af91803161ab.png)
+![image](https://user-images.githubusercontent.com/53657322/233426723-b5b0dbbd-4996-4df2-9317-6c1b350d8d8a.png)
 ## Dependencies
 - [funchook + distorm](https://github.com/kubo/funchook/releases/tag/v1.1.2) - hooking
 - [imgui](https://github.com/ocornut/imgui) - gui
