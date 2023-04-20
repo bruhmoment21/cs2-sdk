@@ -77,3 +77,17 @@ std::pair<uint64_t, uint32_t> CCSPlayerInventory::GetHighestIDs() {
 
     return std::make_pair(maxItemID, maxInventoryID);
 }
+
+C_EconItemView* CCSPlayerInventory::GetEconItemViewByItemID(uint64_t itemID) {
+    C_EconItemView* pEconItemView = nullptr;
+
+    const CUtlVector<C_EconItemView*>& pItems = GetVecInventoryItems();
+    for (C_EconItemView* i : pItems) {
+        if (i && i->m_iItemID() == itemID) {
+            pEconItemView = i;
+            break;
+        }
+    }
+
+    return pEconItemView;
+}

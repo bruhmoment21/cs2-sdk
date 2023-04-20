@@ -5,7 +5,7 @@
 #include "../../sdk/interfaces/interfaces.hpp"
 
 static int g_lastEquippedCount;
-static std::vector<CEconItem*> g_vecAddedItems;
+static std::vector<uint64_t> g_vecAddedItemsIDs;
 
 void skin_changer::OnFrameStageNotify(int frameStage) {
     if (frameStage != 6 || !interfaces::pEngine->IsInGame()) return;
@@ -66,12 +66,10 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
         if (!pWeaponInLoadoutItemView) continue;
 
         // Check if skin is added by us.
-        auto it = std::find_if(g_vecAddedItems.cbegin(), g_vecAddedItems.cend(),
-                               [pWeaponInLoadoutItemView](CEconItem* i) {
-                                   return i->m_ulID ==
-                                          pWeaponInLoadoutItemView->m_iItemID();
-                               });
-        if (it == g_vecAddedItems.cend()) continue;
+        auto it =
+            std::find(g_vecAddedItemsIDs.cbegin(), g_vecAddedItemsIDs.cend(),
+                      pWeaponInLoadoutItemView->m_iItemID());
+        if (it == g_vecAddedItemsIDs.cend()) continue;
 
         CEconItemDefinition* pWeaponInLoadoutDefinition =
             pWeaponInLoadoutItemView->GetStaticData();
@@ -174,18 +172,17 @@ void skin_changer::OnSoUpdated(
 
 void skin_changer::OnEquipItemInLoadout(int team, int slot, uint64_t itemID) {
     auto it =
-        std::find_if(g_vecAddedItems.begin(), g_vecAddedItems.end(),
-                     [itemID](CEconItem* i) { return i->m_ulID == itemID; });
-    if (it == g_vecAddedItems.end()) return;
-
-    CEconItem* pItemToEquip = *it;
-    if (!pItemToEquip) return;
+        std::find(g_vecAddedItemsIDs.begin(), g_vecAddedItemsIDs.end(), itemID);
+    if (it == g_vecAddedItemsIDs.end()) return;
 
     CCSInventoryManager* pInventoryManager = CCSInventoryManager::GetInstance();
     if (!pInventoryManager) return;
 
     CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
     if (!pInventory) return;
+
+    C_EconItemView* pItemViewToEquip = pInventory->GetEconItemViewByItemID(*it);
+    if (!pItemViewToEquip) return;
 
     C_EconItemView* pItemInLoadout = pInventory->GetItemInLoadout(team, slot);
     if (!pItemInLoadout) return;
@@ -197,13 +194,13 @@ void skin_changer::OnEquipItemInLoadout(int team, int slot, uint64_t itemID) {
     if (pItemInLoadoutStaticData->IsGlove(false) ||
         pItemInLoadoutStaticData->IsKnife(false) ||
         pItemInLoadoutStaticData->GetDefinitionIndex() ==
-            pItemToEquip->m_unDefIndex)
+            pItemViewToEquip->m_iItemDefinitionIndex())
         return;
 
     // Equip default item. If you would have bought Deagle and you previously
     // had R8 equipped it will now give you a Deagle.
     const uint64_t defaultItemID =
-        (std::uint64_t(0xF) << 60) | pItemToEquip->m_unDefIndex;
+        (std::uint64_t(0xF) << 60) | pItemViewToEquip->m_iItemDefinitionIndex();
     pInventoryManager->EquipItemInLoadout(team, slot, defaultItemID);
     ++g_lastEquippedCount;
 
@@ -247,12 +244,9 @@ void skin_changer::OnSetModel(C_BaseModelEntity* pEntity, const char*& model) {
     if (!pWeaponInLoadoutItemView) return;
 
     // Check if skin is added by us.
-    auto it = std::find_if(g_vecAddedItems.cbegin(), g_vecAddedItems.cend(),
-                           [pWeaponInLoadoutItemView](CEconItem* i) {
-                               return i->m_ulID ==
-                                      pWeaponInLoadoutItemView->m_iItemID();
-                           });
-    if (it == g_vecAddedItems.cend()) return;
+    auto it = std::find(g_vecAddedItemsIDs.cbegin(), g_vecAddedItemsIDs.cend(),
+                        pWeaponInLoadoutItemView->m_iItemID());
+    if (it == g_vecAddedItemsIDs.cend()) return;
 
     CEconItemDefinition* pWeaponInLoadoutDefinition =
         pWeaponInLoadoutItemView->GetStaticData();
@@ -264,12 +258,17 @@ void skin_changer::OnSetModel(C_BaseModelEntity* pEntity, const char*& model) {
 }
 
 void skin_changer::AddEconItemToList(CEconItem* pItem) {
-    g_vecAddedItems.emplace_back(pItem);
+    g_vecAddedItemsIDs.emplace_back(pItem->m_ulID);
 }
 
 void skin_changer::Shutdown() {
     CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
     if (!pInventory) return;
 
-    for (CEconItem* pItem : g_vecAddedItems) pInventory->RemoveEconItem(pItem);
+    for (uint64_t id : g_vecAddedItemsIDs) {
+        C_EconItemView* pItemView = pInventory->GetEconItemViewByItemID(id);
+        if (!pItemView) continue;
+
+        pInventory->RemoveEconItem(pItemView->GetSOCData());
+    }
 }

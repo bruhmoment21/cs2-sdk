@@ -34,6 +34,7 @@ class CCSPlayerInventory {
     bool AddEconItem(CEconItem* pItem);
     void RemoveEconItem(CEconItem* pItem);
     std::pair<uint64_t, uint32_t> GetHighestIDs();
+    C_EconItemView* GetEconItemViewByItemID(uint64_t itemID);
 
     auto GetOwnerID() {
         return *reinterpret_cast<SOID_t*>((uintptr_t)(this) + 0x10);
