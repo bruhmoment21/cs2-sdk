@@ -17,8 +17,7 @@ static bool InitSchemaFieldsForClass(SchemaTableMap_t& tableMap,
     if (!pClassInfo) {
         tableMap.emplace(classKey, SchemaKeyValueMap_t{});
 
-        LOG("InitSchemaFieldsForClass(): Class '%s' was not found!\n",
-            className);
+        LOG("InitSchemaFieldsForClass(): '%s' was not found!\n", className);
         return false;
     }
 
@@ -32,8 +31,8 @@ static bool InitSchemaFieldsForClass(SchemaTableMap_t& tableMap,
         SchemaClassFieldData_t& field = pFields[i];
 
 #ifdef CS2_SDK_ENABLE_SCHEMA_FIELD_OFFSET_LOGGING
-        LOG("InitSchemaFieldsForClass(): %s::%s found at -> 0x%X\n", className,
-            field.m_name, field.m_offset);
+        LOG("%s::%s found at -> 0x%X\n", className, field.m_name,
+            field.m_offset);
 #endif
 
         keyValueMap.emplace(hash_32_fnv1a_const(field.m_name), field.m_offset);
@@ -48,8 +47,10 @@ int16_t schema::GetOffset(const char* className, uint32_t classKey,
     static SchemaTableMap_t schemaTableMap;
     const auto& tableMapIt = schemaTableMap.find(classKey);
     if (tableMapIt == schemaTableMap.cend()) {
-        InitSchemaFieldsForClass(schemaTableMap, className, classKey);
-        return GetOffset(className, classKey, memberName, memberKey);
+        if (InitSchemaFieldsForClass(schemaTableMap, className, classKey))
+            return GetOffset(className, classKey, memberName, memberKey);
+
+        return 0;
     }
 
     const SchemaKeyValueMap_t& tableMap = tableMapIt->second;

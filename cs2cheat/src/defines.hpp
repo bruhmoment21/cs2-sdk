@@ -9,7 +9,7 @@
 // Pretty self-explanatory.
 #define CS2_SDK_ENABLE_LOGGING
 
-// Pretty long name but if enabled it will print you the offsets in the console.
+// Prints schema offsets in console.
 // #define CS2_SDK_ENABLE_SCHEMA_FIELD_OFFSET_LOGGING
 
 // Helper
@@ -37,8 +37,6 @@
 #define LOCALIZE "Localize_001"
 
 // Signatures
-
-// CGameEntitySystem::
 #define GET_HIGHEST_ENTITY_INDEX SIGNATURE("33 DB E8 ? ? ? ? 8B 08")
 #define GET_BASE_ENTITY SIGNATURE("8B D3 E8 ? ? ? ? 48 8B F8 48 85 C0 74 76")
 #define PRINT_SCHEMA_DETAILED_CLASS_LAYOUT \
@@ -59,7 +57,6 @@
 #define SET_CUSTOM_NAME_OR_DESC_ATTRIBUTE SIGNATURE("E8 ? ? ? ? 8B 43 10 D1 E8")
 #define SET_MODEL SIGNATURE("E8 ? ? ? ? F3 0F 10 4C 3B ?")
 #define COMPUTE_HITBOX_SURROUNDING_BOX SIGNATURE("E9 ? ? ? ? F6 43 5B FD")
-// CCSGOInput::
 #define MOUSE_INPUT_ENABLED \
     SIGNATURE("40 53 48 83 EC 20 80 B9 ? ? ? ? ? 48 8B D9 75 78")
 #define GET_MATRICES_FOR_VIEW SIGNATURE("40 53 48 81 EC ? ? ? ? 49 8B C1")

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdio>
+
 #include "../../defines.hpp"
 
 #ifdef CS2_SDK_ENABLE_LOGGING

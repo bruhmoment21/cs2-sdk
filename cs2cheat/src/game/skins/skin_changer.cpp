@@ -35,8 +35,8 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
         pLocalPawn->m_pViewModelServices();
     if (!pViewModelServices) return;
 
-    C_BaseModelEntity* pViewModel =
-        pViewModelServices->m_hViewModel()[0].Get<C_BaseModelEntity>();
+    C_BaseViewModel* pViewModel =
+        pViewModelServices->m_hViewModel()[0].Get<C_BaseViewModel>();
 
     int highestIndex = pEntitySystem->GetHighestEntityIndex();
     for (int i = MAX_PLAYERS + 1; i <= highestIndex; ++i) {

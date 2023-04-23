@@ -20,8 +20,17 @@ struct UTILPtr {
     }
 
     template <typename T = void*>
-    T Get() {
+    T Get(const char* variableName = nullptr) {
+#ifdef CS2_SDK_ENABLE_LOGGING
+        if (variableName) LOG("%s found at -> %llX\n", variableName, m_val);
+#endif
+
         return (T)(m_val);
+    }
+
+    template <typename T>
+    void Get(T& dst, const char* variableName = nullptr) {
+        dst = Get<T>(variableName);
     }
 
     UTILPtr& AddOffset(int offset) {
@@ -42,7 +51,7 @@ struct UTILPtr {
         return *this;
     }
 
-    bool operator!() { return m_val == 0; }
+    bool IsValid() { return m_val != 0; }
 
    private:
     uintptr_t m_val;
@@ -81,7 +90,7 @@ class CModule {
         T rv = nullptr;
         if (this->IsLoaded()) {
             UTILPtr pCreateInterface = this->GetProcAddress("CreateInterface");
-            if (!pCreateInterface) return rv;
+            if (!pCreateInterface.IsValid()) return rv;
 
             InterfaceReg* s_pInterfaceRegs = pCreateInterface.ToAbsolute(3, 0)
                                                  .Dereference(1)

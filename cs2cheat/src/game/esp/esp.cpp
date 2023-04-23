@@ -19,7 +19,6 @@ struct CachedEntity_t {
 
     CHandle m_handle;
     Type m_type;
-    bool m_removed;  // If OnRemoveEntity() gets called this will be true.
 
     BBox_t m_bbox;
     bool m_draw;  // If player is not visible it will be false.
@@ -52,10 +51,14 @@ void esp::Render() {
     const std::lock_guard<std::mutex> guard{g_cachedEntitiesMutex};
 
     for (const auto& it : g_cachedEntities) {
-        if (it.m_removed || !it.m_draw) continue;
+        if (!it.m_draw) continue;
 
         C_BaseEntity* pEntity = it.m_handle.Get();
         if (!pEntity) continue;
+
+        // Additional sanity check.
+        CHandle hEntity = pEntity->GetRefEHandle();
+        if (hEntity != it.m_handle) continue;
 
         switch (it.m_type) {
             case CachedEntity_t::PLAYER_CONTROLLER:
@@ -77,8 +80,6 @@ void esp::CalculateBoundingBoxes() {
     const std::lock_guard<std::mutex> guard{g_cachedEntitiesMutex};
 
     for (auto& it : g_cachedEntities) {
-        if (it.m_removed) continue;
-
         C_BaseEntity* pEntity = it.m_handle.Get();
         if (!pEntity) continue;
 
@@ -146,7 +147,6 @@ void esp::OnAddEntity(CEntityInstance* pInst, CHandle handle) {
     } else {
         it->m_handle = handle;
         it->m_type = ::GetEntityType(pEntity);
-        if (it->m_type != CachedEntity_t::UNKNOWN) it->m_removed = false;
     }
 }
 
@@ -159,7 +159,6 @@ void esp::OnRemoveEntity(CEntityInstance* pInst, CHandle handle) {
         [handle](const CachedEntity_t& i) { return i.m_handle == handle; });
     if (it == g_cachedEntities.end()) return;
 
-    it->m_removed = true;
     it->m_draw = false;
     it->m_type = CachedEntity_t::UNKNOWN;
 }

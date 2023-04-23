@@ -4,9 +4,7 @@
 #include "../sdk/memory/memory.hpp"
 #include "../hooks/hooks.hpp"
 
-void InitializeCheat() {
-    console::Initialize();
-
+void CS2_Initialize() {
     CModule navsystem(NAVSYSTEM_DLL);
     while (!navsystem.IsLoaded()) {
         navsystem.Load();
@@ -18,9 +16,8 @@ void InitializeCheat() {
     hooks::Initialize();
 }
 
-void UninitializeCheat() {
+void CS2_Shutdown() {
     hooks::Shutdown();
     memory::Shutdown();
     interfaces::Shutdown();
-    console::Shutdown();
 }

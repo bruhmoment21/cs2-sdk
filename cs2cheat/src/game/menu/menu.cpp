@@ -210,6 +210,9 @@ static void RenderInventoryWindow() {
             }
         }
 
+        if (ImGui::IsItemHovered())
+            ImGui::SetTooltip("Will cause lag on weaker computers.");
+
         static ImGuiTextFilter itemFilter;
         itemFilter.Draw("##filter", windowWidth);
 

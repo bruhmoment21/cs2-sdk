@@ -1,4 +1,5 @@
-#include "../../api/module/module.hpp"
+#include "../../utils/console/console.hpp"
+#include "../../utils/utils.hpp"
 
 void CS2_HookVulkanGraphicsAPI();
 void CS2_UnhookVulkanGraphicsAPI();
@@ -6,8 +7,7 @@ void CS2_HookDX11GraphicsAPI();
 void CS2_UnhookDX11GraphicsAPI();
 
 void CS2_HookGraphicsAPI() {
-    CModule rendersystemvulkan(RENDERSYSTEMVULKAN_DLL);
-    if (rendersystemvulkan.IsLoaded()) {
+    if (utils::IsUsingVulkan()) {
 #ifdef CS2_SDK_ENABLE_VULKAN_SUPPORT
         CS2_HookVulkanGraphicsAPI();
 #else
@@ -18,9 +18,9 @@ void CS2_HookGraphicsAPI() {
         CS2_HookDX11GraphicsAPI();
     }
 }
+
 void CS2_UnhookGraphicsAPI() {
-    CModule rendersystemvulkan(RENDERSYSTEMVULKAN_DLL);
-    if (rendersystemvulkan.IsLoaded()) {
+    if (utils::IsUsingVulkan()) {
 #ifdef CS2_SDK_ENABLE_VULKAN_SUPPORT
         CS2_UnhookVulkanGraphicsAPI();
 #endif
