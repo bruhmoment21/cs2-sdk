@@ -5,7 +5,7 @@ cs2-sdk
 <p align="center">
   <img src="https://img.shields.io/badge/game-CS2-yellow" />
   <img src="https://img.shields.io/badge/language-C%2B%2B-%23f34b7d.svg" />
-  <img src="https://img.shields.io/badge/game%20version-9652%20(revision%207964241)-green" />
+  <img src="https://img.shields.io/badge/supported%20game%20versions-9652%20(revision%207964241)%20--%209652%20(revision%208008385)-green" />
 </p>
 
 ## What's this?
@@ -15,6 +15,8 @@ Tested on:
 - Windows
 ## Media
 ![image](https://user-images.githubusercontent.com/53657322/233426723-b5b0dbbd-4996-4df2-9317-6c1b350d8d8a.png)
+## Known issues
+Gloves and some knife sequences don't work. Will be fixed someday.
 ## Dependencies
 - [funchook + distorm](https://github.com/kubo/funchook/releases/tag/v1.1.2) - hooking
 - [imgui](https://github.com/ocornut/imgui) - gui
