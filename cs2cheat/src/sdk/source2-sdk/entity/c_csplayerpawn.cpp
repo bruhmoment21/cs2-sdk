@@ -9,10 +9,10 @@ bool C_CSPlayerPawn::IsEnemyWithTeam(int team) {
 
     CCSPlayerController* pPlayerController =
         m_hController().Get<CCSPlayerController>();
-    if (!pPlayerController) return true;
 
-    if (pPlayerController->m_bIsLocalPlayerController()) return false;
-    if (mp_teammates_are_enemies->GetValue<bool>()) return true;
+    if (pPlayerController && pPlayerController->m_bIsLocalPlayerController())
+        return false;
 
-    return m_iTeamNum() != team;
+    return mp_teammates_are_enemies->GetValue<bool>() ? true
+                                                      : m_iTeamNum() != team;
 }

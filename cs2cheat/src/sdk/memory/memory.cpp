@@ -77,14 +77,10 @@ void memory::Initialize() {
         .Get(MEMORY_VARIABLE(fnGetSOCData));
 
     // SDL Functions:
-    fnSDL_SetRelativeMouseMode =
-        sdl2.GetProcAddress<decltype(fnSDL_SetRelativeMouseMode)>(
-            "SDL_SetRelativeMouseMode");
-    fnSDL_SetWindowGrab =
-        sdl2.GetProcAddress<decltype(fnSDL_SetWindowGrab)>("SDL_SetWindowGrab");
-    fnSDL_WarpMouseInWindow =
-        sdl2.GetProcAddress<decltype(fnSDL_WarpMouseInWindow)>(
-            "SDL_WarpMouseInWindow");
+    sdl2.GetProcAddress("SDL_SetRelativeMouseMode")
+        .Get(fnSDL_SetRelativeMouseMode);
+    sdl2.GetProcAddress("SDL_SetWindowGrab").Get(fnSDL_SetWindowGrab);
+    sdl2.GetProcAddress("SDL_WarpMouseInWindow").Get(fnSDL_WarpMouseInWindow);
 
     UTILPtr ppHeapMemAlloc = tier0.GetProcAddress("g_pMemAlloc");
     if (ppHeapMemAlloc.IsValid())

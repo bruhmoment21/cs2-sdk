@@ -11,7 +11,7 @@
 #include "../../utils/console/console.hpp"
 #include "../../defines.hpp"
 
-// Pointer Class
+// Pointer arithmetic utility class.
 struct UTILPtr {
    public:
     template <typename T>
@@ -71,23 +71,21 @@ class CModule {
         this->InitializeBounds();
     }
 
-    template <typename T = void*>
-    auto GetProcAddress(const char* procName) const {
-        T rv = nullptr;
+    UTILPtr GetProcAddress(const char* procName) const {
+        UTILPtr rv = 0;
         if (this->IsLoaded()) {
 #ifdef IS_WINDOWS
-            rv = reinterpret_cast<T>(::GetProcAddress(
-                static_cast<HMODULE>(this->m_handle), procName));
+            rv = ::GetProcAddress(static_cast<HMODULE>(this->m_handle),
+                                  procName);
 #endif
         }
 
         LOG("GetProcAddress('%s', '%s') returned -> %p\n", this->GetName(),
-            procName, rv);
+            procName, rv.Get<void*>());
         return rv;
     }
-    template <typename T = void*>
-    T FindInterface(const char* version) const {
-        T rv = nullptr;
+    UTILPtr FindInterface(const char* version) const {
+        UTILPtr rv = 0;
         if (this->IsLoaded()) {
             UTILPtr pCreateInterface = this->GetProcAddress("CreateInterface");
             if (!pCreateInterface.IsValid()) return rv;
@@ -99,7 +97,7 @@ class CModule {
             for (; s_pInterfaceRegs;
                  s_pInterfaceRegs = s_pInterfaceRegs->m_pNext) {
                 if (strcmp(version, s_pInterfaceRegs->m_pName) == 0) {
-                    rv = (T)(s_pInterfaceRegs->m_CreateFn());
+                    rv = s_pInterfaceRegs->m_CreateFn();
                     break;
                 }
             }

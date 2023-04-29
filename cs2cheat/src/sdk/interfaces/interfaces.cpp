@@ -2,9 +2,8 @@
 
 #include "../../api/module/module.hpp"
 
-#define FIND_INTERFACE(dst, module, version)            \
-    dst = module.FindInterface<decltype(dst)>(version); \
-    LOG("interfaces::%s found at -> %p\n", #dst, dst)
+#define FIND_INTERFACE(dst, module, version) \
+    module.FindInterface(version).Get(dst, "interfaces::" #dst);
 
 void interfaces::Initialize() {
     CModule engine(ENGINE2_DLL);
