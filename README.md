@@ -23,4 +23,4 @@ Gloves and some knife sequences don't work. Will be fixed someday.
 - [freetype](https://sourceforge.net/projects/freetype/files/freetype2/2.13.0/) - font rasterization
 - [STB](https://github.com/cristeigabriel/STB) - signatures
 - [Cozette](https://github.com/slavfox/Cozette) - font
-- [Vulkan](https://vulkan.lunarg.com/) - [defines.hpp](https://github.com/bruhmoment21/cs2-sdk/blob/main/cs2cheat/src/defines.hpp#L5-L7)
+- [Vulkan](https://vulkan.lunarg.com/) - [defines.hpp](https://github.com/bruhmoment21/cs2-sdk/blob/main/cs2cheat/src/defines.hpp#L5-L9)

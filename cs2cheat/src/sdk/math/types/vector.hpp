@@ -35,9 +35,5 @@ class Vector {
         return DistToSquared(rhs) * 0.00064516f;
     }
 
-    bool IsZero() const noexcept {
-        return this->x == 0.f && this->y == 0.f && this->z == 0.f;
-    }
-
     float x, y, z;
 };
