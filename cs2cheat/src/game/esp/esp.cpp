@@ -36,12 +36,9 @@ static void RenderChickenESP(C_Chicken* pChicken, const BBox_t& bBox);
 void esp::Render() {
     if (!interfaces::pEngine->IsInGame()) return;
 
-    CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
-    if (!pEntitySystem) return;
-
     g_pBackgroundDrawList = ImGui::GetBackgroundDrawList();
 
-    g_pLocalPlayerController = pEntitySystem->GetLocalPlayerController();
+    g_pLocalPlayerController = CGameEntitySystem::GetLocalPlayerController();
     if (!g_pLocalPlayerController) return;
 
     g_pLocalPlayerPawn =

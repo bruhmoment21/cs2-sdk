@@ -19,7 +19,7 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
     const uint64_t steamID = pInventory->GetOwnerID().m_id;
 
     CCSPlayerController* pLocalPlayerController =
-        pEntitySystem->GetLocalPlayerController();
+        CGameEntitySystem::GetLocalPlayerController();
     if (!pLocalPlayerController) return;
 
     C_CSPlayerPawn* pLocalPawn =
@@ -126,11 +126,8 @@ void skin_changer::OnPreFireEvent(CGameEvent* pEvent) {
         pEvent->GetPlayerController("userid");
     if (pControllerWhoKilled == pControllerWhoDied) return;
 
-    CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
-    if (!pEntitySystem) return;
-
     CCSPlayerController* pLocalPlayerController =
-        pEntitySystem->GetLocalPlayerController();
+        CGameEntitySystem::GetLocalPlayerController();
     if (!pLocalPlayerController ||
         pControllerWhoKilled != pLocalPlayerController)
         return;

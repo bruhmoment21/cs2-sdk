@@ -10,6 +10,7 @@
 class CGameEntitySystem {
    public:
     static CGameEntitySystem* GetInstance();
+    static CCSPlayerController* GetLocalPlayerController();
 
     template <typename T = C_BaseEntity>
     T* GetBaseEntity(int index) {
@@ -23,10 +24,5 @@ class CGameEntitySystem {
 
         memory::fnGetHighestEntityIndex(this, &highestIdx);
         return highestIdx;
-    }
-
-    CCSPlayerController* GetLocalPlayerController() {
-        if (!memory::fnGetLocalPlayerController) return nullptr;
-        return memory::fnGetLocalPlayerController(-1);
     }
 };
