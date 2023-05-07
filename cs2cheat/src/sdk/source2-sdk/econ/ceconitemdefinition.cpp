@@ -12,15 +12,14 @@ bool CEconItemDefinition::IsKnife(bool excludeDefault) {
         hash_32_fnv1a_const("#CSGO_Type_Knife");
 
     if (hash_32_fnv1a_const(m_pszItemTypeName) != CSGO_Type_Knife) return false;
-    return excludeDefault ? GetDefinitionIndex() >= 500 : true;
+    return excludeDefault ? m_nDefIndex >= 500 : true;
 }
 
 bool CEconItemDefinition::IsGlove(bool excludeDefault) {
     static constexpr auto Type_Hands = hash_32_fnv1a_const("#Type_Hands");
 
     if (hash_32_fnv1a_const(m_pszItemTypeName) != Type_Hands) return false;
-    const bool defaultGlove =
-        GetDefinitionIndex() == 5028 || GetDefinitionIndex() == 5029;
+    const bool defaultGlove = m_nDefIndex == 5028 || m_nDefIndex == 5029;
 
     return excludeDefault ? !defaultGlove : true;
 }

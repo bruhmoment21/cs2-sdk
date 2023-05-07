@@ -135,7 +135,7 @@ static void RenderInventoryWindow() {
             const char* itemBaseName = pItem->m_pszItemBaseName;
             if (!itemBaseName || itemBaseName[0] == '\0') continue;
 
-            const uint16_t defIdx = pItem->GetDefinitionIndex();
+            const uint16_t defIdx = pItem->m_nDefIndex;
 
             DumpedItem_t dumpedItem;
             dumpedItem.m_name = interfaces::pLocalize->FindSafe(itemBaseName);

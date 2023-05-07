@@ -10,8 +10,6 @@ class CEconItemDefinition {
     bool IsKnife(bool excludeDefault);
     bool IsGlove(bool excludeDefault);
 
-    auto GetDefinitionIndex() { return CALL_VIRTUAL(uint16_t, 0, this); }
-
     auto GetModelName() {
         return *reinterpret_cast<const char**>((uintptr_t)(this) + 0xD8);
     }

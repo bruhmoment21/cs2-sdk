@@ -77,8 +77,8 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
 
         // Example: Will not equip FiveSeven skin on CZ.
         const bool isKnife = pWeaponInLoadoutDefinition->IsKnife(false);
-        if (!isKnife && pWeaponInLoadoutDefinition->GetDefinitionIndex() !=
-                            pWeaponDefinition->GetDefinitionIndex())
+        if (!isKnife && pWeaponInLoadoutDefinition->m_nDefIndex !=
+                            pWeaponDefinition->m_nDefIndex)
             continue;
 
         pWeaponItemView->m_iItemID() = pWeaponInLoadoutItemView->m_iItemID();
@@ -91,7 +91,7 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
         CHandle hWeapon = pWeapon->GetRefEHandle();
         if (isKnife) {
             pWeaponItemView->m_iItemDefinitionIndex() =
-                pWeaponInLoadoutDefinition->GetDefinitionIndex();
+                pWeaponInLoadoutDefinition->m_nDefIndex;
 
             const char* knifeModel = pWeaponInLoadoutDefinition->GetModelName();
             pWeapon->SetModel(knifeModel);
@@ -190,7 +190,7 @@ void skin_changer::OnEquipItemInLoadout(int team, int slot, uint64_t itemID) {
 
     if (pItemInLoadoutStaticData->IsGlove(false) ||
         pItemInLoadoutStaticData->IsKnife(false) ||
-        pItemInLoadoutStaticData->GetDefinitionIndex() ==
+        pItemInLoadoutStaticData->m_nDefIndex ==
             pItemViewToEquip->m_iItemDefinitionIndex())
         return;
 
