@@ -15,8 +15,6 @@ Tested on:
 - Windows
 ## Media
 ![image](https://user-images.githubusercontent.com/53657322/233426723-b5b0dbbd-4996-4df2-9317-6c1b350d8d8a.png)
-## Known issues
-Gloves and some knife sequences don't work. Will be fixed someday.
 ## Dependencies
 - [funchook + distorm](https://github.com/kubo/funchook/releases/tag/v1.1.2) - hooking
 - [imgui](https://github.com/ocornut/imgui) - gui
@@ -24,3 +22,6 @@ Gloves and some knife sequences don't work. Will be fixed someday.
 - [STB](https://github.com/cristeigabriel/STB) - signatures
 - [Cozette](https://github.com/slavfox/Cozette) - font
 - [Vulkan](https://vulkan.lunarg.com/) - [defines.hpp](https://github.com/bruhmoment21/cs2-sdk/blob/main/cs2cheat/src/defines.hpp#L5-L9)
+
+## Other
+List of [known issues](https://github.com/bruhmoment21/cs2-sdk/blob/main/ISSUES.md) can be found in the repository.
