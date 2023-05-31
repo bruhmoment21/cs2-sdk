@@ -203,6 +203,7 @@ static void RenderInventoryWindow() {
                                        (skin.m_rarity == 7) ? 7 : 6);
 
                         pItem->SetPaintKit((float)skin.m_ID);
+                        pItem->SetPaintSeed(1.f);
                         if (pInventory->AddEconItem(pItem))
                             skin_changer::AddEconItemToList(pItem);
                     }
