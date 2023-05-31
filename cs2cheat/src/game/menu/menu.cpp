@@ -202,7 +202,7 @@ static void RenderInventoryWindow() {
                             std::clamp(item.m_rarity + skin.m_rarity - 1, 0,
                                        (skin.m_rarity == 7) ? 7 : 6);
 
-                        pItem->SetPaintKit(skin.m_ID);
+                        pItem->SetPaintKit((float)skin.m_ID);
                         if (pInventory->AddEconItem(pItem))
                             skin_changer::AddEconItemToList(pItem);
                     }
@@ -261,6 +261,7 @@ static void RenderInventoryWindow() {
             if (pSelectedItem->pSelectedSkin) {
                 static float kitWear = 0.f;
                 static int kitSeed = 1;
+                static int gunKills = -1;
                 static char gunName[32];
 
                 if (ImGui::Button("Add selected item", {windowWidth, 0.f})) {
@@ -289,9 +290,20 @@ static void RenderInventoryWindow() {
                             (pSelectedItem->pSelectedSkin->m_rarity == 7) ? 7
                                                                           : 6);
 
-                        pItem->SetPaintKit(pSelectedItem->pSelectedSkin->m_ID);
-                        pItem->SetPaintSeed(kitSeed);
+                        pItem->SetPaintKit(
+                            (float)pSelectedItem->pSelectedSkin->m_ID);
+                        pItem->SetPaintSeed((float)kitSeed);
                         pItem->SetPaintWear(kitWear);
+
+                        if (gunKills >= 0) {
+                            pItem->SetStatTrak(gunKills);
+                            pItem->SetStatTrakType(0);
+
+                            // Applied automatically on knives.
+                            if (pItem->m_nQuality != IQ_UNUSUAL)
+                                pItem->m_nQuality = IQ_STRANGE;
+                        }
+
                         if (gunName[0]) pItem->SetCustomName(gunName);
 
                         if (pInventory->AddEconItem(pItem))
@@ -299,6 +311,7 @@ static void RenderInventoryWindow() {
 
                         kitWear = 0.f;
                         kitSeed = 1;
+                        gunKills = -1;
                         memset(gunName, '\0', IM_ARRAYSIZE(gunName));
                     }
                 }
@@ -314,6 +327,11 @@ static void RenderInventoryWindow() {
                 ImGui::TextUnformatted("Pattern Template");
                 ImGui::SetNextItemWidth(windowWidth);
                 ImGui::SliderInt("##slider2", &kitSeed, 1, 1000);
+
+                ImGui::TextUnformatted("StatTrak Count");
+                ImGui::SetNextItemWidth(windowWidth);
+                ImGui::SliderInt("##slider3", &gunKills, -1, INT_MAX / 2, "%d",
+                                 ImGuiSliderFlags_Logarithmic);
 
                 ImGui::TextUnformatted("Custom Name");
                 ImGui::SetNextItemWidth(windowWidth);

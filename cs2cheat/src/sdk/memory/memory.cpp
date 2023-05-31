@@ -76,6 +76,13 @@ void memory::Initialize() {
         .ToAbsolute(1, 0)
         .Get(MEMORY_VARIABLE(fnGetSOCData));
 
+    client.FindPattern(ADD_STATTRAK_ENTITY)
+        .Get(MEMORY_VARIABLE(fnAddStattrakEntity));
+
+    client.FindPattern(ADD_NAMETAG_ENTITY)
+        .ToAbsolute(1, 0)
+        .Get(MEMORY_VARIABLE(fnAddNametagEntity));
+
     // SDL Functions:
     sdl2.GetProcAddress("SDL_SetRelativeMouseMode")
         .Get(fnSDL_SetRelativeMouseMode);

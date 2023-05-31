@@ -26,11 +26,6 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
         pLocalPlayerController->m_hPawn().Get<C_CSPlayerPawn>();
     if (!pLocalPawn) return;
 
-    CPlayer_WeaponServices* pWeaponServices = pLocalPawn->m_pWeaponServices();
-    if (!pWeaponServices) return;
-
-    CHandle hActiveWeapon = pWeaponServices->m_hActiveWeapon();
-
     CCSPlayer_ViewModelServices* pViewModelServices =
         pLocalPawn->m_pViewModelServices();
     if (!pViewModelServices) return;
@@ -75,7 +70,7 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
             pWeaponInLoadoutItemView->GetStaticData();
         if (!pWeaponInLoadoutDefinition) continue;
 
-        // Example: Will not equip FiveSeven skin on CZ.
+        // Example: Will not equip FiveSeven skin on CZ. Not applies for knives.
         const bool isKnife = pWeaponInLoadoutDefinition->IsKnife(false);
         if (!isKnife && pWeaponInLoadoutDefinition->m_nDefIndex !=
                             pWeaponDefinition->m_nDefIndex)
@@ -88,6 +83,13 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
             pWeaponInLoadoutItemView->m_iItemIDLow();
         pWeaponItemView->m_iAccountID() = uint32_t(steamID);
 
+        // Displays nametag and stattrak on the gun.
+        // Found by: https://www.unknowncheats.me/forum/members/2377851.html
+        if (!pWeapon->m_bUIWeapon()) {
+            memory::fnAddStattrakEntity(pWeapon->m_hStattrakAttachment());
+            memory::fnAddNametagEntity(pWeapon->m_hNametagAttachment());
+        }
+
         CHandle hWeapon = pWeapon->GetRefEHandle();
         if (isKnife) {
             pWeaponItemView->m_iItemDefinitionIndex() =
@@ -95,12 +97,12 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
 
             const char* knifeModel = pWeaponInLoadoutDefinition->GetModelName();
             pWeapon->SetModel(knifeModel);
-            if (hWeapon == hActiveWeapon && pViewModel)
+            if (pViewModel && pViewModel->m_hWeapon() == hWeapon)
                 pViewModel->SetModel(knifeModel);
         } else {
             // Workaround: We are forcing the OLD Models.
             pWeaponSceneNode->SetMeshGroupMask(2);
-            if (hWeapon == hActiveWeapon && pViewModel) {
+            if (pViewModel && pViewModel->m_hWeapon() == hWeapon) {
                 CGameSceneNode* pViewModelSceneNode =
                     pViewModel->m_pGameSceneNode();
 

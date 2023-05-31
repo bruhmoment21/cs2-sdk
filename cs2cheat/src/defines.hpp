@@ -66,6 +66,9 @@
 #define FIRE_EVENT_CLIENT_SIDE \
     CS2_SDK_SIG("48 89 5C 24 ? 57 41 54 41 56 48 83 EC 30")
 #define GET_SOC_DATA CS2_SDK_SIG("E8 ? ? ? ? 66 89 74 24 ?")
+#define ADD_STATTRAK_ENTITY CS2_SDK_SIG("4C 8B DC 55 41 55 49 8D 6B C8")
+#define ADD_NAMETAG_ENTITY \
+    CS2_SDK_SIG("E8 ? ? ? ? 48 8B CF E8 ? ? ? ? 48 8B C8 E8 ? ? ? ?")
 
 // Internal
 #ifdef DISTRIBUTION_BUILD

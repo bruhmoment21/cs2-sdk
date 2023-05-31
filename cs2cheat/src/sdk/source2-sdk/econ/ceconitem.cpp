@@ -3,7 +3,7 @@
 #include "../../interfaces/interfaces.hpp"
 #include "../../memory/memory.hpp"
 
-void CEconItem::SetDynamicAttributeValueFloat(int index, float value) {
+void CEconItem::SetDynamicAttributeValue(int index, void* value) {
     CEconItemSchema* pItemSchema =
         interfaces::pClient->GetEconItemSystem()->GetEconItemSchema();
     if (!pItemSchema) return;
@@ -14,7 +14,7 @@ void CEconItem::SetDynamicAttributeValueFloat(int index, float value) {
 
     if (!memory::fnSetDynamicAttributeValueFloat) return;
     memory::fnSetDynamicAttributeValueFloat(this, pAttributeDefinitionInterface,
-                                            &value);
+                                            value);
 }
 
 void CEconItem::SetDynamicAttributeValueString(int index, const char* value) {
