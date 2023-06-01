@@ -86,8 +86,8 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
         // Displays nametag and stattrak on the gun.
         // Found by: https://www.unknowncheats.me/forum/members/2377851.html
         if (!pWeapon->m_bUIWeapon()) {
-            memory::fnAddStattrakEntity(pWeapon->m_hStattrakAttachment());
-            memory::fnAddNametagEntity(pWeapon->m_hNametagAttachment());
+            pWeapon->AddStattrakEntity();
+            pWeapon->AddNametagEntity();
         }
 
         CHandle hWeapon = pWeapon->GetRefEHandle();
@@ -100,14 +100,26 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
             if (pViewModel && pViewModel->m_hWeapon() == hWeapon)
                 pViewModel->SetModel(knifeModel);
         } else {
-            // Workaround: We are forcing the OLD Models.
-            pWeaponSceneNode->SetMeshGroupMask(2);
+            // Use legacy weapon models only for skins that require them.
+            // Probably need to cache this if you really care that much about
+            // performance.
+            auto paintKit =
+                interfaces::pClient->GetEconItemSystem()
+                    ->GetEconItemSchema()
+                    ->GetPaintKits()
+                    .FindByKey(
+                        pWeaponInLoadoutItemView->GetCustomPaintKitIndex());
+
+            const bool usesOldModel =
+                paintKit.has_value() && paintKit.value()->UsesLegacyModel();
+
+            pWeaponSceneNode->SetMeshGroupMask(1 + usesOldModel);
             if (pViewModel && pViewModel->m_hWeapon() == hWeapon) {
                 CGameSceneNode* pViewModelSceneNode =
                     pViewModel->m_pGameSceneNode();
 
                 if (pViewModelSceneNode)
-                    pViewModelSceneNode->SetMeshGroupMask(2);
+                    pViewModelSceneNode->SetMeshGroupMask(1 + usesOldModel);
             }
         }
     }

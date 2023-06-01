@@ -37,6 +37,7 @@ namespace memory {
     inline CEconItem*(__fastcall* fnGetSOCData)(void*);
     inline void(__fastcall* fnAddStattrakEntity)(void*);
     inline void(__fastcall* fnAddNametagEntity)(void*);
+    inline bool(__fastcall* fnIsPaintKitUsingLegacyModel)(const char*);
 
     // SDL2 Functions
     inline int(__stdcall* fnSDL_SetRelativeMouseMode)(int);

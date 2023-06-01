@@ -10,6 +10,7 @@ class C_EconItemView {
    public:
     CEconItem* GetSOCData();
 
+    auto GetCustomPaintKitIndex() { return CALL_VIRTUAL(int, 2, this); }
     auto GetStaticData() {
         return CALL_VIRTUAL(CEconItemDefinition*, 13, this);
     }

@@ -2,6 +2,10 @@
 
 #include "../../virtual.hpp"
 
+#include "../types/utlmap.hpp"
+
+class CEconItemDefinition;
+
 inline constexpr uint64_t Helper_GetAlternateIconKeyForWeaponPaintWearItem(
     uint16_t nDefIdx, uint32_t nPaintId, uint32_t nWear) {
     return (nDefIdx << 16) + (nPaintId << 2) + nWear;
@@ -20,6 +24,8 @@ struct AlternateIconData_t {
 
 class CPaintKit {
    public:
+    bool UsesLegacyModel();
+
     int nID;
     const char* sName;
     const char* sDescriptionString;

@@ -83,6 +83,9 @@ void memory::Initialize() {
         .ToAbsolute(1, 0)
         .Get(MEMORY_VARIABLE(fnAddNametagEntity));
 
+    client.FindPattern(IS_PAINT_KIT_USING_LEGACY_MODEL)
+        .Get(MEMORY_VARIABLE(fnIsPaintKitUsingLegacyModel));
+
     // SDL Functions:
     sdl2.GetProcAddress("SDL_SetRelativeMouseMode")
         .Get(fnSDL_SetRelativeMouseMode);

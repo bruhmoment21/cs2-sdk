@@ -259,13 +259,52 @@ static void RenderInventoryWindow() {
                 }
             }
 
+            char buttonLabel[128];
+            snprintf(buttonLabel, 128, "Add every %s skin",
+                     pSelectedItem->m_name.c_str());
+
+            if (ImGui::Button(buttonLabel, {windowWidth, 0.f})) {
+                for (const auto& skin : pSelectedItem->m_dumpedSkins) {
+                    CEconItem* pItem = CEconItem::CreateInstance();
+                    if (pItem) {
+                        CCSPlayerInventory* pInventory =
+                            CCSPlayerInventory::GetInstance();
+
+                        auto highestIDs = pInventory->GetHighestIDs();
+
+                        pItem->m_ulID = highestIDs.first + 1;
+                        pItem->m_unInventory = highestIDs.second + 1;
+                        pItem->m_unAccountID =
+                            uint32_t(pInventory->GetOwnerID().m_id);
+                        pItem->m_unDefIndex = pSelectedItem->m_defIdx;
+                        if (pSelectedItem->m_unusualItem)
+                            pItem->m_nQuality = IQ_UNUSUAL;
+                        pItem->m_nRarity = std::clamp(
+                            pSelectedItem->m_rarity + skin.m_rarity - 1, 0,
+                            (skin.m_rarity == 7) ? 7 : 6);
+
+                        pItem->SetPaintKit((float)skin.m_ID);
+                        pItem->SetPaintSeed(1.f);
+                        if (pInventory->AddEconItem(pItem))
+                            skin_changer::AddEconItemToList(pItem);
+                    }
+                }
+            }
+
             if (pSelectedItem->pSelectedSkin) {
                 static float kitWear = 0.f;
                 static int kitSeed = 1;
                 static int gunKills = -1;
                 static char gunName[32];
 
-                if (ImGui::Button("Add selected item", {windowWidth, 0.f})) {
+                bool vanillaSkin = pSelectedItem->pSelectedSkin->m_ID == 0;
+                snprintf(
+                    buttonLabel, 128, "Add %s%s%s",
+                    pSelectedItem->m_name.c_str(), vanillaSkin ? "" : " | ",
+                    vanillaSkin ? ""
+                                : pSelectedItem->pSelectedSkin->m_name.c_str());
+
+                if (ImGui::Button(buttonLabel, {windowWidth, 0.f})) {
                     CEconItem* pItem = CEconItem::CreateInstance();
                     if (pItem) {
                         CCSPlayerInventory* pInventory =

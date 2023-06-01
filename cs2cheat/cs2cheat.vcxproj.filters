@@ -147,5 +147,7 @@
     <ClCompile Include="src\sdk\source2-sdk\interfaces\cgameentitysystem.cpp" />
     <ClCompile Include="src\sdk\source2-sdk\cstrike15\ccsinventorymanager.cpp" />
     <ClCompile Include="src\sdk\source2-sdk\entity\c_econitemview.cpp" />
+    <ClCompile Include="src\sdk\source2-sdk\econ\ceconitemschema.cpp" />
+    <ClCompile Include="src\sdk\source2-sdk\entity\c_weaponcsbase.cpp" />
   </ItemGroup>
 </Project>

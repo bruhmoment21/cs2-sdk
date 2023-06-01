@@ -4,6 +4,9 @@
 
 class C_WeaponCSBase : public C_BasePlayerWeapon {
    public:
+    void AddStattrakEntity();
+    void AddNametagEntity();
+
     SCHEMA_FIELD(m_bUIWeapon, "C_WeaponCSBase", "m_bUIWeapon", bool);
     SCHEMA_FIELD(m_iOriginalTeamNumber, "C_WeaponCSBase",
                  "m_iOriginalTeamNumber", int);
