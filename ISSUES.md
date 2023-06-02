@@ -4,7 +4,7 @@
 - [ ] Gloves don't work
 - [ ] Knife sequences are messed up on some models
 - [ ] StatTrak counter does not increment
-- [ ] Deleted skins leave a blank in your inventory until a new one is added
+- [ ] Deleted skins rarely leave a blank in your inventory until a new one is added
 
 ### Other
 - [ ] Will make a separate minimalist branch that features just the basics

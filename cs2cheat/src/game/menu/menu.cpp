@@ -370,7 +370,8 @@ static void RenderInventoryWindow() {
 
                 ImGui::TextUnformatted("StatTrak Count");
                 ImGui::SetNextItemWidth(windowWidth);
-                ImGui::SliderInt("##slider3", &gunKills, -1, INT_MAX / 2, "%d",
+                ImGui::SliderInt("##slider3", &gunKills, -1, INT_MAX / 2,
+                                 gunKills == -1 ? "Not StatTrak" : "%d",
                                  ImGuiSliderFlags_Logarithmic);
 
                 ImGui::TextUnformatted("Custom Name");
