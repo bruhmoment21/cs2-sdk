@@ -12,9 +12,9 @@ void CEconItem::SetDynamicAttributeValue(int index, void* value) {
         pItemSchema->GetAttributeDefinitionInterface(index);
     if (!pAttributeDefinitionInterface) return;
 
-    if (!memory::fnSetDynamicAttributeValueFloat) return;
-    memory::fnSetDynamicAttributeValueFloat(this, pAttributeDefinitionInterface,
-                                            value);
+    if (!memory::fnSetDynamicAttributeValueUint) return;
+    memory::fnSetDynamicAttributeValueUint(this, pAttributeDefinitionInterface,
+                                           value);
 }
 
 void CEconItem::SetDynamicAttributeValueString(int index, const char* value) {

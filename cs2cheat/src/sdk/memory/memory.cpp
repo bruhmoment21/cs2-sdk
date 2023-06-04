@@ -51,9 +51,9 @@ void memory::Initialize() {
         .ToAbsolute(1, 0)
         .Get(MEMORY_VARIABLE(fnGetLocalPlayerController));
 
-    client.FindPattern(SET_DYNAMIC_ATTRIBUTE_VALUE_FLOAT)
+    client.FindPattern(SET_DYNAMIC_ATTRIBUTE_VALUE_UINT)
         .ToAbsolute(1, 0)
-        .Get(MEMORY_VARIABLE(fnSetDynamicAttributeValueFloat));
+        .Get(MEMORY_VARIABLE(fnSetDynamicAttributeValueUint));
 
     client.FindPattern(SET_CUSTOM_NAME_OR_DESC_ATTRIBUTE)
         .ToAbsolute(1, 0)

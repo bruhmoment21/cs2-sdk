@@ -25,8 +25,8 @@ namespace memory {
     inline CGCClientSharedObjectCache*(__thiscall* fnFindSOCache)(void*, SOID_t,
                                                                   bool);
     inline CCSPlayerController*(__fastcall* fnGetLocalPlayerController)(int);
-    inline void*(__fastcall* fnSetDynamicAttributeValueFloat)(void*, void*,
-                                                              void*);
+    inline void*(__fastcall* fnSetDynamicAttributeValueUint)(void*, void*,
+                                                             void*);
     inline void*(__fastcall* fnSetCustomNameOrDescAttribute)(void*, void*,
                                                              const char*);
     inline void*(__fastcall* fnSetModel)(void*, const char*);
