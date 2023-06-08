@@ -11,6 +11,6 @@ class CInputSystem {
     void* GetSDLWindow() {
         // Offset in 'CInputSystem::DebugSpew'.
         // xref: "Current coordinate bias %s: %g,%g scale %g,%g\n".
-        return *reinterpret_cast<void**>((uintptr_t)(this) + 0x2670);
+        return *reinterpret_cast<void**>((uintptr_t)(this) + 0x2678);
     }
 };

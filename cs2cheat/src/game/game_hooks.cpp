@@ -81,21 +81,27 @@ static void* __fastcall hkSetModel(C_BaseModelEntity* rcx, const char* model) {
 void CS2_HookGameFunctions() {
     g_mouseInputEnabled.Hook(memory::fnMouseInputEnabled,
                              HOOK_FUNCTION(hkMouseInputEnabled));
-    g_frameStageNotify.HookVirtual(interfaces::pClient, 29,
-                                   HOOK_FUNCTION(hkFrameStageNotify));
+
+    // Disabled.
+    // g_frameStageNotify.HookVirtual(interfaces::pClient, 29,
+    //                               HOOK_FUNCTION(hkFrameStageNotify));
+
     g_onAddEntity.HookVirtual(CGameEntitySystem::GetInstance(), 14,
                               HOOK_FUNCTION(hkOnAddEntity));
     g_onRemoveEntity.HookVirtual(CGameEntitySystem::GetInstance(), 15,
                                  HOOK_FUNCTION(hkOnRemoveEntity));
     g_getMatricesForView.Hook(memory::fnGetMatricesForView,
                               HOOK_FUNCTION(hkGetMatricesForView));
-    g_fireEventClientSide.Hook(memory::fnFireEventClientSide,
-                               HOOK_FUNCTION(hkFireEventClientSide));
-    g_soUpdated.HookVirtual(CCSPlayerInventory::GetInstance(), 1,
-                            HOOK_FUNCTION(hkSoUpdated));
-    g_equipItemInLoadout.HookVirtual(CCSInventoryManager::GetInstance(), 50,
-                                     HOOK_FUNCTION(hkEquipItemInLoadout));
-    g_setModel.Hook(memory::fnSetModel, HOOK_FUNCTION(hkSetModel));
+
+    // Disabled.
+    // g_fireEventClientSide.Hook(memory::fnFireEventClientSide,
+    //                         HOOK_FUNCTION(hkFireEventClientSide));
+    //
+    // g_soUpdated.HookVirtual(CCSPlayerInventory::GetInstance(), 1,
+    //                        HOOK_FUNCTION(hkSoUpdated));
+    // g_equipItemInLoadout.HookVirtual(CCSInventoryManager::GetInstance(), 50,
+    //                                  HOOK_FUNCTION(hkEquipItemInLoadout));
+    // g_setModel.Hook(memory::fnSetModel, HOOK_FUNCTION(hkSetModel));
 
     esp::CacheCurrentEntities();
 }

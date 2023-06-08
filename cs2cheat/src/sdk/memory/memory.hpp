@@ -42,5 +42,5 @@ namespace memory {
     // SDL2 Functions
     inline int(__stdcall* fnSDL_SetRelativeMouseMode)(int);
     inline int(__stdcall* fnSDL_SetWindowGrab)(void*, int);
-    inline int(__stdcall* fnSDL_WarpMouseInWindow)(void*, int, int);
+    inline int(__stdcall* fnSDL_WarpMouseInWindow)(void*, float, float);
 }  // namespace memory

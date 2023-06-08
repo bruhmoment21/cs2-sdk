@@ -81,8 +81,8 @@ void menu::Toggle(bool bState) {
         memory::fnSDL_SetRelativeMouseMode(!g_bMenuIsOpen);
         memory::fnSDL_SetWindowGrab(interfaces::pInputSystem->GetSDLWindow(),
                                     !g_bMenuIsOpen);
-        memory::fnSDL_WarpMouseInWindow(nullptr, (int)screenCenter.x,
-                                        (int)screenCenter.y);
+        memory::fnSDL_WarpMouseInWindow(nullptr, screenCenter.x,
+                                        screenCenter.y);
     }
 }
 

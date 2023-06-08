@@ -23,7 +23,7 @@
 #define ENGINE2_DLL "engine2.dll"
 #define SCHEMASYSTEM_DLL "schemasystem.dll"
 #define INPUTSYSTEM_DLL "inputsystem.dll"
-#define SDL2_DLL "SDL2.dll"
+#define SDL3_DLL "SDL3.dll"
 #define TIER0_DLL "tier0.dll"
 #define NAVSYSTEM_DLL "navsystem.dll"
 #define RENDERSYSTEMVULKAN_DLL "rendersystemvulkan.dll"
@@ -49,7 +49,7 @@
     CS2_SDK_SIG(                                \
         "48 83 EC 28 B9 ? ? ? ? E8 ? ? ? ? 48 85 C0 74 3D 48 8D 0D ? ? ? ?")
 #define GET_GC_CLIENT_SYSTEM CS2_SDK_SIG("E8 ? ? ? ? 8B 53 28 48 8B C8")
-#define CREATE_BASE_TYPE_CACHE CS2_SDK_SIG("E8 ? ? ? ? 45 33 ED 41 8B D5")
+#define CREATE_BASE_TYPE_CACHE CS2_SDK_SIG("E8 ? ? ? ? 33 C9 8B D1")
 #define FIND_SO_CACHE CS2_SDK_SIG("E8 ? ? ? ? 48 8B F0 48 85 C0 74 0E 4C 8B C3")
 #define GET_LOCAL_PLAYER_CONTROLLER CS2_SDK_SIG("E8 ? ? ? ? 49 89 47 08")
 #define SET_DYNAMIC_ATTRIBUTE_VALUE_UINT                                       \

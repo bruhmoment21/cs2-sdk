@@ -25,7 +25,7 @@ class CCvar {
     }
 
     auto FindVarByIndex(uint64_t index) {
-        return CALL_VIRTUAL(ConVar*, 36, this, index);
+        return CALL_VIRTUAL(ConVar*, 37, this, index);
     }
 
     auto FindVarByName(const char* var_name) -> ConVar* {
