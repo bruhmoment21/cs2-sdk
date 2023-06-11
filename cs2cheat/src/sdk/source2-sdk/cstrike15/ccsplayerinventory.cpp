@@ -13,7 +13,7 @@ static CGCClientSharedObjectTypeCache* CreateBaseTypeCache(
     if (!pGCClient) return nullptr;
 
     CGCClientSharedObjectCache* pSOCache =
-        pGCClient->FindSOCache(pInventory->GetOwnerID());
+        pGCClient->FindSOCache(pInventory->GetOwner());
     if (!pSOCache) return nullptr;
 
     return pSOCache->CreateBaseTypeCache(k_EEconTypeItem);
@@ -34,7 +34,7 @@ bool CCSPlayerInventory::AddEconItem(CEconItem* pItem) {
     if (!pSOTypeCache || !pSOTypeCache->AddObject((CSharedObject*)pItem))
         return false;
 
-    SOCreated(GetOwnerID(), (CSharedObject*)pItem, eSOCacheEvent_Incremental);
+    SOCreated(GetOwner(), (CSharedObject*)pItem, eSOCacheEvent_Incremental);
     return true;
 }
 
@@ -49,7 +49,7 @@ void CCSPlayerInventory::RemoveEconItem(CEconItem* pItem) {
         pSOTypeCache->GetVecObjects<CEconItem*>();
     if (!pSharedObjects.Exists(pItem)) return;
 
-    SODestroyed(GetOwnerID(), (CSharedObject*)pItem, eSOCacheEvent_Incremental);
+    SODestroyed(GetOwner(), (CSharedObject*)pItem, eSOCacheEvent_Incremental);
     pSOTypeCache->RemoveObject((CSharedObject*)pItem);
 
     pItem->Destruct();
@@ -81,7 +81,7 @@ std::pair<uint64_t, uint32_t> CCSPlayerInventory::GetHighestIDs() {
 C_EconItemView* CCSPlayerInventory::GetEconItemViewByItemID(uint64_t itemID) {
     C_EconItemView* pEconItemView = nullptr;
 
-    const CUtlVector<C_EconItemView*>& pItems = GetVecInventoryItems();
+    const CUtlVector<C_EconItemView*>& pItems = GetItemVector();
     for (C_EconItemView* i : pItems) {
         if (i && i->m_iItemID() == itemID) {
             pEconItemView = i;

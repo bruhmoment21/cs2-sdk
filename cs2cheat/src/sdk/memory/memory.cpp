@@ -55,10 +55,6 @@ void memory::Initialize() {
         .ToAbsolute(1, 0)
         .Get(MEMORY_VARIABLE(fnSetDynamicAttributeValueUint));
 
-    client.FindPattern(SET_CUSTOM_NAME_OR_DESC_ATTRIBUTE)
-        .ToAbsolute(1, 0)
-        .Get(MEMORY_VARIABLE(fnSetCustomNameOrDescAttribute));
-
     client.FindPattern(SET_MODEL).ToAbsolute(1, 0).Get(
         MEMORY_VARIABLE(fnSetModel));
 
