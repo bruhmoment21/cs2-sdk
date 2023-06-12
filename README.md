@@ -1,5 +1,5 @@
 <h1 align="center">
-cs2-sdk-dev
+cs2-sdk
 <img src="https://img.shields.io/badge/game-CS2-yellow" />
 <img src="https://img.shields.io/badge/language-C%2B%2B-%23f34b7d.svg" />
 <img src="https://img.shields.io/badge/platform-Windows-blue" />
