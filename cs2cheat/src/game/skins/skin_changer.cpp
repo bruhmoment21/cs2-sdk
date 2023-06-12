@@ -4,7 +4,6 @@
 
 #include "../../sdk/interfaces/interfaces.hpp"
 
-static int g_lastEquippedCount;
 static std::vector<uint64_t> g_vecAddedItemsIDs;
 
 void skin_changer::OnFrameStageNotify(int frameStage) {
@@ -16,7 +15,7 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
     CGameEntitySystem* pEntitySystem = CGameEntitySystem::GetInstance();
     if (!pEntitySystem) return;
 
-    const uint64_t steamID = pInventory->GetOwnerID().m_id;
+    const uint64_t steamID = pInventory->GetOwner().m_id;
 
     CCSPlayerController* pLocalPlayerController =
         CGameEntitySystem::GetLocalPlayerController();
@@ -55,9 +54,25 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
         CGameSceneNode* pWeaponSceneNode = pWeapon->m_pGameSceneNode();
         if (!pWeaponSceneNode) continue;
 
-        C_EconItemView* pWeaponInLoadoutItemView =
-            pInventory->GetItemInLoadout(pWeapon->m_iOriginalTeamNumber(),
-                                         pWeaponDefinition->GetLoadoutSlot());
+        // No idea how to check this faster with the new loadout system.
+        C_EconItemView* pWeaponInLoadoutItemView = nullptr;
+        if (pWeaponDefinition->IsWeapon()) {
+            for (int i = 0; i <= 56; ++i) {
+                C_EconItemView* pItemView = pInventory->GetItemInLoadout(
+                    pWeapon->m_iOriginalTeamNumber(), i);
+                if (!pItemView) continue;
+
+                if (pItemView->m_iItemDefinitionIndex() ==
+                    pWeaponDefinition->m_nDefIndex) {
+                    pWeaponInLoadoutItemView = pItemView;
+                    break;
+                }
+            }
+        } else {
+            pWeaponInLoadoutItemView = pInventory->GetItemInLoadout(
+                pWeapon->m_iOriginalTeamNumber(),
+                pWeaponDefinition->GetLoadoutSlot());
+        }
         if (!pWeaponInLoadoutItemView) continue;
 
         // Check if skin is added by us.
@@ -170,17 +185,6 @@ void skin_changer::OnPreFireEvent(CGameEvent* pEvent) {
     pEvent->SetString("weapon", pWeaponDefinition->GetSimpleWeaponName());
 }
 
-void skin_changer::OnSoUpdated(
-    CEconDefaultEquippedDefinitionInstanceClient* pObject) {
-    if (g_lastEquippedCount <= 0 ||
-        pObject->GetTypeID() !=
-            k_EEconTypeDefaultEquippedDefinitionInstanceClient)
-        return;
-
-    pObject->GetDefinitionIndex() = 0;
-    --g_lastEquippedCount;
-}
-
 void skin_changer::OnEquipItemInLoadout(int team, int slot, uint64_t itemID) {
     auto it =
         std::find(g_vecAddedItemsIDs.begin(), g_vecAddedItemsIDs.end(), itemID);
@@ -213,13 +217,12 @@ void skin_changer::OnEquipItemInLoadout(int team, int slot, uint64_t itemID) {
     const uint64_t defaultItemID =
         (std::uint64_t(0xF) << 60) | pItemViewToEquip->m_iItemDefinitionIndex();
     pInventoryManager->EquipItemInLoadout(team, slot, defaultItemID);
-    ++g_lastEquippedCount;
 
     CEconItem* pItemInLoadoutSOCData = pItemInLoadout->GetSOCData();
     if (!pItemInLoadoutSOCData) return;
 
     // Mark old item as unequipped.
-    pInventory->SOUpdated(pInventory->GetOwnerID(),
+    pInventory->SOUpdated(pInventory->GetOwner(),
                           (CSharedObject*)pItemInLoadoutSOCData,
                           eSOCacheEvent_Incremental);
 }
@@ -234,7 +237,7 @@ void skin_changer::OnSetModel(C_BaseModelEntity* pEntity, const char*& model) {
     CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
     if (!pInventory) return;
 
-    const uint64_t steamID = pInventory->GetOwnerID().m_id;
+    const uint64_t steamID = pInventory->GetOwner().m_id;
 
     C_WeaponCSBase* pWeapon = pViewModel->m_hWeapon().Get<C_WeaponCSBase>();
     if (!pWeapon || !pWeapon->IsBasePlayerWeapon() ||

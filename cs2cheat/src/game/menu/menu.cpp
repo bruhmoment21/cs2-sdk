@@ -81,8 +81,8 @@ void menu::Toggle(bool bState) {
         memory::fnSDL_SetRelativeMouseMode(!g_bMenuIsOpen);
         memory::fnSDL_SetWindowGrab(interfaces::pInputSystem->GetSDLWindow(),
                                     !g_bMenuIsOpen);
-        memory::fnSDL_WarpMouseInWindow(nullptr, (int)screenCenter.x,
-                                        (int)screenCenter.y);
+        memory::fnSDL_WarpMouseInWindow(nullptr, screenCenter.x,
+                                        screenCenter.y);
     }
 }
 
@@ -195,7 +195,7 @@ static void RenderInventoryWindow() {
                         pItem->m_ulID = highestIDs.first + 1;
                         pItem->m_unInventory = highestIDs.second + 1;
                         pItem->m_unAccountID =
-                            uint32_t(pInventory->GetOwnerID().m_id);
+                            uint32_t(pInventory->GetOwner().m_id);
                         pItem->m_unDefIndex = item.m_defIdx;
                         if (item.m_unusualItem) pItem->m_nQuality = IQ_UNUSUAL;
                         pItem->m_nRarity =
@@ -275,7 +275,7 @@ static void RenderInventoryWindow() {
                         pItem->m_ulID = highestIDs.first + 1;
                         pItem->m_unInventory = highestIDs.second + 1;
                         pItem->m_unAccountID =
-                            uint32_t(pInventory->GetOwnerID().m_id);
+                            uint32_t(pInventory->GetOwner().m_id);
                         pItem->m_unDefIndex = pSelectedItem->m_defIdx;
                         if (pSelectedItem->m_unusualItem)
                             pItem->m_nQuality = IQ_UNUSUAL;
@@ -315,7 +315,7 @@ static void RenderInventoryWindow() {
                         pItem->m_ulID = highestIDs.first + 1;
                         pItem->m_unInventory = highestIDs.second + 1;
                         pItem->m_unAccountID =
-                            uint32_t(pInventory->GetOwnerID().m_id);
+                            uint32_t(pInventory->GetOwner().m_id);
                         pItem->m_unDefIndex = pSelectedItem->m_defIdx;
 
                         if (pSelectedItem->m_unusualItem)

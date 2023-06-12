@@ -7,7 +7,7 @@
 void memory::Initialize() {
     CModule client(CLIENT_DLL);
     CModule schemasystem(SCHEMASYSTEM_DLL);
-    CModule sdl2(SDL2_DLL);
+    CModule sdl3(SDL3_DLL);
     CModule tier0(TIER0_DLL);
 
     client.FindPattern(GET_BASE_ENTITY)
@@ -55,10 +55,6 @@ void memory::Initialize() {
         .ToAbsolute(1, 0)
         .Get(MEMORY_VARIABLE(fnSetDynamicAttributeValueUint));
 
-    client.FindPattern(SET_CUSTOM_NAME_OR_DESC_ATTRIBUTE)
-        .ToAbsolute(1, 0)
-        .Get(MEMORY_VARIABLE(fnSetCustomNameOrDescAttribute));
-
     client.FindPattern(SET_MODEL).ToAbsolute(1, 0).Get(
         MEMORY_VARIABLE(fnSetModel));
 
@@ -87,10 +83,10 @@ void memory::Initialize() {
         .Get(MEMORY_VARIABLE(fnIsPaintKitUsingLegacyModel));
 
     // SDL Functions:
-    sdl2.GetProcAddress("SDL_SetRelativeMouseMode")
+    sdl3.GetProcAddress("SDL_SetRelativeMouseMode")
         .Get(fnSDL_SetRelativeMouseMode);
-    sdl2.GetProcAddress("SDL_SetWindowGrab").Get(fnSDL_SetWindowGrab);
-    sdl2.GetProcAddress("SDL_WarpMouseInWindow").Get(fnSDL_WarpMouseInWindow);
+    sdl3.GetProcAddress("SDL_SetWindowGrab").Get(fnSDL_SetWindowGrab);
+    sdl3.GetProcAddress("SDL_WarpMouseInWindow").Get(fnSDL_WarpMouseInWindow);
 
     UTILPtr ppHeapMemAlloc = tier0.GetProcAddress("g_pMemAlloc");
     if (ppHeapMemAlloc.IsValid())

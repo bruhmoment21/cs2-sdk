@@ -1,6 +1,8 @@
 #pragma once
 
-#include "cecondefaultequippeddefinitioninstanceclient.hpp"
+#include "../../virtual.hpp"
+
+class CSharedObject;
 
 class CEconItem {
     void SetDynamicAttributeValue(int index, void* value);

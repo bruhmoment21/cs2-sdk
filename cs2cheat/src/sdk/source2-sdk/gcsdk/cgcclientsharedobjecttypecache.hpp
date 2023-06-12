@@ -13,7 +13,7 @@ class CGCClientSharedObjectTypeCache {
     }
 
     auto RemoveObject(CSharedObject* soIndex) {
-        return CALL_VIRTUAL(CSharedObject, 3, this, soIndex);
+        return CALL_VIRTUAL(CSharedObject*, 3, this, soIndex);
     }
 
     template <typename T>

@@ -170,10 +170,8 @@
     <ClInclude Include="src\api\hook\hook.hpp" />
     <ClInclude Include="src\api\module\module.hpp" />
     <ClInclude Include="src\sdk\math\types\vmatrix.hpp" />
-    <ClInclude Include="src\sdk\source2-sdk\econ\cecondefaultequippeddefinitioninstanceclient.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\entity\c_baseviewmodel.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\entity\c_chicken.hpp" />
-    <ClInclude Include="src\sdk\source2-sdk\gcsdk\csharedobject.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\interfaces\cgameevent.hpp" />
     <ClInclude Include="src\utils\console\console.hpp" />
     <ClInclude Include="src\defines.hpp" />
@@ -182,7 +180,7 @@
     <ClInclude Include="src\game\render\render.hpp" />
     <ClInclude Include="src\game\skins\skin_changer.hpp" />
     <ClInclude Include="src\hooks\hooks.hpp" />
-    <ClInclude Include="src\sdk\game_defines.hpp" />
+    <ClInclude Include="src\sdk\defines.hpp" />
     <ClInclude Include="src\sdk\interfaces\interfaces.hpp" />
     <ClInclude Include="src\sdk\math\math.hpp" />
     <ClInclude Include="src\sdk\memory\memory.hpp" />

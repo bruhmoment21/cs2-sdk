@@ -36,12 +36,12 @@ class CCSPlayerInventory {
     std::pair<uint64_t, uint32_t> GetHighestIDs();
     C_EconItemView* GetEconItemViewByItemID(uint64_t itemID);
 
-    auto GetOwnerID() {
+    auto GetOwner() {
         return *reinterpret_cast<SOID_t*>((uintptr_t)(this) + 0x10);
     }
 
-    auto& GetVecInventoryItems() {
+    auto& GetItemVector() {
         return *reinterpret_cast<CUtlVector<C_EconItemView*>*>(
-            (uintptr_t)(this) + 0x38);
+            (uintptr_t)(this) + 0x20);
     }
 };

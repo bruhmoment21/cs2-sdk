@@ -54,22 +54,11 @@ static bool __fastcall hkFireEventClientSide(void* rcx, CGameEvent* event,
     return g_fireEventClientSide(rcx, event, bServerOnly);
 }
 
-static CHook<void __fastcall(void*, SOID_t, CSharedObject*, ESOCacheEvent)>
-    g_soUpdated;
-static void __fastcall hkSoUpdated(void* rcx, SOID_t owner,
-                                   CSharedObject* pObject,
-                                   ESOCacheEvent eEvent) {
-    skin_changer::OnSoUpdated(
-        (CEconDefaultEquippedDefinitionInstanceClient*)pObject);
-    return g_soUpdated(rcx, owner, pObject, eEvent);
-}
-
-static CHook<bool __fastcall(void*, int, int, uint64_t, bool)>
-    g_equipItemInLoadout;
+static CHook<bool __fastcall(void*, int, int, uint64_t)> g_equipItemInLoadout;
 static bool __fastcall hkEquipItemInLoadout(void* rcx, int iTeam, int iSlot,
-                                            uint64_t iItemID, bool bSwap) {
+                                            uint64_t iItemID) {
     skin_changer::OnEquipItemInLoadout(iTeam, iSlot, iItemID);
-    return g_equipItemInLoadout(rcx, iTeam, iSlot, iItemID, bSwap);
+    return g_equipItemInLoadout(rcx, iTeam, iSlot, iItemID);
 }
 
 static CHook<void* __fastcall(C_BaseModelEntity*, const char*)> g_setModel;
@@ -81,7 +70,7 @@ static void* __fastcall hkSetModel(C_BaseModelEntity* rcx, const char* model) {
 void CS2_HookGameFunctions() {
     g_mouseInputEnabled.Hook(memory::fnMouseInputEnabled,
                              HOOK_FUNCTION(hkMouseInputEnabled));
-    g_frameStageNotify.HookVirtual(interfaces::pClient, 29,
+    g_frameStageNotify.HookVirtual(interfaces::pClient, 31,
                                    HOOK_FUNCTION(hkFrameStageNotify));
     g_onAddEntity.HookVirtual(CGameEntitySystem::GetInstance(), 14,
                               HOOK_FUNCTION(hkOnAddEntity));
@@ -91,9 +80,7 @@ void CS2_HookGameFunctions() {
                               HOOK_FUNCTION(hkGetMatricesForView));
     g_fireEventClientSide.Hook(memory::fnFireEventClientSide,
                                HOOK_FUNCTION(hkFireEventClientSide));
-    g_soUpdated.HookVirtual(CCSPlayerInventory::GetInstance(), 1,
-                            HOOK_FUNCTION(hkSoUpdated));
-    g_equipItemInLoadout.HookVirtual(CCSInventoryManager::GetInstance(), 50,
+    g_equipItemInLoadout.HookVirtual(CCSInventoryManager::GetInstance(), 52,
                                      HOOK_FUNCTION(hkEquipItemInLoadout));
     g_setModel.Hook(memory::fnSetModel, HOOK_FUNCTION(hkSetModel));
 
