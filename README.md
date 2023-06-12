@@ -1,17 +1,15 @@
 <h1 align="center">
 cs2-sdk-dev
+<img src="https://img.shields.io/badge/game-CS2-yellow" />
+<img src="https://img.shields.io/badge/language-C%2B%2B-%23f34b7d.svg" />
+<img src="https://img.shields.io/badge/platform-Windows-blue" />
 </h1>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/game-CS2-yellow" />
-  <img src="https://img.shields.io/badge/language-C%2B%2B-%23f34b7d.svg" />
-</p>
-
 ## What's this?
-Counter-Strike 2 SDK written in C++ to aid your development. This SDK has been written as simplified as possible and kept as close as possible to Source 2 code supporting both DirectX11 and Vulkan graphical APIs. I'll keep the project updated if I have time, project's features can be seen in the picture below. Currently supports only Windows.
+Counter-Strike 2 SDK written in C++ to aid your development. This SDK has been written as simplified as possible and kept as close as possible to Source 2 code supporting both DirectX11 and Vulkan graphical APIs. I'll keep the project updated if I have time, project's features can be seen in the picture below.
 
 Tested on version(s):
-- 9720 (revision 8116890)
+- 1.38.8.6, 9720 (revision 8116890)
 ## Media
 ![image](https://user-images.githubusercontent.com/53657322/233426723-b5b0dbbd-4996-4df2-9317-6c1b350d8d8a.png)
 ## Dependencies
