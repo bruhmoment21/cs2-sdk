@@ -6,11 +6,11 @@
 #include <imgui/imgui_internal.h>
 
 bool C_BaseEntity::IsBasePlayerController() {
-    return CALL_VIRTUAL(bool, 141, this);
+    return CALL_VIRTUAL(bool, 142, this);
 }
 
 bool C_BaseEntity::IsBasePlayerWeapon() {
-    return CALL_VIRTUAL(bool, 147, this);
+    return CALL_VIRTUAL(bool, 148, this);
 }
 
 bool C_BaseEntity::IsChicken() {
@@ -24,7 +24,7 @@ bool C_BaseEntity::IsChicken() {
     return hash_32_fnv1a_const(className) == C_Chicken;
 }
 
-bool C_BaseEntity::IsViewModel() { return CALL_VIRTUAL(bool, 238, this); }
+bool C_BaseEntity::IsViewModel() { return CALL_VIRTUAL(bool, 239, this); }
 
 const Vector& C_BaseEntity::GetOrigin() {
     static const Vector null{};
