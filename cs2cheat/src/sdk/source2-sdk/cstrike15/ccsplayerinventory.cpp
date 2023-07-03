@@ -64,30 +64,49 @@ std::pair<uint64_t, uint32_t> CCSPlayerInventory::GetHighestIDs() {
         const CUtlVector<CEconItem*>& vecItems =
             pSOTypeCache->GetVecObjects<CEconItem*>();
 
-        for (CEconItem* pEconItem : vecItems) {
-            if (!pEconItem) continue;
+        for (CEconItem* it : vecItems) {
+            if (!it) continue;
 
             // Checks if item is default.
-            if ((pEconItem->m_ulID & 0xF000000000000000) != 0) continue;
+            if ((it->m_ulID & 0xF000000000000000) != 0) continue;
 
-            maxItemID = std::max(maxItemID, pEconItem->m_ulID);
-            maxInventoryID = std::max(maxInventoryID, pEconItem->m_unInventory);
+            maxItemID = std::max(maxItemID, it->m_ulID);
+            maxInventoryID = std::max(maxInventoryID, it->m_unInventory);
         }
     }
 
     return std::make_pair(maxItemID, maxInventoryID);
 }
 
-C_EconItemView* CCSPlayerInventory::GetEconItemViewByItemID(uint64_t itemID) {
+C_EconItemView* CCSPlayerInventory::GetItemViewForItem(uint64_t itemID) {
     C_EconItemView* pEconItemView = nullptr;
 
     const CUtlVector<C_EconItemView*>& pItems = GetItemVector();
-    for (C_EconItemView* i : pItems) {
-        if (i && i->m_iItemID() == itemID) {
-            pEconItemView = i;
+    for (C_EconItemView* it : pItems) {
+        if (it && it->m_iItemID() == itemID) {
+            pEconItemView = it;
             break;
         }
     }
 
     return pEconItemView;
+}
+
+CEconItem* CCSPlayerInventory::GetSOCDataForItem(uint64_t itemID) {
+    CEconItem* pSOCData = nullptr;
+
+    CGCClientSharedObjectTypeCache* pSOTypeCache = ::CreateBaseTypeCache(this);
+    if (pSOTypeCache) {
+        const CUtlVector<CEconItem*>& vecItems =
+            pSOTypeCache->GetVecObjects<CEconItem*>();
+
+        for (CEconItem* it : vecItems) {
+            if (it && it->m_ulID == itemID) {
+                pSOCData = it;
+                break;
+            }
+        }
+    }
+
+    return pSOCData;
 }

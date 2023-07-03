@@ -196,7 +196,7 @@ void skin_changer::OnEquipItemInLoadout(int team, int slot, uint64_t itemID) {
     CCSPlayerInventory* pInventory = CCSPlayerInventory::GetInstance();
     if (!pInventory) return;
 
-    C_EconItemView* pItemViewToEquip = pInventory->GetEconItemViewByItemID(*it);
+    C_EconItemView* pItemViewToEquip = pInventory->GetItemViewForItem(*it);
     if (!pItemViewToEquip) return;
 
     C_EconItemView* pItemInLoadout = pInventory->GetItemInLoadout(team, slot);
@@ -280,9 +280,6 @@ void skin_changer::Shutdown() {
     if (!pInventory) return;
 
     for (uint64_t id : g_vecAddedItemsIDs) {
-        C_EconItemView* pItemView = pInventory->GetEconItemViewByItemID(id);
-        if (!pItemView) continue;
-
-        pInventory->RemoveEconItem(pItemView->GetSOCData());
+        pInventory->RemoveEconItem(pInventory->GetSOCDataForItem(id));
     }
 }

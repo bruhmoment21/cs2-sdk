@@ -32,7 +32,6 @@ namespace memory {
                                                            Vector&);
     inline void* fnGetMatricesForView;
     inline void* fnFireEventClientSide;
-    inline CEconItem*(__fastcall* fnGetSOCData)(void*);
     inline void(__fastcall* fnAddStattrakEntity)(void*);
     inline void(__fastcall* fnAddNametagEntity)(void*);
     inline bool(__fastcall* fnIsPaintKitUsingLegacyModel)(const char*);

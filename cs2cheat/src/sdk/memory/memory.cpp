@@ -68,10 +68,6 @@ void memory::Initialize() {
     client.FindPattern(FIRE_EVENT_CLIENT_SIDE)
         .Get(MEMORY_VARIABLE(fnFireEventClientSide));
 
-    client.FindPattern(GET_SOC_DATA)
-        .ToAbsolute(1, 0)
-        .Get(MEMORY_VARIABLE(fnGetSOCData));
-
     client.FindPattern(ADD_STATTRAK_ENTITY)
         .Get(MEMORY_VARIABLE(fnAddStattrakEntity));
 
