@@ -34,7 +34,7 @@ class CSchemaSystemTypeScope {
 
 class CSchemaSystem {
    public:
-    auto FindTypeScopeForModule(const char* module) {
-        return CALL_VIRTUAL(CSchemaSystemTypeScope*, 13, this, module);
+    auto FindTypeScopeForModule(const char* module, void* a2 = nullptr) {
+        return CALL_VIRTUAL(CSchemaSystemTypeScope*, 13, this, module, a2);
     }
 };
