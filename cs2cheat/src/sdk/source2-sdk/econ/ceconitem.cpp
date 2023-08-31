@@ -35,7 +35,10 @@ void CEconItem::SetDynamicAttributeValueString(int index, const char* value) {
 
     if (!memory::fnCAttributeStringFill) return;
     memory::fnCAttributeStringFill(
-        *reinterpret_cast<void**>(attributestringdata + 0x18), value);
+        reinterpret_cast<void*>(attributestringdata + 0x20), value);
+
+    *reinterpret_cast<void**>(attributestringdata + 0x18) =
+        reinterpret_cast<void*>(attributestringdata + 0x20);
 
     if (!memory::fnSetDynamicAttributeValueString) return;
     memory::fnSetDynamicAttributeValueString(
