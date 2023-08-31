@@ -27,6 +27,10 @@ namespace memory {
     inline CCSPlayerController*(__fastcall* fnGetLocalPlayerController)(int);
     inline void*(__fastcall* fnSetDynamicAttributeValueUint)(void*, void*,
                                                              void*);
+    inline void*(__fastcall* fnSetDynamicAttributeValueString)(void*, void*,
+                                                               uint8_t*);
+    inline void*(__fastcall* fnCAttributeStringInit)(void*, uint64_t, bool);
+    inline void*(__fastcall* fnCAttributeStringFill)(void*, const char*);
     inline void*(__fastcall* fnSetModel)(void*, const char*);
     inline bool(__fastcall* fnComputeHitboxSurroundingBox)(void*, Vector&,
                                                            Vector&);

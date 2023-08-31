@@ -58,6 +58,12 @@
     CS2_SDK_SIG(                                                               \
         "E9 ? ? ? ? CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC 49 8B C0 48 " \
         "8B CA 48 8B D0")
+#define SET_DYNAMIC_ATTRIBUTE_VALUE_STRING                                       \
+    CS2_SDK_SIG(                                                               \
+        "E8 ? ? ? ? 48 8D 4C 24 ? E8 ? ? ? ? 48 8B 5C 24 ? 48 8B 6C 24 ? 48 8B 74 24 ? 48 83 C4 40")
+#define ATTRIBUTE_STRING_INIT CS2_SDK_SIG("E8 ? ? ? ? 48 8D 05 ? ? ? ? 48 89 7D 0F") 
+#define ATTRIBUTE_STRING_FILL CS2_SDK_SIG("E8 ? ? ? ? 41 83 CF 08")
+
 #define SET_MODEL CS2_SDK_SIG("E8 ? ? ? ? F3 0F 10 4C 3B ?")
 #define COMPUTE_HITBOX_SURROUNDING_BOX CS2_SDK_SIG("E9 ? ? ? ? F6 43 5B FD")
 #define MOUSE_INPUT_ENABLED \
