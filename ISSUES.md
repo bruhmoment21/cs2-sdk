@@ -6,6 +6,7 @@
 - [ ] StatTrak counter does not increment
 - [ ] Deleted skins rarely leave a blank in your inventory until a new one is added
 - [ ] Nametags don't work
+- [ ] Knife killfeed icons are broken
 
 ### Other
 - [ ] Will make a separate minimalist branch that features just the basics

@@ -9,7 +9,7 @@ cs2-sdk
 Counter-Strike 2 SDK written in C++ to aid your development. This SDK has been written as simplified as possible and kept as close as possible to Source 2 code supporting both DirectX11 and Vulkan graphical APIs. I'll keep the project updated if I have time, project's features can be seen in the picture below.
 
 Tested on version(s):
-- 1.39.2.4, 9790 (revision 8278380)
+- 1.39.3.6, 9805 (revision 8328398)
 ## Media
 ![image](https://github.com/bruhmoment21/cs2-sdk/assets/53657322/af484b96-1380-4ab7-85a7-b21e3385ade7)
 ## Dependencies
