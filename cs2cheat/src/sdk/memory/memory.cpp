@@ -72,6 +72,7 @@ void memory::Initialize() {
         .Get(MEMORY_VARIABLE(fnAddStattrakEntity));
 
     client.FindPattern(ADD_NAMETAG_ENTITY)
+        .ToAbsolute(1, 0)
         .Get(MEMORY_VARIABLE(fnAddNametagEntity));
 
     client.FindPattern(IS_PAINT_KIT_USING_LEGACY_MODEL)

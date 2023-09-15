@@ -13,5 +13,5 @@ class C_WeaponCSBase : public C_BasePlayerWeapon {
     PSCHEMA_FIELD_OFFSET(m_hStattrakAttachment, "C_WeaponCSBase",
                          "m_iNumEmptyAttacks", 4, void);
     PSCHEMA_FIELD_OFFSET(m_hNametagAttachment, "C_WeaponCSBase",
-                         "m_iNumEmptyAttacks", 12, void);
+                         "m_iNumEmptyAttacks", 20, void);
 };

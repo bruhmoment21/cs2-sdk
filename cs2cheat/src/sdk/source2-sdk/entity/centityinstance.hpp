@@ -7,7 +7,9 @@
 class CEntityInstance {
    public:
     auto Schema_DynamicBinding() {
-        return CALL_VIRTUAL(SchemaClassInfoData_t*, 0, this);
+        SchemaClassInfoData_t* rv = nullptr;
+        CALL_VIRTUAL(void, 0, this, &rv);
+        return rv;
     }
 
     auto GetRefEHandle() {

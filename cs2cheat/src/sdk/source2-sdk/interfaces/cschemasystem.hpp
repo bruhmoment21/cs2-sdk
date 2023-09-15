@@ -28,7 +28,9 @@ class SchemaClassInfoData_t {
 class CSchemaSystemTypeScope {
    public:
     auto FindDeclaredClass(const char* pClass) {
-        return CALL_VIRTUAL(SchemaClassInfoData_t*, 2, this, pClass);
+        SchemaClassInfoData_t* rv = nullptr;
+        CALL_VIRTUAL(void, 2, this, &rv, pClass);
+        return rv;
     }
 };
 

@@ -7,6 +7,6 @@
 class CSource2Client {
    public:
     auto GetEconItemSystem() {
-        return CALL_VIRTUAL(CEconItemSystem*, 110, this);
+        return CALL_VIRTUAL(CEconItemSystem*, 111, this);
     }
 };
