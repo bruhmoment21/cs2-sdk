@@ -24,7 +24,7 @@ bool C_BaseEntity::IsChicken() {
     return hash_32_fnv1a_const(className) == C_Chicken;
 }
 
-bool C_BaseEntity::IsViewModel() { return CALL_VIRTUAL(bool, 241, this); }
+bool C_BaseEntity::IsViewModel() { return CALL_VIRTUAL(bool, 242, this); }
 
 const Vector& C_BaseEntity::GetOrigin() {
     static const Vector null{};

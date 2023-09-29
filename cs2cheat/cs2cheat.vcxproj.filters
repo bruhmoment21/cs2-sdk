@@ -82,7 +82,7 @@
     <ClInclude Include="src\sdk\source2-sdk\econ\ceconitemsystem.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\econ\ceconitemschema.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\interfaces\clocalize.hpp" />
-    <ClInclude Include="src\sdk\source2-sdk\entity\c_weaponcsbase.hpp" />
+    <ClInclude Include="src\sdk\source2-sdk\entity\c_csweaponbase.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\entity\c_basemodelentity.hpp" />
     <ClInclude Include="dependencies\imgui\imgui_freetype.h" />
     <ClInclude Include="dependencies\cozette\cozette_bitmap.hpp" />
@@ -146,6 +146,6 @@
     <ClCompile Include="src\sdk\source2-sdk\cstrike15\ccsinventorymanager.cpp" />
     <ClCompile Include="src\sdk\source2-sdk\entity\c_econitemview.cpp" />
     <ClCompile Include="src\sdk\source2-sdk\econ\ceconitemschema.cpp" />
-    <ClCompile Include="src\sdk\source2-sdk\entity\c_weaponcsbase.cpp" />
+    <ClCompile Include="src\sdk\source2-sdk\entity\c_csweaponbase.cpp" />
   </ItemGroup>
 </Project>

@@ -29,8 +29,8 @@ static std::mutex g_cachedEntitiesMutex;
 static CachedEntity_t::Type GetEntityType(C_BaseEntity* pEntity);
 static void RenderPlayerESP(CCSPlayerController* pPlayerController,
                             const BBox_t& bBox);
-static void RenderWeaponESP(C_WeaponCSBase* pWeapon, const BBox_t& bBox);
-static void RenderWeaponName(C_WeaponCSBase* pWeapon, const BBox_t& bBox);
+static void RenderWeaponESP(C_CSWeaponBase* pWeapon, const BBox_t& bBox);
+static void RenderWeaponName(C_CSWeaponBase* pWeapon, const BBox_t& bBox);
 static void RenderChickenESP(C_Chicken* pChicken, const BBox_t& bBox);
 
 void esp::Render() {
@@ -62,7 +62,7 @@ void esp::Render() {
                 RenderPlayerESP((CCSPlayerController*)pEntity, it.m_bbox);
                 break;
             case CachedEntity_t::BASE_WEAPON:
-                RenderWeaponESP((C_WeaponCSBase*)pEntity, it.m_bbox);
+                RenderWeaponESP((C_CSWeaponBase*)pEntity, it.m_bbox);
                 break;
             case CachedEntity_t::CHICKEN:
                 RenderChickenESP((C_Chicken*)pEntity, it.m_bbox);
@@ -246,8 +246,8 @@ static void RenderPlayerESP(CCSPlayerController* pPlayerController,
     if (bActiveWeaponName) {
         CPlayer_WeaponServices* pWeaponServices = pPawn->m_pWeaponServices();
         if (pWeaponServices) {
-            C_WeaponCSBase* pActiveWeapon =
-                pWeaponServices->m_hActiveWeapon().Get<C_WeaponCSBase>();
+            C_CSWeaponBase* pActiveWeapon =
+                pWeaponServices->m_hActiveWeapon().Get<C_CSWeaponBase>();
             if (pActiveWeapon) {
                 RenderWeaponName(pActiveWeapon, bBox);
             }
@@ -255,7 +255,7 @@ static void RenderPlayerESP(CCSPlayerController* pPlayerController,
     }
 }
 
-static void RenderWeaponESP(C_WeaponCSBase* pWeapon, const BBox_t& bBox) {
+static void RenderWeaponESP(C_CSWeaponBase* pWeapon, const BBox_t& bBox) {
     using namespace esp;
 
     if (pWeapon->m_hOwnerEntity().IsValid()) return;
@@ -282,7 +282,7 @@ static void RenderWeaponESP(C_WeaponCSBase* pWeapon, const BBox_t& bBox) {
     }
 }
 
-static void RenderWeaponName(C_WeaponCSBase* pWeapon, const BBox_t& bBox) {
+static void RenderWeaponName(C_CSWeaponBase* pWeapon, const BBox_t& bBox) {
     // Function to avoid spaghetti code.
     C_AttributeContainer* pAttributeContainer = pWeapon->m_AttributeManager();
     if (!pAttributeContainer) return;

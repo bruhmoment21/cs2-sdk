@@ -5,7 +5,7 @@
 #include "../types/cnetworkutlvectorbase.hpp"
 #include "../types/chandle.hpp"
 
-#include "c_weaponcsbase.hpp"
+#include "c_csweaponbase.hpp"
 
 class CPlayer_WeaponServices {
    public:

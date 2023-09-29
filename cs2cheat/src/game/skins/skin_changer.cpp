@@ -37,7 +37,7 @@ void skin_changer::OnFrameStageNotify(int frameStage) {
         C_BaseEntity* pEntity = pEntitySystem->GetBaseEntity(i);
         if (!pEntity || !pEntity->IsBasePlayerWeapon()) continue;
 
-        C_WeaponCSBase* pWeapon = reinterpret_cast<C_WeaponCSBase*>(pEntity);
+        C_CSWeaponBase* pWeapon = reinterpret_cast<C_CSWeaponBase*>(pEntity);
         if (pWeapon->GetOriginalOwnerXuid() != steamID) continue;
 
         C_AttributeContainer* pAttributeContainer =
@@ -168,8 +168,8 @@ void skin_changer::OnPreFireEvent(CGameEvent* pEvent) {
     CPlayer_WeaponServices* pWeaponServices = pLocalPawn->m_pWeaponServices();
     if (!pWeaponServices) return;
 
-    C_WeaponCSBase* pActiveWeapon =
-        pWeaponServices->m_hActiveWeapon().Get<C_WeaponCSBase>();
+    C_CSWeaponBase* pActiveWeapon =
+        pWeaponServices->m_hActiveWeapon().Get<C_CSWeaponBase>();
     if (!pActiveWeapon) return;
 
     C_AttributeContainer* pAttributeContainer =
@@ -239,7 +239,7 @@ void skin_changer::OnSetModel(C_BaseModelEntity* pEntity, const char*& model) {
 
     const uint64_t steamID = pInventory->GetOwner().m_id;
 
-    C_WeaponCSBase* pWeapon = pViewModel->m_hWeapon().Get<C_WeaponCSBase>();
+    C_CSWeaponBase* pWeapon = pViewModel->m_hWeapon().Get<C_CSWeaponBase>();
     if (!pWeapon || !pWeapon->IsBasePlayerWeapon() ||
         pWeapon->GetOriginalOwnerXuid() != steamID)
         return;

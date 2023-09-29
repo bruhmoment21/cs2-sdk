@@ -198,7 +198,7 @@
     <ClInclude Include="src\sdk\source2-sdk\entity\c_csplayerpawnbase.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\entity\c_econentity.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\entity\c_econitemview.hpp" />
-    <ClInclude Include="src\sdk\source2-sdk\entity\c_weaponcsbase.hpp" />
+    <ClInclude Include="src\sdk\source2-sdk\entity\c_csweaponbase.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\gcsdk\cgcclient.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\gcsdk\cgcclientsharedobjectcache.hpp" />
     <ClInclude Include="src\sdk\source2-sdk\gcsdk\cgcclientsystem.hpp" />
@@ -256,7 +256,7 @@
     <ClCompile Include="src\sdk\source2-sdk\cstrike15\ccsinventorymanager.cpp" />
     <ClCompile Include="src\sdk\source2-sdk\econ\ceconitemschema.cpp" />
     <ClCompile Include="src\sdk\source2-sdk\entity\c_econitemview.cpp" />
-    <ClCompile Include="src\sdk\source2-sdk\entity\c_weaponcsbase.cpp" />
+    <ClCompile Include="src\sdk\source2-sdk\entity\c_csweaponbase.cpp" />
     <ClCompile Include="src\sdk\source2-sdk\interfaces\cgameentitysystem.cpp" />
     <ClCompile Include="src\utils\console\console.cpp" />
     <ClCompile Include="src\entry\cs2cheat.cpp" />

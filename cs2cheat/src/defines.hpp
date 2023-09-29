@@ -53,7 +53,7 @@
 #define GET_GC_CLIENT_SYSTEM CS2_SDK_SIG("E8 ? ? ? ? 48 8B 4F 10 8B 1D ? ? ? ?")
 #define CREATE_BASE_TYPE_CACHE CS2_SDK_SIG("E8 ? ? ? ? 33 C9 8B D1")
 #define FIND_SO_CACHE CS2_SDK_SIG("E8 ? ? ? ? 48 8B F0 48 85 C0 74 0E 4C 8B C3")
-#define GET_LOCAL_PLAYER_CONTROLLER CS2_SDK_SIG("E8 ? ? ? ? 49 89 47 08")
+#define GET_LOCAL_PLAYER_CONTROLLER CS2_SDK_SIG("E8 ? ? ? ? 41 83 BF ? ? ? ? ?")
 #define SET_DYNAMIC_ATTRIBUTE_VALUE_UINT                                       \
     CS2_SDK_SIG(                                                               \
         "E9 ? ? ? ? CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC 49 8B C0 48 " \
