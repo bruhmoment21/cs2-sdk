@@ -87,10 +87,15 @@ uintptr_t CModule::FindPattern(const std::span<const int>& pattern) const {
     uintptr_t rv = 0;
     if (m_Handle) {
         uint8_t* bytes = reinterpret_cast<uint8_t*>(m_Begin);
-        for (size_t i = 0; i < m_Size - pattern.size(); ++i) {
+
+        // Faster than pattern[] in debug builds because of _STL_VERIFY.
+        const int* patternData = pattern.data();
+        const size_t patternSize = pattern.size();
+
+        for (size_t i = 0; i < m_Size - patternSize; ++i) {
             bool found = true;
-            for (size_t j = 0; j < pattern.size(); ++j) {
-                if (bytes[i + j] != pattern[j] && pattern[j] != -1) {
+            for (size_t j = 0; j < patternSize; ++j) {
+                if (bytes[i + j] != patternData[j] && patternData[j] != -1) {
                     found = false;
                     break;
                 }
@@ -123,7 +128,7 @@ void CModule::InitializeBounds() {
     MODULEINFO mi;
     BOOL status = GetModuleInformation(GetCurrentProcess(), static_cast<HMODULE>(m_Handle), &mi, sizeof(mi));
     if (status != 0) {
-        SetBounds(reinterpret_cast<uintptr_t>(m_Handle), static_cast<uintptr_t>(mi.SizeOfImage));
+        SetBounds(reinterpret_cast<uintptr_t>(m_Handle), mi.SizeOfImage);
     }
 #elif __linux__
     dl_iterate_phdr(
@@ -143,4 +148,9 @@ void CModule::InitializeBounds() {
         },
         static_cast<void*>(this));
 #endif
+}
+
+void CModule::SetBounds(uintptr_t begin, uintptr_t size) {
+    m_Begin = begin;
+    m_Size = size;
 }

@@ -74,7 +74,7 @@ bool C_BaseEntity::CalculateBBoxByCollision(BBox_t& out) {
     return true;
 }
 
-bool C_BaseEntity::CalculateBBoxByHitbox(BBox_t& out, bool transformAABB) {
+bool C_BaseEntity::CalculateBBoxByHitbox(BBox_t& out) {
     constexpr int MAX_HITBOXES = 64;
 
     CHitBoxSet* hitBoxSet = GetHitboxSet(0);

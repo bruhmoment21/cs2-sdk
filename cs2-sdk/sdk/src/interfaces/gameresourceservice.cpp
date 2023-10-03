@@ -11,5 +11,5 @@ CGameResourceService* CGameResourceService::Get() {
 }
 
 CGameEntitySystem* CGameResourceService::GetGameEntitySystem() {
-    return CPointer(this).GetField<CGameEntitySystem*>(0x58 - LINUX_OFFSET(8));
+    return CPointer(this).GetField<CGameEntitySystem*>(platform::Constant(0x58, 0x50));
 }

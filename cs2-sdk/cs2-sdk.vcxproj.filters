@@ -144,5 +144,6 @@
     <ClInclude Include="sdk\include\interfaces\cvar.hpp" />
     <ClInclude Include="sdk\include\bindings\entityidentity.hpp" />
     <ClInclude Include="include\hooks\render\vulkan\vulkan_hooks.hpp" />
+    <ClInclude Include="include\platform\platform.hpp" />
   </ItemGroup>
 </Project>

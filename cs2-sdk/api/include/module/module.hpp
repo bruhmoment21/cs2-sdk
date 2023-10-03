@@ -9,11 +9,6 @@ class CModule {
     auto GetHandle() const { return m_Handle; }
     auto GetName() const { return m_Name.c_str(); }
 
-    void SetBounds(uintptr_t begin, uintptr_t size) {
-        m_Begin = begin;
-        m_Size = size;
-    }
-
     // Returns false if module not loaded.
     bool Retrieve();
 
@@ -25,9 +20,17 @@ class CModule {
     void InitializeHandle();
     void InitializeBounds();
 
+    void SetBounds(uintptr_t begin, uintptr_t size);
+
+    // Module name.
     std::string m_Name;
+
+    // Module name fnv1a hash.
     uint32_t m_Hash;
+
+    // Module handle.
     void* m_Handle;
 
+    // Used for pattern scanning.
     uintptr_t m_Begin, m_Size;
 };

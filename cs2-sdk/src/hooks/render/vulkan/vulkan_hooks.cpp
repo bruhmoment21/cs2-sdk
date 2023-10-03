@@ -366,7 +366,7 @@ static void RenderImGui(VkQueue queue, const VkPresentInfoKHR* pPresentInfo) {
 
 #ifdef _WIN32
         ImGui_ImplWin32_NewFrame();
-#elif __linux__
+#else
         ImGui_ImplSDL3_NewFrame();
 #endif
 
@@ -460,7 +460,7 @@ CVulkanHooks::~CVulkanHooks() {
         if (io.BackendPlatformUserData) {
 #ifdef _WIN32
             ImGui_ImplWin32_Shutdown();
-#elif __linux__
+#else
             ImGui_ImplSDL3_Shutdown();
 #endif
         }

@@ -9,8 +9,6 @@
 #include <menu/menu.hpp>
 #include <hook/hook.hpp>
 
-#include <interfaces/inputsystem.hpp>
-
 #include <imgui/imgui_impl_sdl3.h>
 
 #include <SDL3/SDL.h>
@@ -22,24 +20,26 @@ static int hkPeepEvents(SDL_Event* events, int numevents, SDL_eventaction action
     int rv = g_PeepEvents.CallOriginal<int>(events, numevents, action, minType, maxType);
     if (rv == 0) return rv;
 
-    std::call_once(g_InputInit, [events]() {
-        ImGui::CreateContext();
-
-        SDL_Window* window = static_cast<SDL_Window*>(CInputSystem::Get()->GetSDLWindow());
-        ImGui_ImplSDL3_InitForVulkan(window);
-
-        ImGuiIO& io = ImGui::GetIO();
-        io.IniFilename = io.LogFilename = nullptr;
-    });
-
     for (int i = 0; i < numevents; ++i) {
-        if (!ImGui::GetCurrentContext()) break;
-
+        ImGuiContext* ctx = ImGui::GetCurrentContext();
         SDL_Event& event = events[i];
+        if (!ctx && SDL_EVENT_WINDOW_FIRST <= event.type && event.type <= SDL_EVENT_WINDOW_LAST) {
+            std::call_once(g_InputInit, [event]() {
+                ImGui::CreateContext();
 
-        ImGui_ImplSDL3_ProcessEvent(&event);
-        if (CMenu::Get().IsOpen()) {
-            event.type = SDL_EVENT_FIRST;
+                SDL_Window* window = SDL_GetWindowFromID(event.window.windowID);
+                CLogger::Log("[sdl] SDL_Window -> {}", SDK_LOG_PTR(window));
+
+                ImGui_ImplSDL3_InitForVulkan(window);
+
+                ImGuiIO& io = ImGui::GetIO();
+                io.IniFilename = io.LogFilename = nullptr;
+            });
+        } else if (ctx) {
+            ImGui_ImplSDL3_ProcessEvent(&event);
+            if (CMenu::Get().IsOpen()) {
+                event.type = SDL_EVENT_FIRST;
+            }
         }
     }
 

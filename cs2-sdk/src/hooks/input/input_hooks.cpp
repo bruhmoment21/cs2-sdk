@@ -13,7 +13,7 @@ void CInputHooks::Initialize() {
 
 #ifdef _WIN32
     CWndProcHooks::Get().Initialize();
-#elif __linux__
+#else
     CSDLHooks::Get().Initialize();
 #endif
 }

@@ -24,5 +24,5 @@ void* CInputSystem::GetSDLWindow() {
     // Offset in 'CInputSystem::SetCursorClip'.
     // xref: "SetCursorClip:  %s SDL_SetWindowGrab on 0x%p (%s) %s\n".
 
-    return CPointer(this).GetField<void*>(0x2678 + LINUX_OFFSET(0x60));
+    return CPointer(this).GetField<void*>(platform::Constant(0x2678, 0x26D8));
 }

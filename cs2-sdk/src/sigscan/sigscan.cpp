@@ -27,7 +27,8 @@ void CSigScan::FindSignature() {
     }
 
     for (size_t i = 0; i < m_Data.size(); ++i) {
-        const auto& data = m_Data[i];
+        // Faster than m_Data[] in debug builds because of _STL_VERIFY.
+        const auto& data = m_Data.data()[i];
 
         m_Value = library->FindPattern(data.m_Signature);
         if (m_Value.IsValid()) {

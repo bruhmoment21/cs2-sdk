@@ -261,6 +261,7 @@
     <ClInclude Include="include\math\types\vmatrix.hpp" />
     <ClInclude Include="include\memory\memory.hpp" />
     <ClInclude Include="include\menu\menu.hpp" />
+    <ClInclude Include="include\platform\platform.hpp" />
     <ClInclude Include="include\renderer\renderer.hpp" />
     <ClInclude Include="include\schemamgr\schema_manager.hpp" />
     <ClInclude Include="include\signatures\signatures.hpp" />

@@ -17,7 +17,7 @@ class C_BaseEntity : public CEntityInstance {
     bool IsChicken();
 
     bool CalculateBBoxByCollision(BBox_t& out);
-    bool CalculateBBoxByHitbox(BBox_t& out, bool transformAABB = false);
+    bool CalculateBBoxByHitbox(BBox_t& out);
 
     CHitBoxSet* GetHitboxSet(int i);
     int HitboxToWorldTransforms(CHitBoxSet* hitBoxSet, CTransform* hitboxToWorld);

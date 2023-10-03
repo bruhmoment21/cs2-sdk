@@ -3,8 +3,10 @@ set $library = 0
 
 define openlib
 	set $dlopen = (void*(*)(char*, int)) dlopen
-	set $dlclose = (int(*)(void*)) dlclose	
-	set $library = $dlopen("/home/marius/SlowHDD/Workspace/cs2-sdk/binlinux/libcs2-sdk.so", $arg0)
+	set $dlclose = (int(*)(void*)) dlclose
+
+	# Replace /path/to/lib with the built library's path.
+	set $library = $dlopen("/path/to/lib", $arg0)
 end
 
 define lc
