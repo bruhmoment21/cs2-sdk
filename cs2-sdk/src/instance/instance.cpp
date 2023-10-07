@@ -19,8 +19,13 @@ void CInstance::Initialize() {
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
 
+    auto start = std::chrono::high_resolution_clock::now();
     CMemory::Get().Initialize();
     CHooks::Get().Initialize();
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double, std::milli> time = end - start;
+    CLogger::Log("[benchmark] initialization has taken {}ms.", time.count());
 }
 
 void CInstance::Shutdown() {
@@ -43,7 +48,7 @@ void CInstance::FreeLibrary() {
     }
 #else
     Dl_info info{};
-    if (dladdr(reinterpret_cast<void*>(CInstance::Get), &info) != 0) {
+    if (dladdr(this, &info) != 0) {
         void* currLib = dlopen(info.dli_fname, RTLD_LAZY | RTLD_NOLOAD);
         if (currLib) {
             for (int i = 0; i < 2; ++i) {

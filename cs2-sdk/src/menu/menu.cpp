@@ -8,7 +8,9 @@
 #include <instance/instance.hpp>
 #include <renderer/renderer.hpp>
 
+#include <interfaces/engineclient.hpp>
 #include <interfaces/inputsystem.hpp>
+
 #include <sdl/sdl.hpp>
 
 #include <imgui/imgui.h>
@@ -51,8 +53,8 @@ void CMenu::RenderWatermark() {
     auto drawList = CRenderer::GetBackgroundDrawList();
 
     char framerate[128];
-    snprintf(framerate, IM_ARRAYSIZE(framerate), "cs2-sdk v2\nFPS: %d\nhttps://github.com/bruhmoment21/cs2-sdk",
-             static_cast<int>(ImGui::GetIO().Framerate));
+    snprintf(framerate, IM_ARRAYSIZE(framerate), "cs2-sdk v2 [%d]\nFPS: %d\n\n%s %s\nhttps://github.com/bruhmoment21/cs2-sdk",
+             CEngineClient::Get()->GetEngineBuildNumber(), static_cast<int>(ImGui::GetIO().Framerate), __DATE__, __TIME__);
 
     drawList->AddText({17, 9}, IM_COL32(0, 0, 0, 255), framerate);
     drawList->AddText({16, 8}, IM_COL32(27, 227, 200, 255), framerate);

@@ -2,13 +2,13 @@ cmake_minimum_required(VERSION 3.23)
 project(cs2-sdk)
 
 # DEBUG or RELEASE
-set(CMAKE_BUILD_TYPE DEBUG)
+set(CMAKE_BUILD_TYPE RELEASE)
 
 set(CMAKE_CXX_STANDARD 23)
 
 set(CMAKE_C_FLAGS "-march=native --no-gnu-unique")
 set(CMAKE_C_FLAGS_DEBUG "-g3")
-set(CMAKE_C_FLAGS_RELEASE "-O3 -s -fvisibility=hidden -DNDEBUG")
+set(CMAKE_C_FLAGS_RELEASE "-O3 -s -fvisibility=hidden -ffunction-sections -fdata-sections -flto -DNDEBUG")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fpermissive")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
@@ -48,7 +48,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
 )
 
 target_precompile_headers(${CMAKE_PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_SOURCE_DIR}/cs2-sdk/pch/pch.hpp>")
-target_link_options(${CMAKE_PROJECT_NAME} PRIVATE LINKER:--no-undefined)
+target_link_options(${CMAKE_PROJECT_NAME} PRIVATE -Wl,--no-undefined -Wl,--gc-sections)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${SDL3_LIBRARIES} ${Vulkan_LIBRARIES})
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/cs2-sdk/libs/funchook/include"

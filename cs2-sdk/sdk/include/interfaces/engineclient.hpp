@@ -6,4 +6,5 @@ class CEngineClient {
 
     bool IsInGame();
     int GetLocalPlayer();
+    int GetEngineBuildNumber();
 };

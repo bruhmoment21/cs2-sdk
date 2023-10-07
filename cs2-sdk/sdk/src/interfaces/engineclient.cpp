@@ -25,3 +25,5 @@ int CEngineClient::GetLocalPlayer() {
 
     return index + 1;
 }
+
+int CEngineClient::GetEngineBuildNumber() { return vt::CallMethod<int>(this, 76); }

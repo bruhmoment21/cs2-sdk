@@ -38,6 +38,10 @@ static void hkGetMatricesForView(void* rcx, void* view, VMatrix* pWorldToView, V
     g_GetMatricesForView.CallOriginal<void>(rcx, view, pWorldToView, pViewToProjection, pWorldToProjection, pWorldToPixels);
 
     CMath::Get().UpdateViewMatrix(pWorldToProjection);
+
+    // SDKTODO: May sometimes stutter (?)
+    //  Find a better function that won't microstutter,
+    //  should also consider "host_timescale" factor.
     CESP::Get().Update();
 }
 
