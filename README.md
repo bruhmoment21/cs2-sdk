@@ -1,5 +1,5 @@
 <h1 align="center">
-cs2-sdk-v2
+cs2-sdk
 <img src="https://img.shields.io/badge/game-CS2-yellow" />
 <img src="https://img.shields.io/badge/language-C%2B%2B-%23f34b7d.svg" />
 <img src="https://img.shields.io/badge/platform-Windows-blue" />
@@ -7,10 +7,15 @@ cs2-sdk-v2
 </h1>
 
 ## What's this?
-Counter-Strike 2 SDK written in C++ to aid your development. This SDK has been written as simplified as possible and kept as close as possible to Source 2 code supporting both DirectX11 and Vulkan graphical APIs. I'll keep the project updated if I have time, project's features can be seen in the picture below. *Has been tested on **1.39.5.4**.*
+Counter-Strike 2 SDK written in C++ to aid your development. This SDK has been written as simplified as possible and kept as close as possible to Source 2 code supporting both DirectX11 and Vulkan graphical APIs. I'll keep the project updated if I have time, project's features can be seen in the picture below.
 
 ## What's different from v1?
 Now supports both Windows and Linux, main base logic has been refactored. I've gotten rid of the 'Inventory Changer' and skins altogether since I don't have the time to maintain them anymore, v1 can be found [here.](https://github.com/bruhmoment21/cs2-sdk/tree/v1)
+
+## Injection
+*(This also applies for **v1**.)*
+
+Tested only with LoadLibrary on Windows and dlopen on Linux. Manual mapping will result in a crash.
 
 ## Detection
 *(This also applies for **v1**.)*
@@ -28,3 +33,6 @@ TODO
 - [imgui](https://github.com/ocornut/imgui) - gui
 - [STB](https://github.com/cristeigabriel/STB) - signatures
 - [Vulkan](https://vulkan.lunarg.com/) - [vulkan_hooks.hpp](https://github.com/bruhmoment21/cs2-sdk/blob/v2/cs2-sdk/src/hooks/render/vulkan/vulkan_hooks.cpp#L6-L9)
+
+### Linux
+- [SDL3](https://aur.archlinux.org/packages/sdl3-git) - input
