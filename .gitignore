@@ -1,6 +1,8 @@
 .vs/*
 bin/*
 obj/*
+binlinux/*
+.vscode/*
 
 cs2cheat/dependencies/freetype-2.13.0/objs/*
 cs2cheat/dependencies/freetype-2.13.0/src/**/*.*
