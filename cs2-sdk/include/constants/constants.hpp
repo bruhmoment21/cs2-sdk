@@ -4,7 +4,7 @@
 
 class CConstants {
    public:
-    static constexpr auto NAVSYSTEM_LIB = platform::Constant("navsystem.dll", "libscenefilecache.so");
+    static constexpr auto MATCHMAKING_LIB = platform::Constant("matchmaking.dll", "libmatchmaking.so");
     static constexpr auto CLIENT_LIB = platform::Constant("client.dll", "libclient.so");
     static constexpr auto ENGINE_LIB = platform::Constant("engine2.dll", "libengine2.so");
     static constexpr auto SDL_LIB = platform::Constant("SDL3.dll", "libSDL3.so.0");

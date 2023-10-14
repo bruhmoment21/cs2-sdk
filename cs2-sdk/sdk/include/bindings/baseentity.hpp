@@ -26,4 +26,5 @@ class C_BaseEntity : public CEntityInstance {
     SCHEMA(CBaseHandle, m_hOwnerEntity, "C_BaseEntity", "m_hOwnerEntity");
     SCHEMA(CCollisionProperty*, m_pCollision, "C_BaseEntity", "m_pCollision");
     SCHEMA(uint8_t, m_iTeamNum, "C_BaseEntity", "m_iTeamNum");
+    SCHEMA(int, m_iHealth, "C_BaseEntity", "m_iHealth");
 };

@@ -42,6 +42,7 @@ void CCachedPlayer::RenderESP() {
     const ImVec2& max = m_BBox.m_Maxs;
 
     CCSPlayerController* controller = Get<CCSPlayerController>();
+    C_CSPlayerPawnBase* pawn = controller->m_hPawn().Get();
 
     if (g_Vars.m_PlayerNames) {
         const char* playerName = controller->m_sSanitizedPlayerName();
@@ -55,7 +56,7 @@ void CCachedPlayer::RenderESP() {
     }
 
     if (g_Vars.m_PlayerHealthBar) {
-        const int clampedHp = std::min(controller->m_iPawnHealth(), 100u);
+        const int clampedHp = std::min(pawn->m_iHealth(), 100);
 
         const ImVec2 barMin = min - ImVec2{5, 0};
         const ImVec2 barMax{min.x - 2, max.y};

@@ -3,9 +3,9 @@
 #include <hooks/render/vulkan/vulkan_hooks.hpp>
 #include <logger/logger.hpp>
 
+// [!] Windows only.
 // Make sure you have the Vulkan SDK installed and
 // included 'imgui_impl_vulkan.cpp' and 'imgui_impl_vulkan.h' in project.
-//
 // #define SDK_ENABLE_VULKAN_HOOK
 
 #if !defined(SDK_ENABLE_VULKAN_HOOK) && defined(__linux__)

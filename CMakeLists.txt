@@ -6,16 +6,13 @@ set(CMAKE_BUILD_TYPE RELEASE)
 
 set(CMAKE_CXX_STANDARD 23)
 
-set(CMAKE_C_FLAGS "-march=native --no-gnu-unique")
+set(CMAKE_C_FLAGS "-march=native --no-gnu-unique -DDISASM_DISTORM")
 set(CMAKE_C_FLAGS_DEBUG "-g3")
 set(CMAKE_C_FLAGS_RELEASE "-O3 -s -fvisibility=hidden -ffunction-sections -fdata-sections -flto -DNDEBUG")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fpermissive")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
-
-# This is needed for funchook.
-add_compile_definitions(DISASM_DISTORM)
 
 file(GLOB_RECURSE LIB_SOURCES "${CMAKE_SOURCE_DIR}/cs2-sdk/src/*.cpp")
 file(GLOB_RECURSE SDK_SOURCES "${CMAKE_SOURCE_DIR}/cs2-sdk/sdk/src/*.cpp")

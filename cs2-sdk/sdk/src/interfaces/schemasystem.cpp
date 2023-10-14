@@ -35,7 +35,7 @@ bool CSchemaClassInfo::InheritsFrom(CSchemaClassInfo* other) {
     if (this == other) return true;
 
     for (int i = 0; i < m_nBaseClassesCount; ++i) {
-        auto& baseClass = m_BaseClasses[0];
+        auto& baseClass = m_BaseClasses[i];
         if (baseClass.m_pClass->InheritsFrom(other)) {
             return true;
         }

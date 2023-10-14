@@ -34,7 +34,7 @@ void CInstance::Shutdown() {
     CHooks::Get().Shutdown();
 }
 
-bool CInstance::AppFullyLoaded() { return CMemory::GetModule(CConstants::NAVSYSTEM_LIB) != nullptr; }
+bool CInstance::AppFullyLoaded() { return CMemory::GetModule(CConstants::MATCHMAKING_LIB) != nullptr; }
 
 void CInstance::FreeLibrary() {
     SDK_LOG_PROLOGUE();
