@@ -26,7 +26,7 @@ class CMatchCache {
     CCachedPlayer* GetLocalPlayer();
 
    private:
-    CachedEntityPtr CreateCachedEntityPointer(C_BaseEntity* ent, CBaseHandle handle);
+    CachedEntityPtr CreateCachedEntityPointer(C_BaseEntity* ent);
 
     std::mutex m_EntitiesLock;
     std::unordered_map<int, CachedEntityPtr> m_CachedEntities;

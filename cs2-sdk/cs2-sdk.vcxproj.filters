@@ -56,7 +56,7 @@
     <ClCompile Include="sdk\src\bindings\playerpawn.cpp" />
     <ClCompile Include="sdk\src\interfaces\engineclient.cpp" />
     <ClCompile Include="src\vars\vars.cpp" />
-    <ClCompile Include="src\cache\entities\weapon.cpp" />
+    <ClCompile Include="src\cache\entities\gun.cpp" />
     <ClCompile Include="src\cache\entities\player.cpp" />
     <ClCompile Include="src\math\types\transform.cpp" />
     <ClCompile Include="src\cache\entities\hen.cpp" />
@@ -133,7 +133,7 @@
     <ClInclude Include="sdk\include\interfaces\engineclient.hpp" />
     <ClInclude Include="include\vars\vars.hpp" />
     <ClInclude Include="include\cache\entities\player.hpp" />
-    <ClInclude Include="include\cache\entities\weapon.hpp" />
+    <ClInclude Include="include\cache\entities\gun.hpp" />
     <ClInclude Include="include\math\types\matrix3x4.hpp" />
     <ClInclude Include="include\math\types\transform.hpp" />
     <ClInclude Include="include\math\types\quaternion.hpp" />

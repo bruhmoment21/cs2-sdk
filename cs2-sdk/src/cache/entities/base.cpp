@@ -9,13 +9,6 @@
 
 #include <imgui/imgui.h>
 
-CCachedBaseEntity::CCachedBaseEntity(CBaseHandle handle) {
-    m_Handle = handle;
-
-    m_BoxColor = IM_COL32(255, 255, 255, 255);
-    m_BoxOutlineColor = IM_COL32(0, 0, 0, 255);
-}
-
 bool CCachedBaseEntity::CanDrawESP() { return g_Vars.m_OtherESP && Get() != nullptr; }
 
 void CCachedBaseEntity::ResetESP() { m_BBox.Invalidate(); }

@@ -14,8 +14,6 @@
 
 #include <imgui/imgui_internal.h>
 
-CCachedPlayer::CCachedPlayer(CBaseHandle handle) : CCachedBaseEntity(handle) {}
-
 bool CCachedPlayer::CanDrawESP() {
     CCSPlayerController* controller = Get<CCSPlayerController>();
     if (!controller || !controller->m_bPawnIsAlive()) {

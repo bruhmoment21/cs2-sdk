@@ -37,7 +37,7 @@ TODO
 - [distorm](https://github.com/gdabah/distorm/) - disassembler
 - [imgui](https://github.com/ocornut/imgui) - gui
 - [STB](https://github.com/cristeigabriel/STB) - signatures
-- [Vulkan](https://vulkan.lunarg.com/) - [vulkan_hooks.hpp](https://github.com/bruhmoment21/cs2-sdk/blob/v2/cs2-sdk/src/hooks/render/vulkan/vulkan_hooks.cpp#L6-L9)
+- [Vulkan](https://vulkan.lunarg.com/) - [vulkan_hooks.cpp](https://github.com/bruhmoment21/cs2-sdk/blob/v2/cs2-sdk/src/hooks/render/vulkan/vulkan_hooks.cpp#L6-L9)
 
 ### Linux
 - [SDL3](https://aur.archlinux.org/packages/sdl3-git) - input

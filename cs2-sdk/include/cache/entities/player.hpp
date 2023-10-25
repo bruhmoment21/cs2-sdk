@@ -4,7 +4,7 @@
 
 class CCachedPlayer : public CCachedBaseEntity {
    public:
-    CCachedPlayer(CBaseHandle handle);
+    Type GetType() const override { return Type::PLAYER; }
 
     bool CanDrawESP() override;
     void RenderESP() override;
