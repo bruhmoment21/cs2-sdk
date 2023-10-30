@@ -2,18 +2,21 @@
 
 #include <cache/entities/base.hpp>
 
+class CCSPlayerController;
+
 class CCachedPlayer : public CCachedBaseEntity {
    public:
+    enum class Team { UNKNOWN = 0, SPECTATOR, TERRORIST, COUNTER_TERRORIST };
+
     Type GetType() const override { return Type::PLAYER; }
 
-    bool CanDrawESP() override;
-    void RenderESP() override;
-    void UpdateESP() override;
+    auto Get() const { return CCachedBaseEntity::Get<CCSPlayerController>(); }
 
-    uint8_t GetTeam();
-    bool IsEnemyWithLocalPlayer();
+    bool CanDoESP() override;
+    void DrawESP() override;
+    void CalculateDrawInfo() override;
+
+    Team GetTeam();
+    bool IsEnemyWithTeam(Team team);
     bool IsLocalPlayer();
-
-   private:
-    void UpdateBoxColor();
 };

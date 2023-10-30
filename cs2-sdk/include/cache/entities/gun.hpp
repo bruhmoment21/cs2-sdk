@@ -7,9 +7,8 @@
 
 class CCachedGun : public CCachedBaseEntity {
    public:
-    CCachedGun() { m_BoxColor = IM_COL32(255, 255, 0, 255); }
-
     Type GetType() const override { return Type::GUN; }
 
-    bool CanDrawESP() override;
+    bool CanDoESP() override;
+    void DrawESP() override;
 };

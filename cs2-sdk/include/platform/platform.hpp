@@ -2,7 +2,7 @@
 
 namespace platform {
     template <typename T>
-    constexpr auto Constant(T windowsValue, T linuxValue) {
+    consteval auto Constant(T windowsValue, T linuxValue) {
 #ifdef _WIN32
         return windowsValue;
 #elif __linux__

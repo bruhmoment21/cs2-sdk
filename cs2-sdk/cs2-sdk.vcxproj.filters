@@ -63,6 +63,7 @@
     <ClCompile Include="src\signatures\signatures.cpp" />
     <ClCompile Include="sdk\src\interfaces\cvar.cpp" />
     <ClCompile Include="src\hooks\render\vulkan\vulkan_hooks.cpp" />
+    <ClCompile Include="src\cache\entities\captive.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch\pch.hpp" />
@@ -145,5 +146,7 @@
     <ClInclude Include="sdk\include\bindings\entityidentity.hpp" />
     <ClInclude Include="include\hooks\render\vulkan\vulkan_hooks.hpp" />
     <ClInclude Include="include\platform\platform.hpp" />
+    <ClInclude Include="include\cache\entities\captive.hpp" />
+    <ClInclude Include="sdk\include\bindings\hostage.hpp" />
   </ItemGroup>
 </Project>

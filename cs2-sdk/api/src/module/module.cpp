@@ -8,7 +8,6 @@
 
 CModule::CModule(const char* name) {
     m_Name = name;
-    m_Hash = fnv1a::Hash(name);
     m_Handle = nullptr;
 
     m_Begin = m_Size = 0;
@@ -127,9 +126,11 @@ void CModule::InitializeBounds() {
 #ifdef _WIN32
     MODULEINFO mi;
     BOOL status = GetModuleInformation(GetCurrentProcess(), static_cast<HMODULE>(m_Handle), &mi, sizeof(mi));
-    if (status != 0) {
-        SetBounds(reinterpret_cast<uintptr_t>(m_Handle), mi.SizeOfImage);
+    if (status == 0) {
+        return;
     }
+
+    SetBounds(reinterpret_cast<uintptr_t>(m_Handle), mi.SizeOfImage);
 #elif __linux__
     dl_iterate_phdr(
         [](struct dl_phdr_info* info, size_t, void* data) {

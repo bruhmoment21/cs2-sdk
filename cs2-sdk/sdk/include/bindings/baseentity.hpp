@@ -15,6 +15,7 @@ class C_BaseEntity : public CEntityInstance {
     bool IsProjectile();
     bool IsPlantedC4();
     bool IsChicken();
+    bool IsHostage();
 
     bool CalculateBBoxByCollision(BBox_t& out);
     bool CalculateBBoxByHitbox(BBox_t& out);

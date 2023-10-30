@@ -31,5 +31,5 @@ class CBaseHandle {
 template <typename T>
 class CHandle : public CBaseHandle {
    public:
-    T* Get() const { return static_cast<T*>(CBaseHandle::Get()); }
+    auto Get() const { return reinterpret_cast<T*>(CBaseHandle::Get()); }
 };

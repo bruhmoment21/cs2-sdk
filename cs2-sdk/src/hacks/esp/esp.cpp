@@ -15,12 +15,12 @@ void CESP::Render() {
     const auto& cachedEntities = CMatchCache::GetCachedEntities();
     for (const auto& it : cachedEntities) {
         const auto& cachedEntity = it.second;
-        if (!cachedEntity->CanDrawESP() || !IsEnabled()) {
-            cachedEntity->ResetESP();
+        if (!cachedEntity->CanDoESP() || !IsEnabled()) {
+            cachedEntity->InvalidateDrawInfo();
             continue;
         }
 
-        cachedEntity->RenderESP();
+        cachedEntity->DrawESP();
     }
 }
 
@@ -30,11 +30,11 @@ void CESP::Update() {
     const auto& cachedEntities = CMatchCache::GetCachedEntities();
     for (const auto& it : cachedEntities) {
         const auto& cachedEntity = it.second;
-        if (!cachedEntity->CanDrawESP() || !IsEnabled()) {
-            cachedEntity->ResetESP();
+        if (!cachedEntity->CanDoESP() || !IsEnabled()) {
+            cachedEntity->InvalidateDrawInfo();
             continue;
         }
 
-        cachedEntity->UpdateESP();
+        cachedEntity->CalculateDrawInfo();
     }
 }

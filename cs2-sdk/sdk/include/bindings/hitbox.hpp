@@ -8,7 +8,10 @@ class CHitBox {
     SCHEMA_EXTENDED(Vector, m_vMaxBounds, CConstants::ANIMATIONSYSTEM_LIB, "CHitBox", "m_vMaxBounds", 0);
 
    private:
-    char pad[0x70];  // sizeof CHitBox
+    // Size of 'CHitBox' class. Can be obtainted through the SchemaSystem.
+    // Must have this here or we can't iterate the 'm_HitBoxes' vector that stores
+    // CHitBox directly and not by a pointer.
+    char pad[0x70];
 };
 
 class CHitBoxSet {

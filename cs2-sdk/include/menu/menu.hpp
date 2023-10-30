@@ -18,7 +18,7 @@ class CMenu {
     void RenderWatermark();
     void RenderUI();
 
-    bool m_Open;
+    void RenderMainMenu();
 
-    static constexpr float m_WindowWidth = 210.f;
+    bool m_Open;
 };

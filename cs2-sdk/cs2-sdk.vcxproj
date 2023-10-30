@@ -123,6 +123,7 @@
     <ClCompile Include="sdk\src\types\handle.cpp" />
     <ClCompile Include="src\cache\cache.cpp" />
     <ClCompile Include="src\cache\entities\base.cpp" />
+    <ClCompile Include="src\cache\entities\captive.cpp" />
     <ClCompile Include="src\cache\entities\hen.cpp" />
     <ClCompile Include="src\cache\entities\player.cpp" />
     <ClCompile Include="src\cache\entities\gun.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="include\cache\cache.hpp" />
     <ClInclude Include="include\cache\entities\base.hpp" />
     <ClInclude Include="include\cache\entities\hen.hpp" />
+    <ClInclude Include="include\cache\entities\captive.hpp" />
     <ClInclude Include="include\cache\entities\player.hpp" />
     <ClInclude Include="include\cache\entities\gun.hpp" />
     <ClInclude Include="include\constants\constants.hpp" />
@@ -297,6 +299,7 @@
     <ClInclude Include="sdk\include\bindings\collisionproperty.hpp" />
     <ClInclude Include="sdk\include\bindings\entityidentity.hpp" />
     <ClInclude Include="sdk\include\bindings\hitbox.hpp" />
+    <ClInclude Include="sdk\include\bindings\hostage.hpp" />
     <ClInclude Include="sdk\include\bindings\playercontroller.hpp" />
     <ClInclude Include="sdk\include\bindings\entityinstance.hpp" />
     <ClInclude Include="sdk\include\bindings\gamescenenode.hpp" />

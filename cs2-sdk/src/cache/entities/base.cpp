@@ -9,39 +9,47 @@
 
 #include <imgui/imgui.h>
 
-bool CCachedBaseEntity::CanDrawESP() { return g_Vars.m_OtherESP && Get() != nullptr; }
+bool CCachedBaseEntity::CanDoESP() { return Get() != nullptr; }
 
-void CCachedBaseEntity::ResetESP() { m_BBox.Invalidate(); }
+void CCachedBaseEntity::DrawESP() {
+    if (g_Vars.m_OtherBoxes) {
+        DrawBoundingBox(IM_COL32(255, 255, 255, 255));
+    }
+}
 
-void CCachedBaseEntity::RenderESP() {
+void CCachedBaseEntity::InvalidateDrawInfo() { m_BBox.Invalidate(); }
+
+void CCachedBaseEntity::CalculateDrawInfo() {
+    C_BaseEntity* ent = Get();
+
+    if (!ent->CalculateBBoxByHitbox(m_BBox)) {
+        return InvalidateDrawInfo();
+    }
+}
+
+void CCachedBaseEntity::DrawBoundingBox(ImU32 color) {
+    static constexpr auto outlineColor = IM_COL32(0, 0, 0, 255);
+
     auto drawList = CRenderer::GetBackgroundDrawList();
 
     if (g_Vars.m_Use3DBoxes) {
         for (int i = 0; i < 8; ++i) {
             for (int j = 1; j <= 4; j <<= 1) {
-                if (!(i & j)) drawList->AddLine(m_BBox.m_Vertices[i], m_BBox.m_Vertices[i + j], m_BoxOutlineColor, 2.5f);
+                if (!(i & j)) drawList->AddLine(m_BBox.m_Vertices[i], m_BBox.m_Vertices[i + j], outlineColor, 2.5f);
             }
         }
 
         for (int i = 0; i < 8; ++i) {
             for (int j = 1; j <= 4; j <<= 1) {
-                if (!(i & j)) drawList->AddLine(m_BBox.m_Vertices[i], m_BBox.m_Vertices[i + j], m_BoxColor);
+                if (!(i & j)) drawList->AddLine(m_BBox.m_Vertices[i], m_BBox.m_Vertices[i + j], color);
             }
         }
     } else {
         const ImVec2& min = m_BBox.m_Mins;
         const ImVec2& max = m_BBox.m_Maxs;
 
-        drawList->AddRect(min - ImVec2{1.f, 1.f}, max + ImVec2{1.f, 1.f}, m_BoxOutlineColor);
-        drawList->AddRect(min + ImVec2{1.f, 1.f}, max - ImVec2{1.f, 1.f}, m_BoxOutlineColor);
-        drawList->AddRect(min, max, m_BoxColor);
-    }
-}
-
-void CCachedBaseEntity::UpdateESP() {
-    C_BaseEntity* ent = Get();
-
-    if (!ent->CalculateBBoxByHitbox(m_BBox)) {
-        return ResetESP();
+        drawList->AddRect(min - ImVec2{1.f, 1.f}, max + ImVec2{1.f, 1.f}, outlineColor);
+        drawList->AddRect(min + ImVec2{1.f, 1.f}, max - ImVec2{1.f, 1.f}, outlineColor);
+        drawList->AddRect(min, max, color);
     }
 }

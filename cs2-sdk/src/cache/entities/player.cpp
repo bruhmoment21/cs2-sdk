@@ -14,8 +14,8 @@
 
 #include <imgui/imgui_internal.h>
 
-bool CCachedPlayer::CanDrawESP() {
-    CCSPlayerController* controller = Get<CCSPlayerController>();
+bool CCachedPlayer::CanDoESP() {
+    CCSPlayerController* controller = Get();
     if (!controller || !controller->m_bPawnIsAlive()) {
         return false;
     }
@@ -28,10 +28,10 @@ bool CCachedPlayer::CanDrawESP() {
     return true;
 }
 
-void CCachedPlayer::RenderESP() {
-    if (g_Vars.m_PlayerBoxes) {
-        UpdateBoxColor();
-        CCachedBaseEntity::RenderESP();
+void CCachedPlayer::DrawESP() {
+    CCachedPlayer* cachedLocalPlayer = CMatchCache::Get().GetLocalPlayer();
+    if (!cachedLocalPlayer) {
+        return InvalidateDrawInfo();
     }
 
     auto drawList = CRenderer::GetBackgroundDrawList();
@@ -39,14 +39,26 @@ void CCachedPlayer::RenderESP() {
     const ImVec2& min = m_BBox.m_Mins;
     const ImVec2& max = m_BBox.m_Maxs;
 
-    CCSPlayerController* controller = Get<CCSPlayerController>();
+    CCSPlayerController* controller = Get();
     C_CSPlayerPawnBase* pawn = controller->m_hPawn().Get();
+
+    if (g_Vars.m_PlayerBoxes) {
+        DrawBoundingBox([this, cachedLocalPlayer]() {
+            if (IsLocalPlayer()) {
+                return IM_COL32(52, 131, 235, 255);
+            } else if (IsEnemyWithTeam(cachedLocalPlayer->GetTeam())) {
+                return IM_COL32(255, 0, 0, 255);
+            }
+
+            return IM_COL32(0, 255, 0, 255);
+        }());
+    }
 
     if (g_Vars.m_PlayerNames) {
         const char* playerName = controller->m_sSanitizedPlayerName();
         if (playerName) {
             const ImVec2 textSize = ImGui::CalcTextSize(playerName);
-            const ImVec2 textPos = ImFloor({(min.x + max.x - textSize.x) / 2.f, min.y - textSize.y - 2.f});
+            const ImVec2 textPos = ImFloor({(min.x + max.x - textSize.x) * 0.5f, min.y - textSize.y - 2.f});
 
             drawList->AddText(textPos + ImVec2{1, 1}, IM_COL32(0, 0, 0, 255), playerName);
             drawList->AddText(textPos, IM_COL32(255, 255, 255, 255), playerName);
@@ -73,42 +85,27 @@ void CCachedPlayer::RenderESP() {
     }
 }
 
-void CCachedPlayer::UpdateESP() {
-    CCSPlayerController* controller = Get<CCSPlayerController>();
+void CCachedPlayer::CalculateDrawInfo() {
+    CCSPlayerController* controller = Get();
     C_BaseEntity* pawn = controller->m_hPawn().Get();
     if (!pawn->CalculateBBoxByCollision(m_BBox)) {
-        return ResetESP();
+        return InvalidateDrawInfo();
     }
 }
 
-uint8_t CCachedPlayer::GetTeam() {
-    CCSPlayerController* controller = Get<CCSPlayerController>();
-    if (!controller) return 0;
+CCachedPlayer::Team CCachedPlayer::GetTeam() {
+    CCSPlayerController* controller = Get();
+    if (!controller) return Team::UNKNOWN;
 
     C_CSPlayerPawnBase* pawn = controller->m_hPawn().Get();
-    if (!pawn) return 0;
+    if (!pawn) return Team::UNKNOWN;
 
-    return pawn->m_iTeamNum();
+    return static_cast<Team>(pawn->m_iTeamNum());
 }
 
-bool CCachedPlayer::IsEnemyWithLocalPlayer() {
-    CCachedPlayer* localPlayer = CMatchCache::Get().GetLocalPlayer();
-    if (!localPlayer) return true;
-
+bool CCachedPlayer::IsEnemyWithTeam(Team team) {
     static ConVar* mp_teammates_are_enemies = CCVar::Get()->GetCvarByName("mp_teammates_are_enemies");
-    return mp_teammates_are_enemies->GetValue<bool>() ? true : GetTeam() != localPlayer->GetTeam();
+    return mp_teammates_are_enemies->GetValue<bool>() ? true : GetTeam() != team;
 }
 
-bool CCachedPlayer::IsLocalPlayer() { return m_Handle.GetEntryIndex() == CEngineClient::Get()->GetLocalPlayer(); }
-
-void CCachedPlayer::UpdateBoxColor() {
-    m_BoxColor = [this]() {
-        if (IsLocalPlayer()) {
-            return IM_COL32(52, 131, 235, 255);
-        } else if (IsEnemyWithLocalPlayer()) {
-            return IM_COL32(255, 0, 0, 255);
-        }
-
-        return IM_COL32(0, 255, 0, 255);
-    }();
-}
+bool CCachedPlayer::IsLocalPlayer() { return GetIndex() == CEngineClient::Get()->GetLocalPlayer(); }

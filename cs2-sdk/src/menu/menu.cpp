@@ -41,7 +41,7 @@ void CMenu::Toggle(bool state) {
 
     auto inputSystem = CInputSystem::Get();
     if (inputSystem && inputSystem->IsRelativeMouseMode()) {
-        const ImVec2 screenCenter = ImGui::GetIO().DisplaySize / 2.f;
+        const ImVec2 screenCenter = ImGui::GetIO().DisplaySize * 0.5f;
 
         sdl::SetRelativeMouseMode(!m_Open);
         sdl::SetWindowGrab(inputSystem->GetSDLWindow(), !m_Open);
@@ -76,22 +76,33 @@ void CMenu::RenderUI() {
         sdl::SetWindowGrab(inputSystem->GetSDLWindow(), false);
     }
 
-    ImGui::SetNextWindowPos(IO.DisplaySize / 2.f, ImGuiCond_Once, {0.5f, 0.5f});
-    ImGui::Begin("cs2-sdk v2", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+    RenderMainMenu();
+}
 
-    ImGui::SeparatorText("Visuals");
+void CMenu::RenderMainMenu() {
+    constexpr auto windowStartWidth = 256.f;
 
-    ImGui::Checkbox("Master switch", &g_Vars.m_EnableESP);
+    const ImGuiIO& IO = ImGui::GetIO();
 
-    ImGui::Checkbox("Players box", &g_Vars.m_PlayerBoxes);
-    ImGui::Checkbox("Players name", &g_Vars.m_PlayerNames);
-    ImGui::Checkbox("Players healthbar", &g_Vars.m_PlayerHealthBar);
+    ImGui::SetNextWindowSize({windowStartWidth, 0}, ImGuiCond_Once);
+    ImGui::SetNextWindowPos(IO.DisplaySize * 0.5f, ImGuiCond_Once, {0.5f, 0.5f});
+    ImGui::Begin("cs2-sdk | main menu", nullptr);
+    {
+        ImGui::Checkbox("Master switch", &g_Vars.m_EnableESP);
+        ImGui::SeparatorText("Visuals");
 
-    ImGui::Checkbox("Weapons ESP", &g_Vars.m_WeaponESP);
-    ImGui::Checkbox("Chickens ESP", &g_Vars.m_ChickenESP);
-    ImGui::Checkbox("Others ESP", &g_Vars.m_OtherESP);
-    ImGui::Checkbox("Three-dimensional boxes", &g_Vars.m_Use3DBoxes);
+        ImGui::Checkbox("Players box", &g_Vars.m_PlayerBoxes);
+        ImGui::Checkbox("Players name", &g_Vars.m_PlayerNames);
+        ImGui::Checkbox("Players healthbar", &g_Vars.m_PlayerHealthBar);
 
-    if (ImGui::Button("Unload", {m_WindowWidth, 0})) CInstance::Get().FreeLibrary();
+        ImGui::Checkbox("Weapons box", &g_Vars.m_WeaponBoxes);
+        ImGui::Checkbox("Chickens box", &g_Vars.m_ChickenBoxes);
+        ImGui::Checkbox("Hostages box", &g_Vars.m_HostageBoxes);
+        ImGui::Checkbox("Others box", &g_Vars.m_OtherBoxes);
+
+        ImGui::Checkbox("Three-dimensional boxes", &g_Vars.m_Use3DBoxes);
+
+        if (ImGui::Button("Unload", {-FLT_MIN, 0})) CInstance::Get().FreeLibrary();
+    }
     ImGui::End();
 }

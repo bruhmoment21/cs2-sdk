@@ -3,6 +3,7 @@
 #include <cache/cache.hpp>
 #include <logger/logger.hpp>
 
+#include <cache/entities/captive.hpp>
 #include <cache/entities/player.hpp>
 #include <cache/entities/gun.hpp>
 #include <cache/entities/hen.hpp>
@@ -34,15 +35,18 @@ void CMatchCache::AddEntity(CEntityInstance* inst, CBaseHandle handle) {
     C_BaseEntity* ent = static_cast<C_BaseEntity*>(inst);
     if (!ent || handle.GetEntryIndex() > 0x3FFF) return;
 
+    // Sanity check if CHandle or GetRefEHandle changed.
     if (ent->GetRefEHandle() != handle) {
         return CLogger::Log("[cache] CHandle mismatch detected! Needs debugging...");
     }
 
+    // Returns a valid pointer if the entity is what we are looking for.
+    // Example: PlayerController, Chicken, Weapon, etc...
     CachedEntityPtr cachedEntity = CreateCachedEntityPointer(ent);
     if (!cachedEntity) return;
 
-    // Set our cached entity handle.
-    cachedEntity->Set(handle);
+    // Set the cached entity's handle.
+    cachedEntity->SetHandle(handle);
 
     {
         const std::lock_guard<std::mutex> lock(m_EntitiesLock);
@@ -106,12 +110,12 @@ CMatchCache::CachedEntityPtr CMatchCache::CreateCachedEntityPointer(C_BaseEntity
         return std::make_unique<CCachedPlayer>();
     } else if (ent->IsWeapon()) {
         return std::make_unique<CCachedGun>();
-    } else if (ent->IsProjectile()) {
-        return std::make_unique<CCachedBaseEntity>();
-    } else if (ent->IsPlantedC4()) {
-        return std::make_unique<CCachedBaseEntity>();
     } else if (ent->IsChicken()) {
         return std::make_unique<CCachedHen>();
+    } else if (ent->IsHostage()) {
+        return std::make_unique<CCachedCaptive>();
+    } else if (ent->IsProjectile() || ent->IsPlantedC4()) {
+        return std::make_unique<CCachedBaseEntity>();
     }
 
     return nullptr;

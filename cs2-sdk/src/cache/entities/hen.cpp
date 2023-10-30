@@ -4,4 +4,8 @@
 
 #include <vars/vars.hpp>
 
-bool CCachedHen::CanDrawESP() { return Get() && g_Vars.m_ChickenESP; }
+void CCachedHen::DrawESP() {
+    if (g_Vars.m_ChickenBoxes) {
+        DrawBoundingBox(IM_COL32(206, 66, 245, 255));
+    }
+}

@@ -5,7 +5,6 @@ class CModule {
     CModule(const char* name);
     ~CModule();
 
-    auto GetHash() const { return m_Hash; }
     auto GetHandle() const { return m_Handle; }
     auto GetName() const { return m_Name.c_str(); }
 
@@ -24,9 +23,6 @@ class CModule {
 
     // Module name.
     std::string m_Name;
-
-    // Module name fnv1a hash.
-    uint32_t m_Hash;
 
     // Module handle.
     void* m_Handle;

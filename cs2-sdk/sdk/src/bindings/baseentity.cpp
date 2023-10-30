@@ -51,6 +51,12 @@ bool C_BaseEntity::IsChicken() {
     return Schema_DynamicBinding() == chickenClass;
 }
 
+bool C_BaseEntity::IsHostage() {
+    static CSchemaClassInfo* hostageClass =
+        CSchemaSystem::Get()->FindTypeScopeForModule(CConstants::CLIENT_LIB)->FindDeclaredClass("C_Hostage");
+    return Schema_DynamicBinding() == hostageClass;
+}
+
 bool C_BaseEntity::CalculateBBoxByCollision(BBox_t& out) {
     CGameSceneNode* node = m_pGameSceneNode();
     if (!node) return false;
