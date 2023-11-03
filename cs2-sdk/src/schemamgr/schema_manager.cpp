@@ -20,10 +20,10 @@ std::optional<int32_t> CSchemaManager::GetSchemaOffsetInternal(const char* modul
         return {};
     }
 
-    uint32_t fieldHash = fnv1a::Hash(fieldName);
+    uint32_t fieldHash = FNV1A::Hash(fieldName);
     for (int i = 0; classInfo->m_Fields && i < classInfo->m_nFieldsCount; ++i) {
         auto& field = classInfo->m_Fields[i];
-        if (fnv1a::Hash(field.m_Name) == fieldHash) {
+        if (FNV1A::Hash(field.m_Name) == fieldHash) {
             CLogger::Log("[schemamgr] '{}::{}' offset is 0x{:x}.", bindingName, fieldName, field.m_nSingleInheritanceOffset);
             return field.m_nSingleInheritanceOffset;
         }

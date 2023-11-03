@@ -19,7 +19,7 @@ void CMemory::Initialize() {
 }
 
 ModulePtr_t& CMemory::GetModuleInternal(const char* libName) {
-    auto hash = fnv1a::Hash(libName);
+    auto hash = FNV1A::Hash(libName);
 
     auto it = m_CachedModules.find(hash);
     if (it != m_CachedModules.end()) {
@@ -47,7 +47,7 @@ CPointer CMemory::GetInterfaceInternal(const char* libName, const char* version)
         return rv;
     }
 
-    rv = library->GetInterface(version);
+    rv = library->GetInterface(FNV1A::Hash(version));
     CLogger::Log("[interface] {} -> {} -> {}", libName, version, rv.Get<void*>());
 
     return rv;

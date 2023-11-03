@@ -42,13 +42,13 @@ CCVar::CVarIterator_t CCVar::GetNextCvarIterator(CVarIterator_t prev) {
 ConVar* CCVar::GetCvarByIndex(CVarIterator_t index) { return vt::CallMethod<ConVar*>(this, 37, index); }
 
 ConVar* CCVar::GetCvarByName(const char* name) {
-    const uint32_t hash = fnv1a::Hash(name);
+    const uint32_t hash = FNV1A::Hash(name);
 
     CVarIterator_t it = GetFirstCvarIterator();
     do {
         ConVar* cvar = GetCvarByIndex(it);
 
-        if (cvar && fnv1a::Hash(cvar->m_Name) == hash) {
+        if (cvar && FNV1A::Hash(cvar->m_Name) == hash) {
             CLogger::Log("[cvar] {} -> {}", name, SDK_LOG_PTR(cvar));
             return cvar;
         }

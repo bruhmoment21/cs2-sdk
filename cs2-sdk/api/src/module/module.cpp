@@ -34,7 +34,7 @@ bool CModule::Retrieve() {
     return m_Handle != nullptr;
 }
 
-uintptr_t CModule::GetInterface(const char* version) {
+uintptr_t CModule::GetInterface(uint32_t versionHash) {
     uintptr_t rv = 0;
     if (m_Handle) {
         CPointer pCreateInterface = GetProcAddress("CreateInterface");
@@ -57,9 +57,8 @@ uintptr_t CModule::GetInterface(const char* version) {
 #endif
             ;
 
-        uint32_t versionHash = fnv1a::Hash(version);
         for (; s_pInterfaceRegs; s_pInterfaceRegs = s_pInterfaceRegs->m_pNext) {
-            if (fnv1a::Hash(s_pInterfaceRegs->m_pName) == versionHash) {
+            if (FNV1A::Hash(s_pInterfaceRegs->m_pName) == versionHash) {
                 rv = s_pInterfaceRegs->m_CreateFn();
                 break;
             }

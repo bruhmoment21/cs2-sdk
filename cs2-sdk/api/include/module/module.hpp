@@ -11,7 +11,7 @@ class CModule {
     // Returns false if module not loaded.
     bool Retrieve();
 
-    uintptr_t GetInterface(const char* version);
+    uintptr_t GetInterface(uint32_t versionHash);
     uintptr_t GetProcAddress(const char* procName);
     uintptr_t FindPattern(const std::span<const int>& pattern) const;
 
