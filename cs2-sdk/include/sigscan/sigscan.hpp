@@ -14,9 +14,9 @@ class CSigScan {
     CSigScan(const char* name, const char* libraryName, const std::initializer_list<SigData_t>& data);
 
     void FindSignature();
+    auto FreeData() { std::vector<SigData_t>().swap(m_Data); }
 
     auto GetPtr() const { return m_Value; }
-    auto FreeData() { std::vector<SigData_t>().swap(m_Data); }
 
     template <typename T>
     auto GetPtrAs() const {
@@ -33,4 +33,18 @@ class CSigScan {
     std::vector<SigData_t> m_Data;
 
     CPointer m_Value;
+};
+
+class CSigScanManager {
+   public:
+    static CSigScanManager& Get() {
+        static CSigScanManager inst;
+        return inst;
+    }
+
+    void ScheduleScan(CSigScan* sigScan);
+    void ProcessScans();
+
+   private:
+    std::vector<CSigScan*> m_ScheduledScans;
 };

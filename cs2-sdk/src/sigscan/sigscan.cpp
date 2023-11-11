@@ -17,7 +17,7 @@ CSigScan::CSigScan(const char* name, const char* libraryName, const std::initial
     m_Data.reserve(data.size());
     m_Data.insert(m_Data.end(), data.begin(), data.end());
 
-    CMemory::ScheduleScan(this);
+    CSigScanManager::Get().ScheduleScan(this);
 }
 
 void CSigScan::FindSignature() {
@@ -41,4 +41,19 @@ void CSigScan::FindSignature() {
     }
 
     CLogger::Log("[signature] {} was not found!", m_Name);
+}
+
+void CSigScanManager::ScheduleScan(CSigScan* sigScan) { m_ScheduledScans.emplace_back(sigScan); }
+
+void CSigScanManager::ProcessScans() {
+    for (size_t i = 0; i < m_ScheduledScans.size(); ++i) {
+        // Faster than m_ScheduledScans[] in debug builds because of _STL_VERIFY.
+        const auto& scheduledScan = m_ScheduledScans.data()[i];
+
+        scheduledScan->FindSignature();
+        scheduledScan->FreeData();
+    }
+
+    // No need to keep the scans in memory if we're done with them.
+    std::vector<CSigScan*>().swap(m_ScheduledScans);
 }

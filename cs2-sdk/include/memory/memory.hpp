@@ -3,8 +3,6 @@
 #include <module/module.hpp>
 #include <pointer/pointer.hpp>
 
-class CSigScan;
-
 using ModulePtr_t = std::unique_ptr<CModule>;
 
 class CMemory {
@@ -18,9 +16,6 @@ class CMemory {
     static auto GetInterface(const char* libName, const char* version) { return Get().GetInterfaceInternal(libName, version); }
     static auto GetProcAddress(const char* libName, const char* procName) { return Get().GetProcAddressInternal(libName, procName); }
 
-    // Used internally.
-    static auto ScheduleScan(CSigScan* sigScan) { Get().m_ScheduledScans.emplace_back(sigScan); }
-
     void Initialize();
 
    private:
@@ -30,5 +25,4 @@ class CMemory {
     CPointer GetProcAddressInternal(const char* libName, const char* procName);
 
     std::unordered_map<uint32_t, ModulePtr_t> m_CachedModules;
-    std::vector<CSigScan*> m_ScheduledScans;
 };

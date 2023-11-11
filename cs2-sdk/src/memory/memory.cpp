@@ -10,12 +10,7 @@
 void CMemory::Initialize() {
     SDK_LOG_PROLOGUE();
 
-    for (CSigScan* it : m_ScheduledScans) {
-        it->FindSignature();
-        it->FreeData();
-    }
-
-    std::vector<CSigScan*>().swap(m_ScheduledScans);
+    CSigScanManager::Get().ProcessScans();
 }
 
 ModulePtr_t& CMemory::GetModuleInternal(const char* libName) {
