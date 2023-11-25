@@ -70,7 +70,7 @@ static void* __fastcall hkSetModel(C_BaseModelEntity* rcx, const char* model) {
 void CS2_HookGameFunctions() {
     g_mouseInputEnabled.Hook(memory::fnMouseInputEnabled,
                              HOOK_FUNCTION(hkMouseInputEnabled));
-    g_frameStageNotify.HookVirtual(interfaces::pClient, 31,
+    g_frameStageNotify.HookVirtual(interfaces::pClient, 33,
                                    HOOK_FUNCTION(hkFrameStageNotify));
     g_onAddEntity.HookVirtual(CGameEntitySystem::GetInstance(), 14,
                               HOOK_FUNCTION(hkOnAddEntity));

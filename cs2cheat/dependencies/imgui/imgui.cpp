@@ -1351,6 +1351,7 @@ void ImGuiIO::ClearInputKeys()
 
 static ImGuiInputEvent* FindLatestInputEvent(ImGuiInputEventType type, int arg = -1)
 {
+#if 0
     ImGuiContext& g = *GImGui;
     for (int n = g.InputEventsQueue.Size - 1; n >= 0; n--)
     {
@@ -1363,6 +1364,8 @@ static ImGuiInputEvent* FindLatestInputEvent(ImGuiInputEventType type, int arg =
             continue;
         return e;
     }
+#endif
+
     return NULL;
 }
 

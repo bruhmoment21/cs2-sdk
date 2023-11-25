@@ -29,8 +29,6 @@ void menu::Render() {
     IO.ConfigFlags = ImGuiConfigFlags_None;
 
     memory::fnSDL_SetRelativeMouseMode(false);
-    memory::fnSDL_SetWindowGrab(interfaces::pInputSystem->GetSDLWindow(),
-                                false);
 
     RenderInventoryWindow();
 

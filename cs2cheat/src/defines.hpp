@@ -67,8 +67,7 @@
     CS2_SDK_SIG("48 89 5C 24 ? 56 57 41 54 48 83 EC 30 48 8B F2")
 #define ADD_STATTRAK_ENTITY CS2_SDK_SIG("40 55 41 55 48 8D 6C 24 ?")
 #define ADD_NAMETAG_ENTITY \
-    CS2_SDK_SIG(           \
-        "E8 ? ? ? ? 48 8B CB E8 ? ? ? ? 48 8B C8 E8 ? ? ? ? 88 83 ? ? ? ?")
+    CS2_SDK_SIG("E8 ? ? ? ? 48 8B CF E8 ? ? ? ? 48 8B C8 E8 ? ? ? ?")
 #define IS_PAINT_KIT_USING_LEGACY_MODEL \
     CS2_SDK_SIG("48 8B C4 48 89 70 20 55 48 8D 68 A1")
 
