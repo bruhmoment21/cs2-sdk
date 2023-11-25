@@ -58,7 +58,7 @@ void CCachedPlayer::DrawESP() {
         const char* playerName = controller->m_sSanitizedPlayerName();
         if (playerName) {
             const ImVec2 textSize = ImGui::CalcTextSize(playerName);
-            const ImVec2 textPos = ImFloor({(min.x + max.x - textSize.x) * 0.5f, min.y - textSize.y - 2.f});
+            const ImVec2 textPos = ImTrunc({(min.x + max.x - textSize.x) * 0.5f, min.y - textSize.y - 2.f});
 
             drawList->AddText(textPos + ImVec2{1, 1}, IM_COL32(0, 0, 0, 255), playerName);
             drawList->AddText(textPos, IM_COL32(255, 255, 255, 255), playerName);

@@ -359,7 +359,6 @@ static void RenderImGui(VkQueue queue, const VkPresentInfoKHR* pPresentInfo) {
             CRenderer::Get().Initialize();
 
             ImGui_ImplVulkan_Init(&init_info, g_RenderPass);
-            ImGui_ImplVulkan_CreateFontsTexture(fd->CommandBuffer);
         }
 
         ImGui_ImplVulkan_NewFrame();

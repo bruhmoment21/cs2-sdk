@@ -73,7 +73,6 @@ void CMenu::RenderUI() {
     auto inputSystem = CInputSystem::Get();
     if (inputSystem) {
         sdl::SetRelativeMouseMode(false);
-        sdl::SetWindowGrab(inputSystem->GetSDLWindow(), false);
     }
 
     RenderMainMenu();

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.23)
 project(cs2-sdk)
 
 # DEBUG or RELEASE
-set(CMAKE_BUILD_TYPE RELEASE)
+set(CMAKE_BUILD_TYPE DEBUG)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -14,6 +14,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fpermissive")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
 
+# LIB_SOURCES refer to our source files, not dependencies such as imgui or funchook.
 file(GLOB_RECURSE LIB_SOURCES "${CMAKE_SOURCE_DIR}/cs2-sdk/src/*.cpp")
 file(GLOB_RECURSE SDK_SOURCES "${CMAKE_SOURCE_DIR}/cs2-sdk/sdk/src/*.cpp")
 file(GLOB_RECURSE API_SOURCES "${CMAKE_SOURCE_DIR}/cs2-sdk/api/src/*.cpp")

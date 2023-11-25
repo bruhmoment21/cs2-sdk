@@ -20,7 +20,7 @@ bool CMath::WorldToScreen(const Vector& in, ImVec2& out) {
     out.y *= 1.0f - (m_ViewMatrix[1][0] * in.x + m_ViewMatrix[1][1] * in.y + m_ViewMatrix[1][2] * in.z + m_ViewMatrix[1][3]) / z;
 
     // Prevents rounded corners.
-    out = ImFloor(out);
+    out = ImTrunc(out);
 
     return true;
 }
