@@ -10,7 +10,7 @@ cs2-sdk
 Counter-Strike 2 SDK written in C++ to aid your development. This SDK has been written as simplified as possible and kept as close as possible to Source 2 code supporting both DirectX11 and Vulkan graphical APIs. I'll keep the project updated if I have time, project's features can be seen in the picture below.
 
 ## What's different from v1?
-Now supports both Windows and Linux, main base logic has been refactored. I've gotten rid of the 'Inventory Changer' and skins altogether since I don't have the time to maintain them anymore, v1 can be found [here](https://github.com/bruhmoment21/cs2-sdk/tree/v1) and will receive updates from time to time.
+Now supports both Windows and Linux, main base logic has been refactored. I've gotten rid of the 'Inventory Changer' and skins altogether since I don't have the time to maintain them anymore, v1 can be found [here](https://github.com/bruhmoment21/cs2-sdk/tree/v1) and won't receive any updates from now on.
 
 ## Injection
 *(This also applies for **v1**.)*  

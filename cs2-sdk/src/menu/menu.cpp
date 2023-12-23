@@ -70,10 +70,7 @@ void CMenu::RenderUI() {
 
     IO.ConfigFlags = ImGuiConfigFlags_None;
 
-    auto inputSystem = CInputSystem::Get();
-    if (inputSystem) {
-        sdl::SetRelativeMouseMode(false);
-    }
+    sdl::SetRelativeMouseMode(false);
 
     RenderMainMenu();
 }
