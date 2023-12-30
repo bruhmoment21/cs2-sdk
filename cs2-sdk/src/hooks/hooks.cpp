@@ -29,9 +29,9 @@ void CHooks::Initialize() {
 void CHooks::Shutdown() {
     SDK_LOG_PROLOGUE();
 
-    CInputHooks::Get().Shutdown();
-
     if (!CHook::s_FuncHookContext) return;
+
+    CInputHooks::Get().Shutdown();
 
     if (funchook_uninstall(CHook::s_FuncHookContext, 0) != FUNCHOOK_ERROR_SUCCESS) {
         return CLogger::Log("[fh] funchook_uninstall() failed!");

@@ -38,7 +38,7 @@ class CSchemaClassInfo : public SchemaClassInfoData_t {
     // Full implementation here:
     // https://github.com/neverlosecc/source2gen/blob/fc4f43dfc65dd47c9eb118ce1646a5ccf90a00f0/include/sdk/interfaces/schemasystem/schema.h#L267-L309
 
-    bool InheritsFrom(CSchemaClassInfo* other);
+    bool InheritsFrom(CSchemaClassInfo* classToInherit);
 };
 
 struct SchemaBaseClassInfoData_t {

@@ -29,14 +29,16 @@ CSchemaClassInfo* CSchemaSystemTypeScope::FindDeclaredClass(const char* name) {
     return binding;
 }
 
-bool CSchemaClassInfo::InheritsFrom(CSchemaClassInfo* other) {
-    if (!other || !m_BaseClasses) return false;
-
-    if (this == other) return true;
+bool CSchemaClassInfo::InheritsFrom(CSchemaClassInfo* classToInherit) {
+    if (classToInherit == this && classToInherit) {
+        return true;
+    } else if (!this || !m_BaseClasses || !classToInherit) {
+        return false;
+    }
 
     for (int i = 0; i < m_nBaseClassesCount; ++i) {
         auto& baseClass = m_BaseClasses[i];
-        if (baseClass.m_pClass->InheritsFrom(other)) {
+        if (baseClass.m_pClass->InheritsFrom(classToInherit)) {
             return true;
         }
     }
