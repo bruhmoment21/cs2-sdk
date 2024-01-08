@@ -32,7 +32,7 @@ namespace signatures {
     CSigScan GetCSGOInput("CCSGOInput", CConstants::CLIENT_LIB,
                           {
 #ifdef _WIN32
-                              {SDK_SIG("BA ? ? ? ? 48 03 1D ? ? ? ?"), [](CPointer& ptr) { ptr.Absolute(8, 0).Dereference(1); }},
+                              {SDK_SIG("48 8B 1D ? ? ? ? BA ? ? ? ? E8"), [](CPointer& ptr) { ptr.Absolute(3, 0).Dereference(1); }},
 #elif __linux__
                               {SDK_SIG("4C 8D 35 ? ? ? ? 48 8D 55 D4"), [](CPointer& ptr) { ptr.Absolute(3, 0).Dereference(1); }},
 #endif
