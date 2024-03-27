@@ -19,7 +19,8 @@ void CMenu::Render() {
     if (ImGui::IsKeyPressed(ImGuiKey_Insert, false)) {
         Toggle(!IsOpen());
     } else if (ImGui::IsKeyPressed(ImGuiKey_End, false)) {
-        return CInstance::Get().FreeLibrary();
+        // See 'input_hooks.cpp' on why 'Shutdown()' is called here.
+        return Shutdown(), CInstance::Get().FreeLibrary();
     }
 
     RenderWatermark();
@@ -98,7 +99,7 @@ void CMenu::RenderMainMenu() {
 
         ImGui::Checkbox("Three-dimensional boxes", &g_Vars.m_Use3DBoxes);
 
-        if (ImGui::Button("Unload", {-FLT_MIN, 0})) CInstance::Get().FreeLibrary();
+        if (ImGui::Button("Unload", {-FLT_MIN, 0})) Shutdown(), CInstance::Get().FreeLibrary();
     }
     ImGui::End();
 }

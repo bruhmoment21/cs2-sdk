@@ -50,7 +50,7 @@ void CGameHooks::Initialize() {
 
     CMatchCache::Get().Initialize();
 
-    g_MouseInputEnabled.VHook(CCSGOInput::Get(), platform::Constant(12, 13), SDK_HOOK(hkMouseInputEnabled));
+    g_MouseInputEnabled.VHook(CCSGOInput::Get(), platform::Constant(13, 14), SDK_HOOK(hkMouseInputEnabled));
     g_OnAddEntity.VHook(CGameEntitySystem::Get(), platform::Constant(14, 15), SDK_HOOK(hkOnAddEntity));
     g_OnRemoveEntity.VHook(CGameEntitySystem::Get(), platform::Constant(15, 16), SDK_HOOK(hkOnRemoveEntity));
     g_GetMatricesForView.Hook(signatures::GetMatricesForView.GetPtrAs<void*>(), SDK_HOOK(hkGetMatricesForView));

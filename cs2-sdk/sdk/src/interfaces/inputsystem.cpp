@@ -19,10 +19,10 @@ bool CInputSystem::IsRelativeMouseMode() {
 
 void* CInputSystem::GetSDLWindow() {
     // Offset in 'CInputSystem::DebugSpew'.
-    // xref: "SDL clip window state on 0x%p is %s\n".
+    // xref: "SDL says cursor is %s and is set to 0x%p\n".
 
     // Offset in 'CInputSystem::SetCursorClip'.
     // xref: "SetCursorClip:  %s SDL_SetWindowGrab on 0x%p (%s) %s\n".
 
-    return CPointer(this).GetField<void*>(platform::Constant(0x2678, 0x26D8));
+    return CPointer(this).GetField<void*>(platform::Constant(0x26A8, 0x2708));
 }

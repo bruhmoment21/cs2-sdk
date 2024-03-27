@@ -8,9 +8,9 @@ CSchemaClassInfo* CEntityInstance::Schema_DynamicBinding() {
     CSchemaClassInfo* binding = nullptr;
 
 #ifdef _WIN32
-    vt::CallMethod<void>(this, 34, &binding);
+    vt::CallMethod<void>(this, 36, &binding);
 #elif __linux__
-    binding = vt::CallMethod<CSchemaClassInfo*>(this, 35);
+    binding = vt::CallMethod<CSchemaClassInfo*>(this, 37);
 #endif
 
     return binding;

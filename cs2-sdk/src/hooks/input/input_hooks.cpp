@@ -21,7 +21,12 @@ void CInputHooks::Initialize() {
 void CInputHooks::Shutdown() {
     SDK_LOG_PROLOGUE();
 
-    CMenu::Get().Shutdown();
+    // As of some time this cannot be called here.
+    //  I think SDL3 now wants you to call 'SetRelativeMouseMode'
+    //  from the game's thread and not this thread.
+    //  'CInputHooks::Shutdown' gets called by the thread that unloads the module.
+    //
+    // CMenu::Get().Shutdown();
 
 #ifdef _WIN32
     CWndProcHooks::Get().Shutdown();
