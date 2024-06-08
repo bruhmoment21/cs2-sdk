@@ -30,6 +30,14 @@ I'm guessing the base is **DETECTED** since the base uses generic approaches suc
 ## Building
 TODO
 
+### Linux
+`cmake -DCMAKE_BUILD_TYPE=Release -B build`
+`cmake --build build -j $(nproc --all)`
+
+Injecting using GDB:
+**In the directory with libcs2-sdk.so after building**
+sudo gdb -batch-silent -p $(pidof cs2) -ex "call (void*)dlopen(\"$PWD/libcs2-sdk.so\", 2)"
+
 ## Media
 ![image](https://github.com/bruhmoment21/cs2-sdk/assets/53657322/d19eeea9-3309-4fa2-804c-ca5b7e84f319)
 ## Dependencies

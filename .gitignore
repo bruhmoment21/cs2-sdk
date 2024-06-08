@@ -4,4 +4,6 @@
 bin/*
 binlinux/*
 
+build/
+
 obj/*

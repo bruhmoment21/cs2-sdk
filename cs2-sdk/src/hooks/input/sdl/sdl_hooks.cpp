@@ -16,7 +16,7 @@
 static std::once_flag g_InputInit;
 
 static CHook g_PeepEvents;
-static int hkPeepEvents(SDL_Event* events, int numevents, SDL_eventaction action, Uint32 minType, Uint32 maxType) {
+static int hkPeepEvents(SDL_Event* events, int numevents, SDL_EventAction action, Uint32 minType, Uint32 maxType) {
     int rv = g_PeepEvents.CallOriginal<int>(events, numevents, action, minType, maxType);
     if (rv == 0) return rv;
 
