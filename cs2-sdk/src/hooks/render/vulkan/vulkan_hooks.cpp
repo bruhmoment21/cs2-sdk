@@ -15,6 +15,8 @@
 #ifdef SDK_ENABLE_VULKAN_HOOK
 #include <renderer/renderer.hpp>
 
+#include <platform/platform.hpp>
+
 #include <imgui/imgui_impl_win32.h>
 #include <imgui/imgui_impl_vulkan.h>
 #include <imgui/imgui_impl_sdl3.h>
@@ -40,6 +42,8 @@ static VkPipelineCache g_PipelineCache = VK_NULL_HANDLE;
 static VkDescriptorPool g_DescriptorPool = VK_NULL_HANDLE;
 static VkRenderPass g_RenderPass = VK_NULL_HANDLE;
 static ImGui_ImplVulkanH_Frame g_Frames[8] = {};
+static ImGui_ImplVulkanH_FrameSemaphores g_FrameSemaphores[8] = {};
+static VkExtent2D g_ImageExtent = {};
 
 static VkQueue GetGraphicQueue() {
     for (uint32_t i = 0; i < g_QueueFamilies.size(); ++i) {
@@ -140,6 +144,8 @@ static void CreateDevice() {
 static void CreateRenderTarget(VkDevice device, VkSwapchainKHR swapchain) {
     SDK_LOG_PROLOGUE();
 
+    constexpr VkFormat format = platform::Constant(VK_FORMAT_R8G8B8A8_UNORM, VK_FORMAT_B8G8R8A8_UNORM);
+
     uint32_t uImageCount;
     vkGetSwapchainImagesKHR(device, swapchain, &uImageCount, NULL);
 
@@ -150,6 +156,7 @@ static void CreateRenderTarget(VkDevice device, VkSwapchainKHR swapchain) {
         g_Frames[i].Backbuffer = backbuffers[i];
 
         ImGui_ImplVulkanH_Frame* fd = &g_Frames[i];
+        ImGui_ImplVulkanH_FrameSemaphores* fsd = &g_FrameSemaphores[i];
         {
             VkCommandPoolCreateInfo info = {};
             info.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -167,12 +174,24 @@ static void CreateRenderTarget(VkDevice device, VkSwapchainKHR swapchain) {
 
             vkAllocateCommandBuffers(device, &info, &fd->CommandBuffer);
         }
+        {
+            VkFenceCreateInfo info = {};
+            info.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+            info.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+            vkCreateFence(device, &info, g_Allocator, &fd->Fence);
+        }
+        {
+            VkSemaphoreCreateInfo info = {};
+            info.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+            vkCreateSemaphore(device, &info, g_Allocator, &fsd->ImageAcquiredSemaphore);
+            vkCreateSemaphore(device, &info, g_Allocator, &fsd->RenderCompleteSemaphore);
+        }
     }
 
     // Create the Render Pass
     {
         VkAttachmentDescription attachment = {};
-        attachment.format = VK_FORMAT_B8G8R8A8_UNORM;
+        attachment.format = format;
         attachment.samples = VK_SAMPLE_COUNT_1_BIT;
         attachment.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
         attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -205,7 +224,7 @@ static void CreateRenderTarget(VkDevice device, VkSwapchainKHR swapchain) {
         VkImageViewCreateInfo info = {};
         info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
         info.viewType = VK_IMAGE_VIEW_TYPE_2D;
-        info.format = VK_FORMAT_B8G8R8A8_UNORM;
+        info.format = format;
 
         info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
         info.subresourceRange.baseMipLevel = 0;
@@ -229,6 +248,8 @@ static void CreateRenderTarget(VkDevice device, VkSwapchainKHR swapchain) {
         info.renderPass = g_RenderPass;
         info.attachmentCount = 1;
         info.pAttachments = attachment;
+        info.width = g_ImageExtent.width;
+        info.height = g_ImageExtent.height;
         info.layers = 1;
 
         for (uint32_t i = 0; i < uImageCount; ++i) {
@@ -268,6 +289,10 @@ static void CleanupRenderTarget() {
     SDK_LOG_PROLOGUE();
 
     for (uint32_t i = 0; i < IM_ARRAYSIZE(g_Frames); ++i) {
+        if (g_Frames[i].Fence) {
+            vkDestroyFence(g_Device, g_Frames[i].Fence, g_Allocator);
+            g_Frames[i].Fence = VK_NULL_HANDLE;
+        }
         if (g_Frames[i].CommandBuffer) {
             vkFreeCommandBuffers(g_Device, g_Frames[i].CommandPool, 1, &g_Frames[i].CommandBuffer);
             g_Frames[i].CommandBuffer = VK_NULL_HANDLE;
@@ -283,6 +308,17 @@ static void CleanupRenderTarget() {
         if (g_Frames[i].Framebuffer) {
             vkDestroyFramebuffer(g_Device, g_Frames[i].Framebuffer, g_Allocator);
             g_Frames[i].Framebuffer = VK_NULL_HANDLE;
+        }
+    }
+
+    for (uint32_t i = 0; i < IM_ARRAYSIZE(g_FrameSemaphores); ++i) {
+        if (g_FrameSemaphores[i].ImageAcquiredSemaphore) {
+            vkDestroySemaphore(g_Device, g_FrameSemaphores[i].ImageAcquiredSemaphore, g_Allocator);
+            g_FrameSemaphores[i].ImageAcquiredSemaphore = VK_NULL_HANDLE;
+        }
+        if (g_FrameSemaphores[i].RenderCompleteSemaphore) {
+            vkDestroySemaphore(g_Device, g_FrameSemaphores[i].RenderCompleteSemaphore, g_Allocator);
+            g_FrameSemaphores[i].RenderCompleteSemaphore = VK_NULL_HANDLE;
         }
     }
 }
@@ -301,11 +337,19 @@ static void CleanupDevice() {
         g_Instance = NULL;
     }
 
+    g_ImageExtent = {};
     g_Device = NULL;
 }
 
 static void RenderImGui(VkQueue queue, const VkPresentInfoKHR* pPresentInfo) {
     if (!ImGui::GetCurrentContext() || !g_Device) return;
+
+    if (g_ImageExtent.width == 0 || g_ImageExtent.height == 0) {
+        auto [width, height] = ImGui::GetIO().DisplaySize;
+
+        g_ImageExtent.width = static_cast<uint32_t>(width);
+        g_ImageExtent.height = static_cast<uint32_t>(height);
+    }
 
     VkQueue graphicQueue = GetGraphicQueue();
     if (!graphicQueue) {
@@ -319,6 +363,11 @@ static void RenderImGui(VkQueue queue, const VkPresentInfoKHR* pPresentInfo) {
         }
 
         ImGui_ImplVulkanH_Frame* fd = &g_Frames[pPresentInfo->pImageIndices[i]];
+        ImGui_ImplVulkanH_FrameSemaphores* fsd = &g_FrameSemaphores[pPresentInfo->pImageIndices[i]];
+        {
+            vkWaitForFences(g_Device, 1, &fd->Fence, VK_TRUE, ~0ull);
+            vkResetFences(g_Device, 1, &fd->Fence);
+        }
         {
             vkResetCommandBuffer(fd->CommandBuffer, 0);
 
@@ -329,14 +378,11 @@ static void RenderImGui(VkQueue queue, const VkPresentInfoKHR* pPresentInfo) {
             vkBeginCommandBuffer(fd->CommandBuffer, &info);
         }
         {
-            auto [width, height] = ImGui::GetIO().DisplaySize;
-
             VkRenderPassBeginInfo info = {};
             info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
             info.renderPass = g_RenderPass;
             info.framebuffer = fd->Framebuffer;
-            info.renderArea.extent.width = static_cast<uint32_t>(width);
-            info.renderArea.extent.height = static_cast<uint32_t>(height);
+            info.renderArea.extent = g_ImageExtent;
 
             vkCmdBeginRenderPass(fd->CommandBuffer, &info, VK_SUBPASS_CONTENTS_INLINE);
         }
@@ -383,17 +429,51 @@ static void RenderImGui(VkQueue queue, const VkPresentInfoKHR* pPresentInfo) {
         vkCmdEndRenderPass(fd->CommandBuffer);
         vkEndCommandBuffer(fd->CommandBuffer);
 
-        constexpr VkPipelineStageFlags stages_wait = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
-        {
+        const uint32_t waitSemaphoresCount = i == 0 ? pPresentInfo->waitSemaphoreCount : 0;
+        if (waitSemaphoresCount == 0 && graphicQueue) {
+            constexpr VkPipelineStageFlags stages_wait = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
+            {
+                VkSubmitInfo info = {};
+                info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+
+                info.pWaitDstStageMask = &stages_wait;
+
+                info.signalSemaphoreCount = 1;
+                info.pSignalSemaphores = &fsd->RenderCompleteSemaphore;
+
+                vkQueueSubmit(queue, 1, &info, VK_NULL_HANDLE);
+            }
+            {
+                VkSubmitInfo info = {};
+                info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+                info.commandBufferCount = 1;
+                info.pCommandBuffers = &fd->CommandBuffer;
+
+                info.pWaitDstStageMask = &stages_wait;
+                info.waitSemaphoreCount = 1;
+                info.pWaitSemaphores = &fsd->RenderCompleteSemaphore;
+
+                info.signalSemaphoreCount = 1;
+                info.pSignalSemaphores = &fsd->ImageAcquiredSemaphore;
+
+                vkQueueSubmit(graphicQueue, 1, &info, fd->Fence);
+            }
+        } else {
+            std::vector<VkPipelineStageFlags> stages_wait(waitSemaphoresCount, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+
             VkSubmitInfo info = {};
             info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-
-            info.pWaitDstStageMask = &stages_wait;
-
             info.commandBufferCount = 1;
             info.pCommandBuffers = &fd->CommandBuffer;
 
-            vkQueueSubmit(graphicQueue, 1, &info, VK_NULL_HANDLE);
+            info.pWaitDstStageMask = stages_wait.data();
+            info.waitSemaphoreCount = waitSemaphoresCount;
+            info.pWaitSemaphores = pPresentInfo->pWaitSemaphores;
+
+            info.signalSemaphoreCount = waitSemaphoresCount;
+            info.pSignalSemaphores = pPresentInfo->pWaitSemaphores;
+
+            vkQueueSubmit(graphicQueue, 1, &info, fd->Fence);
         }
     }
 }
@@ -417,6 +497,7 @@ static CHook g_CreateSwapchainKHR;
 static VkResult VKAPI_CALL hkCreateSwapchainKHR(VkDevice device, const VkSwapchainCreateInfoKHR* pCreateInfo,
                                                 const VkAllocationCallbacks* pAllocator, VkSwapchainKHR* pSwapchain) {
     CleanupRenderTarget();
+    g_ImageExtent = pCreateInfo->imageExtent;
 
     return g_CreateSwapchainKHR.CallOriginal<VkResult>(device, pCreateInfo, pAllocator, pSwapchain);
 }
