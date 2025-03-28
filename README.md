@@ -40,6 +40,8 @@ The base should be **DETECTED** since the base uses generic approaches such as *
 
 ## Media
 ![image](https://github.com/bruhmoment21/cs2-sdk/assets/53657322/d19eeea9-3309-4fa2-804c-ca5b7e84f319)
+![image](https://github.com/user-attachments/assets/2a4a1dd9-88dc-4dc6-a70d-c332c3f1f32d)
+
 ## Dependencies
 - [funchook](https://github.com/kubo/funchook) - hooking
 - [distorm](https://github.com/gdabah/distorm/) - disassembler
