@@ -3,9 +3,9 @@
 #include <instance/instance.hpp>
 #include <logger/logger.hpp>
 
-#include <memory/memory.hpp>
 #include <hooks/hooks.hpp>
 
+#include <memory/memory.hpp>
 #include <constants/constants.hpp>
 
 #ifdef _WIN32

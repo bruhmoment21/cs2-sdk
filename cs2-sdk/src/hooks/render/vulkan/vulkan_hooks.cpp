@@ -350,6 +350,7 @@ static void RenderImGui(VkQueue queue, const VkPresentInfoKHR* pPresentInfo) {
             init_info.Queue = graphicQueue;
             init_info.PipelineCache = g_PipelineCache;
             init_info.DescriptorPool = g_DescriptorPool;
+            init_info.RenderPass = g_RenderPass;
             init_info.Subpass = 0;
             init_info.MinImageCount = g_MinImageCount;
             init_info.ImageCount = g_MinImageCount;
@@ -358,7 +359,7 @@ static void RenderImGui(VkQueue queue, const VkPresentInfoKHR* pPresentInfo) {
 
             CRenderer::Get().Initialize();
 
-            ImGui_ImplVulkan_Init(&init_info, g_RenderPass);
+            ImGui_ImplVulkan_Init(&init_info);
         }
 
         ImGui_ImplVulkan_NewFrame();

@@ -3,8 +3,8 @@
 #include <interfaces/schemasystem.hpp>
 #include <logger/logger.hpp>
 
-#include <constants/constants.hpp>
 #include <memory/memory.hpp>
+#include <constants/constants.hpp>
 
 #include <virtual/virtual.hpp>
 

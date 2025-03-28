@@ -18,7 +18,12 @@
 #include <input/ccsgoinput.hpp>
 
 static CHook g_MouseInputEnabled;
-static bool hkMouseInputEnabled(void* rcx) { return CMenu::Get().IsOpen() ? false : g_MouseInputEnabled.CallOriginal<bool>(rcx); }
+static bool hkMouseInputEnabled(void* rcx) {
+    const bool mouseInputEnabled = g_MouseInputEnabled.CallOriginal<bool>(rcx);
+
+    CMenu::Get().HandleStates(mouseInputEnabled);
+    return CMenu::Get().IsOpen() ? false : mouseInputEnabled;
+}
 
 static CHook g_OnAddEntity;
 static void* hkOnAddEntity(void* rcx, CEntityInstance* inst, CBaseHandle handle) {
@@ -50,8 +55,8 @@ void CGameHooks::Initialize() {
 
     CMatchCache::Get().Initialize();
 
-    g_MouseInputEnabled.VHook(CCSGOInput::Get(), platform::Constant(13, 14), SDK_HOOK(hkMouseInputEnabled));
-    g_OnAddEntity.VHook(CGameEntitySystem::Get(), platform::Constant(14, 15), SDK_HOOK(hkOnAddEntity));
-    g_OnRemoveEntity.VHook(CGameEntitySystem::Get(), platform::Constant(15, 16), SDK_HOOK(hkOnRemoveEntity));
+    g_MouseInputEnabled.VHook(CCSGOInput::Get(), platform::Constant(19, 20), SDK_HOOK(hkMouseInputEnabled));
+    g_OnAddEntity.VHook(CGameEntitySystem::Get(), platform::Constant(15, 16), SDK_HOOK(hkOnAddEntity));
+    g_OnRemoveEntity.VHook(CGameEntitySystem::Get(), platform::Constant(16, 17), SDK_HOOK(hkOnRemoveEntity));
     g_GetMatricesForView.Hook(signatures::GetMatricesForView.GetPtrAs<void*>(), SDK_HOOK(hkGetMatricesForView));
 }

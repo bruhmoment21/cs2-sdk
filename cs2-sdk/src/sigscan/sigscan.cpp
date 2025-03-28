@@ -5,9 +5,9 @@
 
 #include <memory/memory.hpp>
 
-CSigScan::CSigScan(const char* name, const char* libraryName, const std::initializer_list<SigData_t>& data) {
+CSigScan::CSigScan(const char* signatureName, const char* libraryName, const std::initializer_list<SigData_t>& data) {
 #ifdef SDK_ENABLE_LOGGING
-    m_Name = name;
+    m_Name = signatureName;
 #else
     m_Name = "";
 #endif

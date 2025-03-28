@@ -6,14 +6,14 @@
 #include <constants/constants.hpp>
 
 namespace sdl {
-    int SetRelativeMouseMode(int enabled) {
-        static const auto fn = CMemory::GetProcAddress(CConstants::SDL_LIB, "SDL_SetRelativeMouseMode");
-        return fn.Call<decltype(&SetRelativeMouseMode)>(enabled);
+    bool SetWindowRelativeMouseMode(void* window, int enabled) {
+        static const auto fn = CMemory::GetProcAddress(CConstants::SDL_LIB, "SDL_SetWindowRelativeMouseMode");
+        return fn.Call<decltype(&SetWindowRelativeMouseMode)>(window, enabled);
     }
 
-    int SetWindowGrab(void* window, int grabbed) {
-        static const auto fn = CMemory::GetProcAddress(CConstants::SDL_LIB, "SDL_SetWindowGrab");
-        return fn.Call<decltype(&SetWindowGrab)>(window, grabbed);
+    bool SetWindowMouseGrab(void* window, int grabbed) {
+        static const auto fn = CMemory::GetProcAddress(CConstants::SDL_LIB, "SDL_SetWindowMouseGrab");
+        return fn.Call<decltype(&SetWindowMouseGrab)>(window, grabbed);
     }
 
     void WarpMouseInWindow(void* window, float x, float y) {

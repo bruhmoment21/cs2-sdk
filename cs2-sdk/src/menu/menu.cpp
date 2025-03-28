@@ -17,48 +17,77 @@
 
 void CMenu::Render() {
     if (ImGui::IsKeyPressed(ImGuiKey_Insert, false)) {
-        Toggle(!IsOpen());
+        Toggle();
     } else if (ImGui::IsKeyPressed(ImGuiKey_End, false)) {
-        // See 'input_hooks.cpp' on why 'Shutdown()' is called here.
-        return Shutdown(), CInstance::Get().FreeLibrary();
+        DeclareShutdown();
     }
 
     RenderWatermark();
     RenderUI();
 }
 
-void CMenu::Shutdown() {
-    SDK_LOG_PROLOGUE();
-
-    Toggle(false);
-}
-
-void CMenu::Toggle(bool state) {
-    if (!ImGui::GetCurrentContext()) {
+void CMenu::HandleStates(bool mouseIsEnabled) {
+    auto inputSystem = CInputSystem::Get();
+    if (!inputSystem || !ImGui::GetCurrentContext()) {
         return;
     }
 
-    m_Open = state;
+    const ImVec2 screenCenter = ImGui::GetIO().DisplaySize * 0.5f;
+    switch (m_State) {
+        case TOGGLE_CLOSE:
+        case TOGGLE_OPEN:
+            m_State = (m_State == TOGGLE_OPEN) ? OPEN : CLOSED;
 
-    auto inputSystem = CInputSystem::Get();
-    if (inputSystem && inputSystem->IsRelativeMouseMode()) {
-        const ImVec2 screenCenter = ImGui::GetIO().DisplaySize * 0.5f;
+            if (mouseIsEnabled) {
+                sdl::SetWindowRelativeMouseMode(inputSystem->GetSDLWindow(), !IsOpen());
+                sdl::SetWindowMouseGrab(inputSystem->GetSDLWindow(), !IsOpen());
+                sdl::WarpMouseInWindow(nullptr, screenCenter.x, screenCenter.y);
+            }
 
-        sdl::SetRelativeMouseMode(!m_Open);
-        sdl::SetWindowGrab(inputSystem->GetSDLWindow(), !m_Open);
-        sdl::WarpMouseInWindow(nullptr, screenCenter.x, screenCenter.y);
+            break;
+        case OPEN:
+            if (mouseIsEnabled) {
+                sdl::SetWindowRelativeMouseMode(inputSystem->GetSDLWindow(), false);
+            }
+
+            break;
+        case TOGGLE_SHUTDOWN_AND_CLOSE_MENU:
+            if (mouseIsEnabled) {
+                sdl::SetWindowRelativeMouseMode(inputSystem->GetSDLWindow(), true);
+            }
+
+            m_State = TOGGLE_SHUTDOWN;
+
+            break;
+        case TOGGLE_SHUTDOWN:
+            CInstance::Get().FreeLibrary();
+            m_State = SHUTDOWN;
+
+            break;
+    }
+}
+
+void CMenu::DeclareShutdown() {
+    SDK_LOG_PROLOGUE();
+
+    m_State = IsOpen() ? TOGGLE_SHUTDOWN_AND_CLOSE_MENU : TOGGLE_SHUTDOWN;
+}
+
+void CMenu::Toggle() {
+    if (m_State == OPEN || m_State == CLOSED) {
+        m_State = static_cast<State>(m_State + 1);
     }
 }
 
 void CMenu::RenderWatermark() {
     auto drawList = CRenderer::GetBackgroundDrawList();
 
-    char framerate[128];
-    snprintf(framerate, IM_ARRAYSIZE(framerate), "cs2-sdk v2 [%d]\nFPS: %d\n\n%s %s\nhttps://github.com/bruhmoment21/cs2-sdk",
+    char watermarkText[128];
+    snprintf(watermarkText, IM_ARRAYSIZE(watermarkText), "cs2-sdk v2 [%d]\nFPS: %d\n\n%s %s\nhttps://github.com/bruhmoment21/cs2-sdk",
              CEngineClient::Get()->GetEngineBuildNumber(), static_cast<int>(ImGui::GetIO().Framerate), __DATE__, __TIME__);
 
-    drawList->AddText({17, 9}, IM_COL32(0, 0, 0, 255), framerate);
-    drawList->AddText({16, 8}, IM_COL32(27, 227, 200, 255), framerate);
+    drawList->AddText({17, 9}, IM_COL32(0, 0, 0, 255), watermarkText);
+    drawList->AddText({16, 8}, IM_COL32(27, 227, 200, 255), watermarkText);
 }
 
 void CMenu::RenderUI() {
@@ -70,8 +99,6 @@ void CMenu::RenderUI() {
     }
 
     IO.ConfigFlags = ImGuiConfigFlags_None;
-
-    sdl::SetRelativeMouseMode(false);
 
     RenderMainMenu();
 }
@@ -99,7 +126,7 @@ void CMenu::RenderMainMenu() {
 
         ImGui::Checkbox("Three-dimensional boxes", &g_Vars.m_Use3DBoxes);
 
-        if (ImGui::Button("Unload", {-FLT_MIN, 0})) Shutdown(), CInstance::Get().FreeLibrary();
+        if (ImGui::Button("Unload", {-FLT_MIN, 0})) DeclareShutdown();
     }
     ImGui::End();
 }

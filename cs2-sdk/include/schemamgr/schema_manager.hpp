@@ -3,6 +3,28 @@
 #include <constants/constants.hpp>
 #include <pointer/pointer.hpp>
 
+/*
+ *   Basic usage of schemas:
+ *
+ *      1. SCHEMA(Type, fieldName, "ClassToFindField", "fieldNameInClass");
+ *      2. SCHEMA_EXTENDED(Type, fieldName, "ClassToFindField", "fieldNameInClass", extraOffset);
+ *
+ *          PSCHEMA and PSCHEMA_EXTENDED has the same usage as SCHEMA but for pointers.
+ *
+ *          SCHEMA_EXTENDED is used for specific fields that don't explicitly appear
+ *           in the CSchemaClassInfo* but we know they exist so we will find them
+ *           through another field that exists.
+ *           Example:
+ *               class BaseEntity {
+ *                   ...                     // 0xFFF
+ *                   int m_SomeValue;        // 0x1000
+ *                   int m_SomeHiddenValue;  // 0x1004
+ *               };
+ *              m_SomeHiddenValue doesn't appear in the CSchemaClassInfo* of class but we know its below
+ *              m_SomeValue that appears in the CSchemaClassInfo* and its just below it so right after 4 bytes.
+ *              Usage: SCHEMA_EXTENDED(int, m_SomeHiddenValue, "BaseEntity", "m_SomeValue", 4);
+ */
+
 class CSchemaManager {
    public:
     static CSchemaManager& Get() {
